@@ -10,27 +10,27 @@
       </p>
     </div>
 
-    <div class="problema-body reveal">
+    <div class="problema-body">
       <div class="problema-accent-bar reveal-line"></div>
-      <div class="problema-texts">
-        <p class="type-body problema-text">
+      <div class="problema-texts" id="problema-scroll-reveal">
+        <p class="type-body problema-text scroll-reveal-text">
           Retrabajos que se repiten. Cambios sin registro.<br />
           Aprobaciones sin criterio. Entregas que vuelven.
         </p>
 
-        <p class="type-body problema-text">
+        <p class="type-body problema-text scroll-reveal-text">
           No es un problema de talento.<br />
           <strong>Es un problema de sistema.</strong>
         </p>
 
-        <p class="type-body problema-text">
+        <p class="type-body problema-text scroll-reveal-text">
           Lo sabemos porque venimos del entorno donde ese problema
           tiene consecuencias reales: <em>industrias reguladas</em>,
           donde cada error detiene una línea de producción,
           frena un lanzamiento o falla una auditoría.
         </p>
 
-        <p class="type-body problema-text">
+        <p class="type-body problema-text scroll-reveal-text">
           Cuarenta años combinados trabajando en ese límite
           nos enseñaron una sola cosa:
         </p>
@@ -60,9 +60,25 @@
     height: 60vw;
     background: radial-gradient(
       ellipse at center,
-      rgba(212, 82, 26, 0.05) 0%,
-      rgba(180, 60, 20, 0.02) 40%,
+      rgba(212, 82, 26, 0.06) 0%,
+      rgba(180, 60, 20, 0.03) 40%,
       transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .problema::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -15%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(120, 80, 200, 0.03) 0%,
+      rgba(80, 50, 140, 0.01) 40%,
+      transparent 65%
     );
     pointer-events: none;
   }
@@ -96,13 +112,17 @@
 
   .problema-text {
     color: var(--proma-cream-100);
-    opacity: 0.5;
+    opacity: 0.15;
     font-size: 15px;
     line-height: 1.8;
+    transition: opacity 0.1s ease-out;
+  }
+
+  .problema-text.is-revealed {
+    opacity: 1;
   }
 
   .problema-text strong {
-    opacity: 1;
     color: var(--proma-cream-100);
     font-weight: 600;
   }
@@ -132,6 +152,7 @@
 
   .conclusion-strong {
     color: var(--proma-cream-100);
+    text-shadow: 0 0 40px rgba(212, 82, 26, 0.15), 0 0 80px rgba(212, 82, 26, 0.05);
   }
 
   .conclusion-italic {
@@ -139,6 +160,7 @@
     font-style: italic;
     font-weight: 400;
     color: var(--proma-terra-500);
+    text-shadow: 0 0 30px rgba(212, 82, 26, 0.3), 0 0 70px rgba(212, 82, 26, 0.1);
   }
 
   .text-accent {
@@ -157,3 +179,53 @@
     }
   }
 </style>
+
+<script>
+  function initProblemaScrollReveal() {
+    const texts = document.querySelectorAll('.scroll-reveal-text');
+    if (!texts.length) return;
+
+    function updateReveal() {
+      const viewportHeight = window.innerHeight;
+
+      texts.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        // Start revealing when element enters bottom 85% of viewport
+        // Fully revealed when element reaches 45% of viewport
+        const startPoint = viewportHeight * 0.85;
+        const endPoint = viewportHeight * 0.45;
+
+        if (rect.top <= startPoint && rect.top >= endPoint) {
+          // Map position to 0–1 progress
+          const progress = 1 - (rect.top - endPoint) / (startPoint - endPoint);
+          const opacity = 0.15 + progress * 0.85;
+          (el as HTMLElement).style.opacity = String(opacity);
+          el.classList.toggle('is-revealed', progress >= 0.95);
+        } else if (rect.top < endPoint) {
+          (el as HTMLElement).style.opacity = '1';
+          el.classList.add('is-revealed');
+        } else {
+          (el as HTMLElement).style.opacity = '0.15';
+          el.classList.remove('is-revealed');
+        }
+      });
+    }
+
+    // Use requestAnimationFrame for smooth scroll performance
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateReveal();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Initial check
+    updateReveal();
+  }
+
+  initProblemaScrollReveal();
+</script>

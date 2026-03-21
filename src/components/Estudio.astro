@@ -62,8 +62,24 @@
     height: 60vw;
     background: radial-gradient(
       ellipse at center,
-      rgba(212, 82, 26, 0.06) 0%,
-      rgba(140, 60, 30, 0.02) 45%,
+      rgba(212, 82, 26, 0.07) 0%,
+      rgba(140, 60, 30, 0.03) 45%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .estudio::after {
+    content: '';
+    position: absolute;
+    bottom: -25%;
+    left: -15%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(100, 60, 180, 0.04) 0%,
+      rgba(60, 40, 120, 0.02) 40%,
       transparent 70%
     );
     pointer-events: none;
@@ -90,6 +106,7 @@
     font-style: italic;
     font-weight: 400;
     color: var(--proma-terra-500);
+    text-shadow: 0 0 30px rgba(212, 82, 26, 0.25), 0 0 60px rgba(212, 82, 26, 0.08);
   }
 
   .text-accent {
