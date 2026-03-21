@@ -1,0 +1,348 @@
+---
+import Base from '../layouts/Base.astro';
+
+const casos = [
+  {
+    ref: 'FIG. 01',
+    titulo: 'Sistema de packaging regulatorio',
+    tipo: 'PACKAGING',
+    desafio: 'Un laboratorio necesitaba unificar su sistema de packaging para más de 120 SKUs, garantizando compliance regulatorio en cada pieza sin depender del estudio para cada variación.',
+    decisiones: [
+      'Auditoría de las 120 piezas existentes para mapear inconsistencias',
+      'Sistema modular de grilla que absorbe variaciones de formato sin romper la identidad',
+      'Manual de producción con especificaciones técnicas para imprenta',
+      'Protocolo de QA visual para verificar cada pieza antes de aprobación',
+    ],
+    resultado: 'Un sistema que se reproduce sin intervención del estudio. Cada nueva pieza sigue la lógica documentada.',
+  },
+  {
+    ref: 'FIG. 02',
+    titulo: 'Identidad visual integral',
+    tipo: 'BRANDING',
+    desafio: 'Construir una identidad desde cero para una organización que necesitaba transmitir precisión y confiabilidad en un mercado regulado.',
+    decisiones: [
+      'Investigación de contexto competitivo y regulatorio',
+      'Sistema tipográfico con jerarquías documentadas para cada aplicación',
+      'Paleta cromática con reglas de uso por medio y contexto',
+      'Manual de marca con 48 páginas de especificaciones técnicas',
+    ],
+    resultado: 'Una marca que cualquier equipo puede operar correctamente sin interpretación subjetiva.',
+  },
+  {
+    ref: 'FIG. 03',
+    titulo: 'Plataforma digital de producto',
+    tipo: 'WEB',
+    desafio: 'Diseñar una plataforma web que funcione como extensión del sistema de marca, con la misma rigurosidad aplicada al entorno digital.',
+    decisiones: [
+      'Design system con tokens, componentes y documentación viva',
+      'Arquitectura de información basada en flujos de usuario reales',
+      'Prototipado funcional antes de desarrollo para validar decisiones',
+      'Sistema de componentes reutilizables que escala sin deuda técnica',
+    ],
+    resultado: 'Una plataforma que evoluciona sin perder coherencia. Cada cambio está gobernado por el sistema.',
+  },
+  {
+    ref: 'FIG. 04',
+    titulo: 'Manual de sistema gráfico',
+    tipo: 'BRANDING',
+    desafio: 'Documentar un sistema visual completo para que equipos internos y proveedores externos puedan producir piezas consistentes sin supervisión constante.',
+    decisiones: [
+      'Relevamiento de todos los puntos de contacto de la marca',
+      'Definición de reglas de uso con ejemplos correctos e incorrectos',
+      'Templates editables para los formatos más frecuentes',
+      'Protocolo de actualización y control de versiones del manual',
+    ],
+    resultado: 'Un documento vivo que elimina la ambigüedad. Si no está en el manual, no existe.',
+  },
+];
+---
+
+<Base title="Trabajo — pro.ma Studio">
+  <section class="trabajo-hero" data-mode="dark">
+    <div class="reg-mark reg-tl" aria-hidden="true"></div>
+    <div class="reg-mark reg-tr" aria-hidden="true"></div>
+
+    <div class="container trabajo-hero-inner">
+      <span class="type-mono-sm text-accent">REF · TRABAJOS SELECCIONADOS</span>
+      <h1 class="trabajo-hero-title">
+        Diseño con criterio<br /><em class="trabajo-hero-italic">documentado</em><span class="text-accent">.</span>
+      </h1>
+      <p class="type-body trabajo-hero-sub">
+        Cada proyecto refleja el proceso detrás de cada decisión.
+        Sin fechas, sin adornos — el trabajo habla.
+      </p>
+    </div>
+  </section>
+
+  {casos.map((caso, i) => (
+    <section class={`caso section ${i % 2 === 0 ? 'caso-dark' : 'caso-light'}`} data-mode={i % 2 === 0 ? 'dark' : 'light'}>
+      <div class="container">
+        <header class="caso-header reveal">
+          <div class="caso-meta">
+            <span class="type-mono-sm caso-ref">{caso.ref}</span>
+            <span class="type-label caso-tipo">{caso.tipo}</span>
+          </div>
+          <h2 class="caso-titulo">{caso.titulo}</h2>
+        </header>
+
+        <div class="caso-content">
+          <div class="caso-col caso-col-left reveal">
+            <div class="caso-img-placeholder">
+              <span class="type-mono-sm" style="opacity: 0.2;">{caso.ref}</span>
+            </div>
+          </div>
+
+          <div class="caso-col caso-col-right">
+            <div class="caso-block reveal">
+              <h3 class="type-label caso-block-label">Desafío</h3>
+              <p class="type-body caso-block-text">{caso.desafio}</p>
+            </div>
+
+            <div class="caso-block reveal">
+              <h3 class="type-label caso-block-label">Decisiones</h3>
+              <ul class="caso-decisions">
+                {caso.decisiones.map((d) => (
+                  <li class="type-body caso-decision-item">{d}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="caso-block reveal">
+              <h3 class="type-label caso-block-label">Resultado</h3>
+              <p class="type-body caso-block-text caso-resultado">{caso.resultado}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="trabajo-cta section" data-mode="dark">
+    <div class="container trabajo-cta-inner">
+      <h2 class="trabajo-cta-title reveal">
+        ¿Tu próximo proyecto necesita <em class="trabajo-cta-italic">proceso</em><span class="text-accent">?</span>
+      </h2>
+      <a href="/#contacto" class="btn-cta reveal" data-cursor-hover>Agendá un diagnóstico</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Hero ── */
+  .trabajo-hero {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    padding: 160px 0 120px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trabajo-hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .trabajo-hero-title {
+    font-family: var(--font-primary);
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .trabajo-hero-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--proma-terra-500);
+  }
+
+  .text-accent {
+    color: var(--proma-terra-500);
+  }
+
+  .trabajo-hero-sub {
+    opacity: 0.4;
+    max-width: 440px;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── Caso sections ── */
+  .caso-dark {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+  }
+
+  .caso-light {
+    background-color: var(--proma-cream-50);
+    color: var(--proma-text-dark);
+  }
+
+  .caso-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: clamp(48px, 6vh, 80px);
+  }
+
+  .caso-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .caso-ref {
+    color: var(--proma-terra-500);
+  }
+
+  .caso-tipo {
+    color: var(--proma-terra-500);
+    padding: 2px 8px;
+    border: 1px solid var(--proma-terra-500);
+    font-size: 9px;
+    opacity: 0.6;
+  }
+
+  .caso-titulo {
+    font-family: var(--font-primary);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .caso-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 80px);
+    align-items: start;
+  }
+
+  .caso-img-placeholder {
+    aspect-ratio: 4 / 3;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 100px;
+  }
+
+  .caso-light .caso-img-placeholder {
+    border-color: var(--proma-cream-200);
+    background: var(--proma-cream-200);
+  }
+
+  .caso-dark .caso-img-placeholder {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .caso-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .caso-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .caso-block-label {
+    color: var(--proma-terra-500);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .caso-light .caso-block-label {
+    border-bottom-color: var(--proma-cream-200);
+  }
+
+  .caso-block-text {
+    opacity: 0.6;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .caso-resultado {
+    opacity: 0.8;
+    font-weight: 500;
+  }
+
+  .caso-decisions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .caso-decision-item {
+    opacity: 0.6;
+    font-size: 14px;
+    line-height: 1.7;
+    padding-left: var(--space-4);
+    position: relative;
+  }
+
+  .caso-decision-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 1px;
+    background: var(--proma-terra-500);
+  }
+
+  /* ── CTA section ── */
+  .trabajo-cta {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    border-top: 1px solid var(--proma-navy-700);
+  }
+
+  .trabajo-cta-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-8);
+  }
+
+  .trabajo-cta-title {
+    font-family: var(--font-primary);
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .trabajo-cta-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--proma-terra-500);
+  }
+
+  .trabajo-cta .btn-cta {
+    padding: var(--space-3) var(--space-10);
+    font-size: 12px;
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .trabajo-hero {
+      padding: 120px 0 80px;
+    }
+
+    .caso-content {
+      grid-template-columns: 1fr;
+    }
+
+    .caso-img-placeholder {
+      position: static;
+    }
+  }
+</style>
