@@ -1,0 +1,184 @@
+/* ============================================================
+   pro.ma Color System v1.1 — Umbral
+   Wordmark: proma (sin punto)
+   La m en Playfair Display Italic es el umbral tipográfico.
+   El punto vive en el sistema de unidades (pro.pack, etc.)
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:ital@1&display=swap');
+
+/* Nota: Grantha Sangam MN es una fuente del sistema macOS/iOS.
+   En entornos web, verificar disponibilidad o usar una alternativa
+   serif con proporciones similares (ej: Georgia como fallback). */
+
+/* ── Primitivos ── */
+:root {
+  --proma-navy-900:  #1C2340;
+  --proma-navy-700:  #2E3A5C;
+  --proma-terra-500: #D4521A;
+  --proma-terra-700: #B5420F;
+  --proma-cream-50:  #FAF8F4;
+  --proma-cream-100: #F2EDE4;
+  --proma-cream-200: #EAE6DE;
+  --proma-text-dark: #2C2420;
+}
+
+/* ── Modo Oscuro ──
+   Impacto · Autoridad · Presentación
+   Portadas · slides · hero · pitches · brand deck
+   ─────────────────────────────────────────────── */
+[data-mode="dark"], .mode-dark {
+  --color-bg:           var(--proma-navy-900);
+  --color-surface:      var(--proma-navy-700);
+  --color-accent:       var(--proma-terra-500);
+  --color-accent-hover: var(--proma-terra-700);
+  --color-text-primary: var(--proma-cream-100);
+  --color-text-accent:  var(--proma-terra-500);
+  --color-border:       var(--proma-navy-700);
+}
+
+/* ── Modo Claro ──
+   Lectura · Proceso · Documentación
+   Informes · manuales · emails · changelog · QA
+   ─────────────────────────────────────────────── */
+[data-mode="light"], .mode-light {
+  --color-bg:           var(--proma-cream-50);
+  --color-surface:      var(--proma-cream-200);
+  --color-accent:       var(--proma-terra-500);
+  --color-accent-hover: var(--proma-terra-700);
+  --color-text-primary: var(--proma-text-dark);
+  --color-text-accent:  var(--proma-terra-500);
+  --color-border:       var(--proma-cream-200);
+}
+
+/* ── Tipografía ── */
+:root {
+  /* Wordmark — uso exclusivo del nombre proma */
+  --font-wordmark:        'Grantha Sangam MN', Georgia, serif;
+  --font-wordmark-accent: 'Playfair Display', Georgia, serif; /* solo la m, en italic */
+
+  /* Sistema */
+  --font-primary: 'Plus Jakarta Sans', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  /* Escala tipográfica */
+  --type-t1-size: 36px; --type-t1-weight: 700; --type-t1-tracking: -0.04em; --type-t1-leading: 1.15;
+  --type-t2-size: 28px; --type-t2-weight: 600; --type-t2-tracking: -0.02em; --type-t2-leading: 1.2;
+  --type-t3-size: 22px; --type-t3-weight: 600; --type-t3-tracking: 0;       --type-t3-leading: 1.3;
+  --type-t4-size: 18px; --type-t4-weight: 500; --type-t4-tracking: 0;       --type-t4-leading: 1.4;
+  --type-body-size: 14px; --type-body-weight: 400; --type-body-tracking: 0;     --type-body-leading: 1.6;
+  --type-small-size: 12px; --type-small-weight: 400; --type-small-tracking: 0;  --type-small-leading: 1.5;
+  --type-label-size: 11px; --type-label-weight: 500; --type-label-tracking: 0.08em; --type-label-leading: 1;
+  --type-mono-lg-size: 15px; --type-mono-lg-tracking: 0.06em;
+  --type-mono-md-size: 12px; --type-mono-md-tracking: 0.04em;
+  --type-mono-sm-size: 11px; --type-mono-sm-tracking: 0.02em;
+
+  /* Espaciado base 4px */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
+  --space-12: 48px; --space-16: 64px; --space-20: 80px; --space-24: 96px;
+
+  /* Border radius */
+  --radius-sm: 3px; --radius-md: 6px; --radius-lg: 12px; --radius-pill: 999px;
+}
+
+/* ── Wordmark ── */
+.proma-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--color-text-primary);
+}
+.proma-wordmark .wm-sans {
+  font-family: var(--font-wordmark);
+  font-style: normal;
+}
+.proma-wordmark .wm-serif {
+  font-family: var(--font-wordmark-accent);
+  font-style: italic;
+  /* La m en Playfair — el umbral tipográfico */
+  /* No aplicar color de acento aquí — wordmark siempre monocromático */
+}
+
+/* Versión reducida — 32px o menos */
+.proma-wordmark-sm {
+  display: inline-flex;
+  align-items: baseline;
+  color: var(--color-text-primary);
+}
+.proma-wordmark-sm .wm-sans { font-family: var(--font-wordmark); font-style: normal; }
+.proma-wordmark-sm .wm-serif { font-family: var(--font-wordmark-accent); font-style: italic; }
+
+/* ── Sistema de unidades ──
+   pro.pack · pro.brand · pro.web · pro.ops
+   El punto terracota es el conector del sistema
+   ─────────────────────────────────────────────── */
+.proma-unit {
+  display: inline-flex;
+  align-items: baseline;
+}
+.proma-unit .unit-pro {
+  font-family: var(--font-wordmark);
+  font-style: normal;
+  color: var(--color-text-primary);
+}
+.proma-unit .unit-dot {
+  color: var(--proma-terra-500); /* #D4521A — siempre, en ambos modos */
+  font-family: var(--font-wordmark);
+}
+.proma-unit .unit-suffix {
+  font-family: var(--font-mono);
+  color: var(--color-text-primary);
+}
+
+/* ── Clases de tipografía — Plus Jakarta Sans ── */
+.type-t1 { font-family: var(--font-primary); font-size: var(--type-t1-size); font-weight: var(--type-t1-weight); letter-spacing: var(--type-t1-tracking); line-height: var(--type-t1-leading); }
+.type-t2 { font-family: var(--font-primary); font-size: var(--type-t2-size); font-weight: var(--type-t2-weight); letter-spacing: var(--type-t2-tracking); line-height: var(--type-t2-leading); }
+.type-t3 { font-family: var(--font-primary); font-size: var(--type-t3-size); font-weight: var(--type-t3-weight); letter-spacing: var(--type-t3-tracking); line-height: var(--type-t3-leading); }
+.type-t4 { font-family: var(--font-primary); font-size: var(--type-t4-size); font-weight: var(--type-t4-weight); letter-spacing: var(--type-t4-tracking); line-height: var(--type-t4-leading); }
+.type-body  { font-family: var(--font-primary); font-size: var(--type-body-size);  font-weight: var(--type-body-weight);  letter-spacing: var(--type-body-tracking);  line-height: var(--type-body-leading);  }
+.type-small { font-family: var(--font-primary); font-size: var(--type-small-size); font-weight: var(--type-small-weight); letter-spacing: var(--type-small-tracking); line-height: var(--type-small-leading); }
+.type-label { font-family: var(--font-primary); font-size: var(--type-label-size); font-weight: var(--type-label-weight); letter-spacing: var(--type-label-tracking); line-height: var(--type-label-leading); text-transform: uppercase; }
+
+/* ── Clases de tipografía — IBM Plex Mono ── */
+.type-mono-lg { font-family: var(--font-mono); font-size: var(--type-mono-lg-size); letter-spacing: var(--type-mono-lg-tracking); line-height: 1.4; }
+.type-mono-md { font-family: var(--font-mono); font-size: var(--type-mono-md-size); letter-spacing: var(--type-mono-md-tracking); line-height: 1.4; }
+.type-mono-sm { font-family: var(--font-mono); font-size: var(--type-mono-sm-size); letter-spacing: var(--type-mono-sm-tracking); line-height: 1.4; }
+
+/* ── Utilidades base ── */
+.bg-base      { background-color: var(--color-bg); }
+.bg-surface   { background-color: var(--color-surface); }
+.text-primary { color: var(--color-text-primary); }
+.text-accent  { color: var(--color-text-accent); }
+.border-default { border-color: var(--color-border); }
+
+/* ── Recursos gráficos de identidad ── */
+.accent-bar-left { border-left:  4px solid var(--color-accent); }
+.accent-bar-top  { border-top:   4px solid var(--color-accent); }
+
+/* Banda de transición — el umbral como franja visual */
+.umbral-band {
+  display: flex;
+  height: 4px;
+}
+.umbral-band::before {
+  content: '';
+  display: flex;
+  flex: 1; background: var(--proma-navy-900);
+}
+
+/* ── CTA button ── */
+.btn-cta {
+  background-color: var(--color-accent);
+  color: var(--proma-cream-100);
+  font-family: var(--font-primary);
+  font-size: var(--type-label-size);
+  font-weight: var(--type-label-weight);
+  letter-spacing: var(--type-label-tracking);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background-color 0.15s ease;
+}
+.btn-cta:hover { background-color: var(--color-accent-hover); }

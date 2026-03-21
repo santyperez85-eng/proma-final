@@ -1,0 +1,159 @@
+---
+---
+
+<section class="problema section" data-mode="dark">
+  <div class="problema-glow"></div>
+  <div class="container problema-container">
+    <div class="problema-lead">
+      <p class="reveal" style="font-family: var(--font-primary); font-size: clamp(28px, 4vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; opacity: 0.35;">
+        El diseño sin proceso tiene un costo medible.
+      </p>
+    </div>
+
+    <div class="problema-body reveal">
+      <div class="problema-accent-bar reveal-line"></div>
+      <div class="problema-texts">
+        <p class="type-body problema-text">
+          Retrabajos que se repiten. Cambios sin registro.<br />
+          Aprobaciones sin criterio. Entregas que vuelven.
+        </p>
+
+        <p class="type-body problema-text">
+          No es un problema de talento.<br />
+          <strong>Es un problema de sistema.</strong>
+        </p>
+
+        <p class="type-body problema-text">
+          Lo sabemos porque venimos del entorno donde ese problema
+          tiene consecuencias reales: <em>industrias reguladas</em>,
+          donde cada error detiene una línea de producción,
+          frena un lanzamiento o falla una auditoría.
+        </p>
+
+        <p class="type-body problema-text">
+          Cuarenta años combinados trabajando en ese límite
+          nos enseñaron una sola cosa:
+        </p>
+      </div>
+    </div>
+
+    <div class="problema-conclusion reveal">
+      <p class="conclusion-line conclusion-muted">Sin proceso, el diseño falla.</p>
+      <p class="conclusion-line conclusion-strong">Con proceso, <em class="conclusion-italic">escala</em><span class="text-accent">.</span></p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .problema {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .problema-glow {
+    position: absolute;
+    bottom: -30%;
+    left: -20%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(212, 82, 26, 0.05) 0%,
+      rgba(180, 60, 20, 0.02) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .problema-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(48px, 8vh, 96px);
+  }
+
+  .problema-body {
+    display: flex;
+    gap: var(--space-8);
+    max-width: 680px;
+  }
+
+  .problema-accent-bar {
+    width: 3px;
+    min-height: 100%;
+    background-color: var(--proma-terra-500);
+    flex-shrink: 0;
+  }
+
+  .problema-texts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .problema-text {
+    color: var(--proma-cream-100);
+    opacity: 0.5;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+
+  .problema-text strong {
+    opacity: 1;
+    color: var(--proma-cream-100);
+    font-weight: 600;
+  }
+
+  .problema-text em {
+    color: var(--proma-terra-500);
+    font-style: normal;
+  }
+
+  .problema-conclusion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .conclusion-line {
+    font-family: var(--font-primary);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+  }
+
+  .conclusion-muted {
+    opacity: 0.2;
+  }
+
+  .conclusion-strong {
+    color: var(--proma-cream-100);
+  }
+
+  .conclusion-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--proma-terra-500);
+  }
+
+  .text-accent {
+    color: var(--proma-terra-500);
+  }
+
+  @media (max-width: 768px) {
+    .problema-body {
+      flex-direction: column;
+    }
+
+    .problema-accent-bar {
+      width: 100%;
+      height: 3px;
+      min-height: auto;
+    }
+  }
+</style>

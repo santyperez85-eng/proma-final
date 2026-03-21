@@ -1,0 +1,169 @@
+---
+const pilares = [
+  {
+    nombre: 'Calidad',
+    descripcion: 'Criterios de aceptación antes de empezar.',
+  },
+  {
+    nombre: 'Documentación',
+    descripcion: 'Todo registrado. Si no está documentado, no existe.',
+  },
+  {
+    nombre: 'Proceso',
+    descripcion: 'Flujos claros, responsables y plazos reales.',
+  },
+  {
+    nombre: 'Inteligencia',
+    descripcion: 'IA como motor de precisión, no como decoración.',
+  },
+];
+---
+
+<section id="metodo" class="metodo section" data-mode="light">
+  <div class="container">
+    <header class="metodo-header">
+      <span class="type-mono-sm text-accent reveal">REF · FRAMEWORK</span>
+      <div class="metodo-title-row reveal">
+        <h2 class="metodo-title">PROMA<span class="metodo-dash">-</span>4</h2>
+        <p class="type-body metodo-sub">El framework que gobierna<br />cada proyecto.</p>
+      </div>
+    </header>
+
+    <div class="metodo-grid">
+      {pilares.map((p, i) => (
+        <div class="pilar-item reveal" data-cursor-hover>
+          <div class="pilar-top">
+            <span class="type-mono-sm pilar-index">{String(i + 1).padStart(2, '0')}</span>
+            <div class="pilar-bar"></div>
+          </div>
+          <h3 class="pilar-nombre">{p.nombre}</h3>
+          <p class="type-body pilar-desc">{p.descripcion}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .metodo {
+    background-color: var(--proma-cream-50);
+    color: var(--proma-text-dark);
+    border-top: 1px solid var(--proma-cream-200);
+  }
+
+  .metodo-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin-bottom: clamp(64px, 8vh, 120px);
+  }
+
+  .metodo-title-row {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-12);
+  }
+
+  .metodo-title {
+    font-family: var(--font-mono);
+    font-size: clamp(48px, 7vw, 100px);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 0.85;
+    color: var(--proma-text-dark);
+  }
+
+  .metodo-dash {
+    color: var(--proma-terra-500);
+  }
+
+  .metodo-sub {
+    opacity: 0.4;
+    padding-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .metodo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-6);
+  }
+
+  .pilar-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    padding: var(--space-8) var(--space-6);
+    border: 1px solid var(--proma-cream-200);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+  }
+
+  .pilar-item:hover {
+    border-color: var(--proma-terra-500);
+    transform: translateY(-4px);
+  }
+
+  .pilar-top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .pilar-bar {
+    height: 1px;
+    flex: 1;
+    background-color: var(--proma-terra-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pilar-item.is-visible .pilar-bar,
+  .pilar-item:hover .pilar-bar {
+    transform: scaleX(1);
+  }
+
+  .pilar-index {
+    color: var(--proma-terra-500);
+    flex-shrink: 0;
+  }
+
+  .pilar-nombre {
+    font-family: var(--font-primary);
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--proma-text-dark);
+    transition: color 0.3s ease;
+  }
+
+  .pilar-item:hover .pilar-nombre {
+    color: var(--proma-terra-500);
+  }
+
+  .pilar-desc {
+    opacity: 0.5;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    .metodo-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .metodo-title-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .metodo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

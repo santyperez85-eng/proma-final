@@ -1,0 +1,194 @@
+---
+import Cursor from '../components/Cursor.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'pro.ma Studio — Human-Led. System-Driven. Intelligence-Enhanced.' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Estudio de diseño con proceso. Para organizaciones que no pueden permitirse el desorden." />
+  <title>{title}</title>
+  <link rel="icon" type="image/svg+xml" href="/brand/proma-favicon.svg" />
+  <link rel="shortcut icon" href="/favicon.ico" />
+</head>
+<body>
+  <Cursor />
+  <nav class="nav" data-mode="dark">
+    <div class="nav-inner container">
+      <a href="/" class="nav-wordmark" aria-label="proma — ir al inicio">
+        <img src="/brand/proma-wordmark-light.svg" alt="proma" class="nav-logo" />
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#servicios" class="type-label">Servicios</a></li>
+        <li><a href="#metodo" class="type-label">Método</a></li>
+        <li><a href="#estudio" class="type-label">Estudio</a></li>
+        <li><a href="/trabajo" class="type-label">Trabajo</a></li>
+      </ul>
+
+      <a href="#contacto" class="btn-cta nav-cta">Agendá un diagnóstico</a>
+
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <ScrollReveal />
+
+  <script>
+    const toggle = document.querySelector('.nav-toggle');
+    const nav = document.querySelector('.nav');
+
+    toggle?.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      nav?.classList.toggle('nav-open');
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        toggle?.setAttribute('aria-expanded', 'false');
+        nav?.classList.remove('nav-open');
+      });
+    });
+
+    // Nav scroll effect — transparent to solid
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        nav?.classList.add('nav-scrolled');
+      } else {
+        nav?.classList.remove('nav-scrolled');
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
+
+<style is:global>
+  @import '../styles/tokens.css';
+  @import '../styles/global.css';
+</style>
+
+<style>
+  /* ── Nav ── */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background-color: transparent;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .nav.nav-scrolled {
+    background-color: rgba(10, 10, 15, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .nav-logo {
+    height: 22px;
+    width: auto;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: var(--space-8);
+  }
+
+  .nav-links a {
+    color: var(--proma-cream-100);
+    transition: color 0.15s ease;
+  }
+
+  .nav-links a:hover {
+    color: var(--proma-terra-500);
+  }
+
+  .nav-cta {
+    padding: var(--space-2) var(--space-5);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    padding: var(--space-2);
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: var(--proma-cream-100);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  /* ── Mobile nav ── */
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background-color: var(--proma-navy-900);
+      border-bottom: 1px solid var(--proma-navy-700);
+      padding: var(--space-6);
+      gap: var(--space-6);
+    }
+
+    .nav-open .nav-links {
+      display: flex;
+    }
+
+    .nav-cta {
+      display: none;
+    }
+
+    .nav-open .nav-cta {
+      display: none;
+    }
+
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-open .nav-toggle span:first-child {
+      transform: translateY(3.5px) rotate(45deg);
+    }
+
+    .nav-open .nav-toggle span:last-child {
+      transform: translateY(-3.5px) rotate(-45deg);
+    }
+  }
+
+  /* ── No offset — hero is full viewport, nav overlays ── */
+</style>

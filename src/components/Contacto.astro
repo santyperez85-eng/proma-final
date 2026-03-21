@@ -1,0 +1,173 @@
+---
+---
+
+<section id="contacto" class="contacto section" data-mode="dark">
+  <div class="contacto-glow"></div>
+  <div class="container contacto-container">
+    <div class="contacto-left">
+      <span class="type-mono-sm text-accent reveal">REF · DIAGNÓSTICO INICIAL</span>
+      <h2 class="contacto-title reveal">
+        ¿Cuánto le cuesta el <em class="contacto-italic">desorden</em> a tu organización?
+      </h2>
+      <p class="type-body contacto-sub reveal">
+        El primer paso es un diagnóstico. Entendemos tu situación,
+        identificamos los puntos críticos y te decimos con precisión
+        qué necesitás. Sin compromiso. Con criterio.
+      </p>
+    </div>
+
+    <form class="contacto-form reveal" action="#" method="POST">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="nombre" class="type-mono-sm">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required autocomplete="name" />
+        </div>
+        <div class="form-field">
+          <label for="empresa" class="type-mono-sm">Empresa</label>
+          <input type="text" id="empresa" name="empresa" autocomplete="organization" />
+        </div>
+        <div class="form-field">
+          <label for="industria" class="type-mono-sm">Industria</label>
+          <input type="text" id="industria" name="industria" />
+        </div>
+        <div class="form-field">
+          <label for="email" class="type-mono-sm">Email</label>
+          <input type="email" id="email" name="email" required autocomplete="email" />
+        </div>
+      </div>
+      <div class="form-field form-field-full">
+        <label for="desafio" class="type-mono-sm">Desafío</label>
+        <textarea id="desafio" name="desafio" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn-cta contacto-cta" data-cursor-hover>
+        Agendá un diagnóstico
+      </button>
+    </form>
+  </div>
+</section>
+
+<style>
+  .contacto {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    border-top: 1px solid var(--proma-navy-700);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .contacto-glow {
+    position: absolute;
+    top: -30%;
+    left: 30%;
+    width: 50vw;
+    height: 50vw;
+    background: radial-gradient(circle, rgba(212, 82, 26, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .contacto-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(48px, 6vw, 96px);
+    align-items: start;
+    position: relative;
+    z-index: 1;
+  }
+
+  .contacto-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: sticky;
+    top: 120px;
+  }
+
+  .contacto-title {
+    font-family: var(--font-primary);
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .contacto-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--proma-terra-500);
+  }
+
+  .contacto-sub {
+    opacity: 0.4;
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .contacto-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-field label {
+    color: var(--proma-cream-100);
+    opacity: 0.3;
+    font-size: 10px;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(242, 237, 228, 0.1);
+    color: var(--proma-cream-100);
+    font-family: var(--font-primary);
+    font-size: 15px;
+    padding: var(--space-3) 0;
+    outline: none;
+    transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .form-field input:focus,
+  .form-field textarea:focus {
+    border-bottom-color: var(--proma-terra-500);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .contacto-cta {
+    align-self: flex-start;
+    padding: var(--space-3) var(--space-8);
+    font-size: 11px;
+    margin-top: var(--space-2);
+  }
+
+  @media (max-width: 768px) {
+    .contacto-container {
+      grid-template-columns: 1fr;
+    }
+
+    .contacto-left {
+      position: static;
+    }
+
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

@@ -1,0 +1,217 @@
+---
+const casos = [
+  { titulo: 'Sistema de packaging regulatorio', tipo: 'PACKAGING' },
+  { titulo: 'Identidad visual integral', tipo: 'BRANDING' },
+  { titulo: 'Plataforma digital de producto', tipo: 'WEB' },
+  { titulo: 'Manual de sistema gráfico', tipo: 'BRANDING' },
+];
+---
+
+<section class="trabajo-preview section" data-mode="dark">
+  <div class="container">
+    <header class="trabajo-header">
+      <span class="type-mono-sm text-accent reveal">REF · PORTFOLIO</span>
+      <div class="trabajo-title-row reveal">
+        <h2 class="trabajo-title">Algunos<br /><em class="trabajo-italic">trabajos</em></h2>
+        <p class="type-body trabajo-sub">
+          Diseño con criterio documentado.<br />
+          Cada proyecto refleja el proceso detrás de cada decisión.
+        </p>
+      </div>
+    </header>
+
+    <div class="trabajo-grid">
+      {casos.map((caso) => (
+        <article class="trabajo-card reveal" data-cursor-hover>
+          <div class="trabajo-card-img">
+            <div class="trabajo-card-overlay">
+              <span class="type-mono-sm">{caso.tipo}</span>
+            </div>
+          </div>
+          <div class="trabajo-card-info">
+            <h3 class="trabajo-card-title">{caso.titulo}</h3>
+            <span class="trabajo-card-arrow" aria-hidden="true">→</span>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="trabajo-cta-row reveal">
+      <a href="/trabajo" class="link-arrow-long" data-cursor-hover>
+        <span>Ver trabajo</span>
+        <span class="long-dash" aria-hidden="true">———→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trabajo-preview {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    border-top: 1px solid var(--proma-navy-700);
+  }
+
+  .trabajo-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    margin-bottom: clamp(48px, 6vh, 80px);
+  }
+
+  .trabajo-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: var(--space-8);
+  }
+
+  .trabajo-title {
+    font-family: var(--font-primary);
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  .trabajo-italic {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--proma-terra-500);
+  }
+
+  .trabajo-sub {
+    opacity: 0.4;
+    max-width: 340px;
+    text-align: right;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .trabajo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-12);
+  }
+
+  .trabajo-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .trabajo-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .trabajo-card-img {
+    aspect-ratio: 16 / 10;
+    background-color: var(--proma-navy-700);
+    border: 1px solid rgba(242, 237, 228, 0.04);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.4s ease;
+    /* Glassmorphism */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(2px);
+  }
+
+  .trabajo-card:hover .trabajo-card-img {
+    border-color: var(--proma-terra-500);
+  }
+
+  .trabajo-card-overlay {
+    position: absolute;
+    top: var(--space-4);
+    left: var(--space-4);
+    color: var(--proma-terra-500);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s ease;
+  }
+
+  .trabajo-card:hover .trabajo-card-overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .trabajo-card-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .trabajo-card-title {
+    font-family: var(--font-primary);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--proma-cream-100);
+    transition: color 0.3s ease;
+  }
+
+  .trabajo-card:hover .trabajo-card-title {
+    color: var(--proma-terra-500);
+  }
+
+  .trabajo-card-arrow {
+    color: var(--proma-terra-500);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.3s ease;
+  }
+
+  .trabajo-card:hover .trabajo-card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .trabajo-cta-row {
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(242, 237, 228, 0.06);
+  }
+
+  .link-arrow-long {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--proma-cream-100);
+    opacity: 0.4;
+    font-family: var(--font-primary);
+    font-size: var(--type-label-size);
+    font-weight: var(--type-label-weight);
+    letter-spacing: var(--type-label-tracking);
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .long-dash {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .link-arrow-long:hover {
+    opacity: 1;
+    color: var(--proma-terra-500);
+  }
+
+  .link-arrow-long:hover .long-dash {
+    transform: translateX(8px);
+  }
+
+  @media (max-width: 768px) {
+    .trabajo-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .trabajo-title-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .trabajo-sub {
+      text-align: left;
+    }
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+const servicios = [
+  {
+    ref: '01',
+    nombre: 'Diagnóstico & Consultoría',
+    accent: 'La entrada',
+    descripcion: 'Antes de diseñar, entendemos. No asumimos. Medimos.',
+    capacidades: ['Auditoría visual', 'Análisis de procesos', 'Roadmap'],
+  },
+  {
+    ref: '02',
+    nombre: 'Packaging',
+    accent: 'Gráfico · Estructural · Regulatorio',
+    descripcion: 'Venimos de acá. Diseñamos packaging que funciona en máquina, pasa auditoría y puede reproducirse sin que el estudio tenga que estar presente.',
+    capacidades: ['Diseño gráfico', 'Estructural', 'Literaturas', 'Compliance'],
+  },
+  {
+    ref: '03',
+    nombre: 'Branding',
+    accent: 'Identidad · Sistema · Aplicaciones',
+    descripcion: 'Una marca no es un logo. Es un sistema de decisiones documentadas que cualquier equipo puede operar.',
+    capacidades: ['Identidad visual', 'Manual de marca', 'Señalética', 'Stands'],
+  },
+  {
+    ref: '04',
+    nombre: 'Web & Aplicaciones',
+    accent: 'Sitios · Plataformas · UX/UI',
+    descripcion: 'Diseño digital con la misma lógica de sistema que aplicamos a todo.',
+    capacidades: ['Sitios web', 'Apps', 'Plataformas', 'UX/UI'],
+  },
+  {
+    ref: '05',
+    nombre: 'Mantenimiento & Retainer',
+    accent: 'El sistema vivo',
+    descripcion: 'Nos quedamos como el guardián del sistema: control de versiones, actualizaciones, QA y evolución controlada.',
+    capacidades: ['Control de versiones', 'QA', 'Evolución', 'Soporte'],
+  },
+];
+---
+
+<section id="servicios" class="servicios section" data-mode="light">
+  <div class="container">
+    <header class="servicios-header">
+      <span class="type-mono-sm text-accent reveal">REF · SERVICIOS</span>
+      <h2 class="servicios-title reveal">Cómo trabajamos</h2>
+    </header>
+
+    <div class="servicios-list">
+      {servicios.map((s) => (
+        <article class="servicio-item reveal" data-cursor-hover>
+          <div class="servicio-row">
+            <span class="type-mono-sm servicio-ref">{s.ref} →</span>
+            <h3 class="servicio-nombre">{s.nombre}</h3>
+            <span class="servicio-expand-icon" aria-hidden="true">+</span>
+          </div>
+          <div class="servicio-detail">
+            <div class="servicio-detail-inner">
+              <p class="servicio-accent type-label">{s.accent}</p>
+              <p class="type-body servicio-desc">{s.descripcion}</p>
+              <ul class="servicio-caps">
+                {s.capacidades.map((c) => (
+                  <li class="type-mono-sm">{c}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .servicios {
+    background-color: var(--proma-cream-50);
+    color: var(--proma-text-dark);
+  }
+
+  .servicios-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-bottom: var(--space-16);
+  }
+
+  .servicios-title {
+    font-family: var(--font-primary);
+    font-size: clamp(40px, 6vw, 80px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .servicios-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Interactive service rows ── */
+  .servicio-item {
+    border-top: 1px solid var(--proma-cream-200);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .servicio-item:last-child {
+    border-bottom: 1px solid var(--proma-cream-200);
+  }
+
+  .servicio-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-6) 0;
+    cursor: pointer;
+  }
+
+  .servicio-ref {
+    color: var(--proma-terra-500);
+    flex-shrink: 0;
+    width: 60px;
+  }
+
+  .servicio-nombre {
+    font-family: var(--font-primary);
+    font-size: clamp(22px, 3vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--proma-text-dark);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    flex: 1;
+  }
+
+  .servicio-expand-icon {
+    font-family: var(--font-primary);
+    font-size: 24px;
+    font-weight: 300;
+    color: var(--proma-terra-500);
+    opacity: 0;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .servicio-item:hover .servicio-nombre {
+    color: var(--proma-terra-500);
+    transform: translateX(8px);
+  }
+
+  .servicio-item:hover .servicio-expand-icon {
+    opacity: 1;
+  }
+
+  /* ── Detail panel (expandable on click) ── */
+  .servicio-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .servicio-item.is-open .servicio-detail {
+    max-height: 300px;
+  }
+
+  .servicio-item.is-open .servicio-expand-icon {
+    opacity: 1;
+    transform: rotate(45deg);
+  }
+
+  .servicio-detail-inner {
+    padding: 0 0 var(--space-8) 68px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .servicio-accent {
+    color: var(--proma-terra-500);
+  }
+
+  .servicio-desc {
+    opacity: 0.6;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  .servicio-caps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-6);
+  }
+
+  .servicio-caps li {
+    color: var(--proma-text-dark);
+    opacity: 0.4;
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--proma-cream-200);
+    font-size: 10px;
+  }
+
+  @media (max-width: 768px) {
+    .servicio-detail-inner {
+      padding-left: 0;
+    }
+
+    .servicio-ref {
+      width: 40px;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll('.servicio-item').forEach((item) => {
+    item.querySelector('.servicio-row')?.addEventListener('click', () => {
+      // Close others
+      document.querySelectorAll('.servicio-item.is-open').forEach((open) => {
+        if (open !== item) open.classList.remove('is-open');
+      });
+      item.classList.toggle('is-open');
+    });
+  });
+</script>
