@@ -46,6 +46,49 @@
   .reveal-line.is-visible {
     transform: scaleX(1);
   }
+
+  /* ── Registration marks — global reusable ── */
+  .reg-mark {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    opacity: 0.1;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .reg-mark::before,
+  .reg-mark::after {
+    content: '';
+    position: absolute;
+    background: var(--proma-cream-100);
+  }
+
+  .reg-mark::before {
+    width: 1px;
+    height: 100%;
+  }
+
+  .reg-mark::after {
+    width: 100%;
+    height: 1px;
+  }
+
+  .reg-tl { top: 24px; left: 24px; }
+  .reg-tl::before { left: 0; }
+  .reg-tl::after { top: 0; }
+
+  .reg-tr { top: 24px; right: 24px; }
+  .reg-tr::before { right: 0; }
+  .reg-tr::after { top: 0; }
+
+  .reg-bl { bottom: 24px; left: 24px; }
+  .reg-bl::before { left: 0; }
+  .reg-bl::after { bottom: 0; }
+
+  .reg-br { bottom: 24px; right: 24px; }
+  .reg-br::before { right: 0; }
+  .reg-br::after { bottom: 0; }
 </style>
 
 <script>

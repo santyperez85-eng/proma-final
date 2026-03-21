@@ -21,9 +21,10 @@ const casos = [
     </header>
 
     <div class="trabajo-grid">
-      {casos.map((caso) => (
+      {casos.map((caso, i) => (
         <article class="trabajo-card reveal" data-cursor-hover>
           <div class="trabajo-card-img">
+            <span class="trabajo-fig type-mono-sm">FIG. {String(i + 1).padStart(2, '0')}</span>
             <div class="trabajo-card-overlay">
               <span class="type-mono-sm">{caso.tipo}</span>
             </div>
@@ -121,6 +122,21 @@ const casos = [
 
   .trabajo-card:hover .trabajo-card-img {
     border-color: var(--proma-terra-500);
+  }
+
+  .trabajo-fig {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    color: var(--proma-cream-100);
+    opacity: 0.15;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    transition: opacity 0.3s ease;
+  }
+
+  .trabajo-card:hover .trabajo-fig {
+    opacity: 0.4;
   }
 
   .trabajo-card-overlay {

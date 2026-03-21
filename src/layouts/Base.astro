@@ -28,10 +28,10 @@ const { title = 'pro.ma Studio — Human-Led. System-Driven. Intelligence-Enhanc
       </a>
 
       <ul class="nav-links">
-        <li><a href="#servicios" class="type-label">Servicios</a></li>
-        <li><a href="#metodo" class="type-label">Método</a></li>
-        <li><a href="#estudio" class="type-label">Estudio</a></li>
-        <li><a href="/trabajo" class="type-label">Trabajo</a></li>
+        <li><a href="#servicios" class="type-label"><span class="nav-index">01</span> Servicios</a></li>
+        <li><a href="#metodo" class="type-label"><span class="nav-index">02</span> Método</a></li>
+        <li><a href="#estudio" class="type-label"><span class="nav-index">03</span> Estudio</a></li>
+        <li><a href="/trabajo" class="type-label"><span class="nav-index">04</span> Trabajo</a></li>
       </ul>
 
       <a href="#contacto" class="btn-cta nav-cta">Agendá un diagnóstico</a>
@@ -122,10 +122,26 @@ const { title = 'pro.ma Studio — Human-Led. System-Driven. Intelligence-Enhanc
 
   .nav-links a {
     color: var(--proma-cream-100);
-    transition: color 0.15s ease;
+    transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-index {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    opacity: 0.3;
+    transition: opacity 0.3s ease, color 0.3s ease;
   }
 
   .nav-links a:hover {
+    color: var(--proma-terra-500);
+  }
+
+  .nav-links a:hover .nav-index {
+    opacity: 1;
     color: var(--proma-terra-500);
   }
 
