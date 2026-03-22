@@ -23,7 +23,6 @@
     left: 0;
     z-index: 9999;
     pointer-events: none;
-    mix-blend-mode: difference;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -39,32 +38,57 @@
     background: var(--proma-cream-100);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, background 0.2s ease;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    mix-blend-mode: difference;
   }
 
   .cursor-ring {
     position: absolute;
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border: 1px solid var(--proma-cream-100);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-                height 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                 border-color 0.3s ease,
-                background 0.3s ease;
+                background-color 0.3s ease,
+                opacity 0.3s ease;
+    mix-blend-mode: difference;
   }
 
-  /* Hover state on interactive elements */
+  /* ── Hover: interactive elements ── */
   .cursor.is-hovering .cursor-ring {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-color: var(--proma-terra-500);
-    background: rgba(212, 82, 26, 0.08);
+    background-color: rgba(212, 82, 26, 0.1);
   }
 
   .cursor.is-hovering .cursor-dot {
     transform: translate(-50%, -50%) scale(0);
+  }
+
+  /* ── Content hover: invert/umbral effect ── */
+  .cursor.is-content .cursor-ring {
+    width: 80px;
+    height: 80px;
+    background-color: #fff;
+    border-color: transparent;
+    mix-blend-mode: difference;
+  }
+
+  .cursor.is-content .cursor-dot {
+    opacity: 0;
+  }
+
+  /* When both hovering and content, interactive wins */
+  .cursor.is-hovering.is-content .cursor-ring {
+    width: 56px;
+    height: 56px;
+    border-color: var(--proma-terra-500);
+    background-color: rgba(212, 82, 26, 0.1);
+    mix-blend-mode: difference;
   }
 </style>
 
@@ -81,7 +105,6 @@
   document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
-    // Dot follows immediately
     dot.style.left = `${mouseX}px`;
     dot.style.top = `${mouseY}px`;
   });
@@ -96,7 +119,7 @@
   }
   animateRing();
 
-  // Hover detection
+  // Interactive hover detection
   const interactives = 'a, button, input, textarea, [data-cursor-hover]';
 
   document.addEventListener('mouseover', (e) => {
@@ -108,6 +131,23 @@
   document.addEventListener('mouseout', (e) => {
     if ((e.target as Element).closest(interactives)) {
       cursor.classList.remove('is-hovering');
+    }
+  });
+
+  // Content hover — umbral invert effect on headings, text blocks, titles
+  const contentSelectors = 'h1, h2, h3, h4, h5, h6, .proyecto-titulo, .trabajo-hero-title, .seccion-titulo, .proyecto-row-titulo, .hero-title, .problema-lead, .problema-conclusion, .estudio-title, .trabajo-title, .contacto-title, .footer-statement, .servicio-nombre, .pilar-nombre, .caso-titulo';
+
+  document.addEventListener('mouseover', (e) => {
+    const target = e.target as Element;
+    if (target.closest(contentSelectors) && !target.closest(interactives)) {
+      cursor.classList.add('is-content');
+    }
+  });
+
+  document.addEventListener('mouseout', (e) => {
+    const target = e.target as Element;
+    if (target.closest(contentSelectors)) {
+      cursor.classList.remove('is-content');
     }
   });
 

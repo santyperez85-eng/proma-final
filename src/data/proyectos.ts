@@ -45,8 +45,6 @@ export const proyectos: Proyecto[] = [
           'La identidad parte de un signo marcario con lógica modular. La paleta cromática y el sistema de iconos definen las reglas de aplicación para todos los puntos de contacto.',
         imagenes: [
           { src: '/trabajo/caso amalita - signo marcario.jpg', alt: 'Signo marcario', orientacion: 'h' },
-          { src: '/trabajo/caso amalita - paleta de colores.jpg', alt: 'Paleta de colores', orientacion: 'h' },
-          { src: '/trabajo/caso amalita - paleta de color 1.jpg', alt: 'Paleta de color variante', orientacion: 'h' },
           { src: '/trabajo/caso amalita - iconos.jpg', alt: 'Sistema de iconos', orientacion: 'h' },
         ],
       },
@@ -89,7 +87,7 @@ export const proyectos: Proyecto[] = [
         texto:
           'Web y redes sociales operando bajo el mismo sistema visual. La identidad se mantiene en cada plataforma.',
         imagenes: [
-          { src: '/trabajo/caso amalita - diseño web.jpg', alt: 'Diseño web', orientacion: 'h' },
+          { src: '/trabajo/caso amalita - diseno web.jpg', alt: 'Diseño web', orientacion: 'h' },
           { src: '/trabajo/caso amalita - redes.jpg', alt: 'Redes sociales', orientacion: 'v' },
           { src: '/trabajo/caso amalita - redes transmedia.jpg', alt: 'Estrategia transmedia', orientacion: 'v' },
         ],
@@ -99,7 +97,7 @@ export const proyectos: Proyecto[] = [
         texto:
           'Señalética que integra el sistema gráfico al espacio. La identidad se extiende más allá de lo bidimensional.',
         imagenes: [
-          { src: '/trabajo/caso amalita - señaletica.jpg', alt: 'Señalética', orientacion: 'h' },
+          { src: '/trabajo/caso amalita - senaletica.jpg', alt: 'Señalética', orientacion: 'h' },
         ],
       },
     ],
@@ -220,7 +218,7 @@ export const proyectos: Proyecto[] = [
     resultado:
       'Un packaging que comunica lo correcto en el momento correcto. Sin ruido visual, sin decisiones arbitrarias.',
     portada: {
-      src: '/trabajo/diseño packaging - kala 1-01.jpg',
+      src: '/trabajo/diseno packaging - kala 1-01.jpg',
       alt: 'Packaging Kala',
       orientacion: 'h',
     },
@@ -230,11 +228,11 @@ export const proyectos: Proyecto[] = [
         texto:
           'Diseño gráfico de packaging con identidad propia. Cada decisión justificada desde la estrategia de comunicación en el punto de venta.',
         imagenes: [
-          { src: '/trabajo/diseño packaging - kala 1-02.jpg', alt: 'Packaging Kala detalle', orientacion: 'h' },
-          { src: '/trabajo/diseño packaging - kala 1-03.jpg', alt: 'Packaging Kala variante', orientacion: 'h' },
-          { src: '/trabajo/diseño packaging - kala 1-04.jpg', alt: 'Packaging Kala aplicación', orientacion: 'h' },
-          { src: '/trabajo/diseño packaging - kala 1-05.jpg', alt: 'Packaging Kala sistema', orientacion: 'h' },
-          { src: '/trabajo/diseño packaging - kala 1-06.jpg', alt: 'Packaging Kala producción', orientacion: 'v' },
+          { src: '/trabajo/diseno packaging - kala 1-02.jpg', alt: 'Packaging Kala detalle', orientacion: 'h' },
+          { src: '/trabajo/diseno packaging - kala 1-03.jpg', alt: 'Packaging Kala variante', orientacion: 'h' },
+          { src: '/trabajo/diseno packaging - kala 1-04.jpg', alt: 'Packaging Kala aplicación', orientacion: 'h' },
+          { src: '/trabajo/diseno packaging - kala 1-05.jpg', alt: 'Packaging Kala sistema', orientacion: 'h' },
+          { src: '/trabajo/diseno packaging - kala 1-06.jpg', alt: 'Packaging Kala producción', orientacion: 'v' },
         ],
       },
     ],
