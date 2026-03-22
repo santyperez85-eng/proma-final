@@ -21,7 +21,7 @@
       </p>
     </div>
 
-    <form class="contacto-form reveal" action="#" method="POST">
+    <form class="contacto-form reveal" id="contacto-form">
       <div class="form-grid">
         <div class="form-field">
           <label for="nombre" class="type-mono-sm">Nombre</label>
@@ -44,8 +44,13 @@
         <label for="desafio" class="type-mono-sm">Desafío</label>
         <textarea id="desafio" name="desafio" rows="3"></textarea>
       </div>
-      <button type="submit" class="btn-cta contacto-cta" data-cursor-hover>
-        Agendá un diagnóstico
+
+      <!-- Status message -->
+      <div class="form-status" id="form-status" aria-live="polite"></div>
+
+      <button type="submit" class="btn-cta contacto-cta" id="contacto-btn" data-cursor-hover>
+        <span class="btn-text">Agendá un diagnóstico</span>
+        <span class="btn-sending" aria-hidden="true">Enviando...</span>
       </button>
     </form>
   </div>
@@ -156,11 +161,62 @@
     min-height: 60px;
   }
 
+  /* ── Status message ── */
+  .form-status {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+    min-height: 0;
+    overflow: hidden;
+    transition: min-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+
+  .form-status.is-visible {
+    min-height: 20px;
+    opacity: 1;
+  }
+
+  .form-status.is-success {
+    color: #4ade80;
+  }
+
+  .form-status.is-error {
+    color: var(--proma-terra-500);
+  }
+
+  /* ── Submit button states ── */
   .contacto-cta {
     align-self: flex-start;
     padding: var(--space-3) var(--space-8);
     font-size: 11px;
     margin-top: var(--space-2);
+    position: relative;
+  }
+
+  .btn-sending {
+    display: none;
+  }
+
+  .contacto-cta.is-sending .btn-text {
+    display: none;
+  }
+
+  .contacto-cta.is-sending .btn-sending {
+    display: inline;
+  }
+
+  .contacto-cta.is-sending {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .contacto-cta.is-sent {
+    background-color: transparent;
+    border-color: #4ade80;
+    color: #4ade80;
+    pointer-events: none;
   }
 
   @media (max-width: 768px) {
@@ -177,3 +233,70 @@
     }
   }
 </style>
+
+<script>
+  const SUPABASE_URL = 'https://qsqtbyztotiqlskwnpyj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFzcXRieXp0b3RpcWxza3ducHlqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQyMTU3NDEsImV4cCI6MjA4OTc5MTc0MX0.1XDX_VQm_XSBcavV7GvTaOO9XsoCu3bwfkOG1x35hZ8';
+
+  const form = document.getElementById('contacto-form') as HTMLFormElement;
+  const btn = document.getElementById('contacto-btn')!;
+  const status = document.getElementById('form-status')!;
+
+  function showStatus(message: string, type: 'success' | 'error') {
+    status.textContent = message;
+    status.className = `form-status is-visible is-${type}`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Collect form data
+    const data = {
+      nombre: (form.querySelector('#nombre') as HTMLInputElement).value.trim(),
+      empresa: (form.querySelector('#empresa') as HTMLInputElement).value.trim(),
+      industria: (form.querySelector('#industria') as HTMLInputElement).value.trim(),
+      email: (form.querySelector('#email') as HTMLInputElement).value.trim(),
+      desafio: (form.querySelector('#desafio') as HTMLTextAreaElement).value.trim(),
+    };
+
+    // Basic validation
+    if (!data.nombre || !data.email) {
+      showStatus('Completá al menos nombre y email.', 'error');
+      return;
+    }
+
+    // UI: sending state
+    btn.classList.add('is-sending');
+    status.className = 'form-status';
+
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/contacto`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        showStatus('Mensaje enviado. Nos ponemos en contacto pronto.', 'success');
+        btn.classList.remove('is-sending');
+        btn.classList.add('is-sent');
+        (btn.querySelector('.btn-text') as HTMLElement).textContent = 'Enviado ✓';
+        form.reset();
+      } else {
+        const err = await res.json().catch(() => null);
+        console.error('Supabase error:', res.status, err);
+        showStatus('Error al enviar. Intentá de nuevo o escribinos a hola@pro.ma', 'error');
+        btn.classList.remove('is-sending');
+      }
+    } catch (err) {
+      console.error('Network error:', err);
+      showStatus('Error de conexión. Intentá de nuevo.', 'error');
+      btn.classList.remove('is-sending');
+    }
+  });
+</script>
