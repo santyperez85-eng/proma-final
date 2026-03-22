@@ -45,13 +45,13 @@
         <textarea id="desafio" name="desafio" rows="3"></textarea>
       </div>
 
-      <!-- Status message -->
-      <div class="form-status" id="form-status" aria-live="polite"></div>
-
-      <button type="submit" class="btn-cta contacto-cta" id="contacto-btn" data-cursor-hover>
-        <span class="btn-text">Agendá un diagnóstico</span>
-        <span class="btn-sending" aria-hidden="true">Enviando...</span>
-      </button>
+      <div class="form-footer">
+        <button type="submit" class="btn-cta contacto-cta" id="contacto-btn" data-cursor-hover>
+          <span class="btn-text">Agendá un diagnóstico</span>
+          <span class="btn-sending" aria-hidden="true">Enviando...</span>
+        </button>
+        <div class="form-status" id="form-status" aria-live="polite"></div>
+      </div>
     </form>
   </div>
 </section>
@@ -161,38 +161,20 @@
     min-height: 60px;
   }
 
-  /* ── Status message ── */
-  .form-status {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    letter-spacing: 0.04em;
-    line-height: 1.5;
-    min-height: 0;
-    overflow: hidden;
-    transition: min-height 0.3s ease, opacity 0.3s ease;
-    opacity: 0;
-  }
-
-  .form-status.is-visible {
-    min-height: 20px;
-    opacity: 1;
-  }
-
-  .form-status.is-success {
-    color: #4ade80;
-  }
-
-  .form-status.is-error {
-    color: var(--proma-terra-500);
+  /* ── Status + CTA wrapper ── */
+  .form-footer {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-4);
   }
 
   /* ── Submit button states ── */
   .contacto-cta {
-    align-self: flex-start;
     padding: var(--space-3) var(--space-8);
     font-size: 11px;
-    margin-top: var(--space-2);
     position: relative;
+    flex-shrink: 0;
   }
 
   .btn-sending {
@@ -214,9 +196,32 @@
 
   .contacto-cta.is-sent {
     background-color: transparent;
-    border-color: #4ade80;
-    color: #4ade80;
+    border: 1px solid rgba(242, 237, 228, 0.15);
+    color: var(--proma-cream-100);
     pointer-events: none;
+  }
+
+  /* ── Status message ── */
+  .form-status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 1.4;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .form-status.is-visible {
+    opacity: 1;
+  }
+
+  .form-status.is-success {
+    color: var(--proma-cream-100);
+    opacity: 0.5;
+  }
+
+  .form-status.is-error {
+    color: var(--proma-terra-500);
   }
 
   @media (max-width: 768px) {
@@ -282,10 +287,10 @@
       });
 
       if (res.ok) {
-        showStatus('Mensaje enviado. Nos ponemos en contacto pronto.', 'success');
+        showStatus('Recibido. Nos ponemos en contacto pronto.', 'success');
         btn.classList.remove('is-sending');
         btn.classList.add('is-sent');
-        (btn.querySelector('.btn-text') as HTMLElement).textContent = 'Enviado ✓';
+        (btn.querySelector('.btn-text') as HTMLElement).textContent = 'Enviado';
         form.reset();
       } else {
         const err = await res.json().catch(() => null);
