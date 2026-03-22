@@ -1,0 +1,257 @@
+<!-- Lightbox / Slideshow viewer -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-label="Visor de imágenes">
+  <div class="lightbox-backdrop"></div>
+
+  <button class="lightbox-close" aria-label="Cerrar" data-cursor-hover>
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <line x1="2" y1="2" x2="18" y2="18" stroke="currentColor" stroke-width="1.5"/>
+      <line x1="18" y1="2" x2="2" y2="18" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+  </button>
+
+  <button class="lightbox-nav lightbox-prev" aria-label="Imagen anterior" data-cursor-hover>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <polyline points="15,4 7,12 15,20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    </svg>
+  </button>
+
+  <button class="lightbox-nav lightbox-next" aria-label="Imagen siguiente" data-cursor-hover>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <polyline points="9,4 17,12 9,20" stroke="currentColor" stroke-width="1.5" fill="none"/>
+    </svg>
+  </button>
+
+  <div class="lightbox-content">
+    <img id="lightbox-img" class="lightbox-img" src="" alt="" />
+  </div>
+
+  <div class="lightbox-counter">
+    <span class="type-mono-sm">
+      <span id="lightbox-current">1</span>
+      <span class="lightbox-sep">/</span>
+      <span id="lightbox-total">1</span>
+    </span>
+  </div>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .lightbox[aria-hidden="false"] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 15, 0.96);
+    backdrop-filter: blur(24px);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: var(--space-6);
+    right: var(--space-6);
+    z-index: 10;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid rgba(242, 237, 228, 0.1);
+    color: var(--proma-cream-100);
+    cursor: pointer;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .lightbox-close:hover {
+    border-color: var(--proma-terra-500);
+    color: var(--proma-terra-500);
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    width: 48px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid rgba(242, 237, 228, 0.08);
+    color: var(--proma-cream-100);
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+  }
+
+  .lightbox-nav:hover {
+    opacity: 1;
+    border-color: var(--proma-terra-500);
+    color: var(--proma-terra-500);
+  }
+
+  .lightbox-prev { left: var(--space-6); }
+  .lightbox-next { right: var(--space-6); }
+
+  .lightbox-content {
+    position: relative;
+    z-index: 5;
+    max-width: 88vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox-img {
+    max-width: 88vw;
+    max-height: 85vh;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .lightbox-img.loaded {
+    opacity: 1;
+  }
+
+  .lightbox-counter {
+    position: absolute;
+    bottom: var(--space-6);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    color: var(--proma-cream-100);
+    opacity: 0.4;
+  }
+
+  .lightbox-sep {
+    margin: 0 2px;
+    opacity: 0.4;
+  }
+
+  @media (max-width: 768px) {
+    .lightbox-prev { left: var(--space-3); }
+    .lightbox-next { right: var(--space-3); }
+    .lightbox-close { top: var(--space-3); right: var(--space-3); }
+
+    .lightbox-nav {
+      width: 40px;
+      height: 60px;
+    }
+
+    .lightbox-content {
+      max-width: 94vw;
+      max-height: 80vh;
+    }
+
+    .lightbox-img {
+      max-width: 94vw;
+      max-height: 80vh;
+    }
+  }
+</style>
+
+<script>
+  const lightbox = document.getElementById('lightbox')!;
+  const lbImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lbCurrent = document.getElementById('lightbox-current')!;
+  const lbTotal = document.getElementById('lightbox-total')!;
+  const btnClose = lightbox.querySelector('.lightbox-close')!;
+  const btnPrev = lightbox.querySelector('.lightbox-prev')!;
+  const btnNext = lightbox.querySelector('.lightbox-next')!;
+  const backdrop = lightbox.querySelector('.lightbox-backdrop')!;
+
+  interface LbImage { src: string; alt: string; }
+  let images: LbImage[] = [];
+  let currentIdx = 0;
+
+  // Collect all gallery images
+  function init() {
+    images = [];
+    document.querySelectorAll('[data-lightbox]').forEach((el) => {
+      const img = el as HTMLImageElement;
+      images.push({ src: img.dataset.full || img.src, alt: img.alt });
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        const idx = images.findIndex(i => i.src === (img.dataset.full || img.src));
+        open(idx >= 0 ? idx : 0);
+      });
+    });
+  }
+
+  function open(idx: number) {
+    currentIdx = idx;
+    lbTotal.textContent = String(images.length);
+    showImage();
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function showImage() {
+    lbImg.classList.remove('loaded');
+    lbCurrent.textContent = String(currentIdx + 1);
+    const img = images[currentIdx];
+    lbImg.alt = img.alt;
+    lbImg.onload = () => lbImg.classList.add('loaded');
+    lbImg.src = img.src;
+    if (lbImg.complete) lbImg.classList.add('loaded');
+  }
+
+  function prev() {
+    currentIdx = currentIdx > 0 ? currentIdx - 1 : images.length - 1;
+    showImage();
+  }
+
+  function next() {
+    currentIdx = currentIdx < images.length - 1 ? currentIdx + 1 : 0;
+    showImage();
+  }
+
+  btnClose.addEventListener('click', close);
+  btnPrev.addEventListener('click', prev);
+  btnNext.addEventListener('click', next);
+  backdrop.addEventListener('click', close);
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.getAttribute('aria-hidden') === 'true') return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') prev();
+    if (e.key === 'ArrowRight') next();
+  });
+
+  // Touch swipe support
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+
+  lightbox.addEventListener('touchend', (e) => {
+    const diff = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(diff) > 60) {
+      diff > 0 ? prev() : next();
+    }
+  }, { passive: true });
+
+  init();
+</script>

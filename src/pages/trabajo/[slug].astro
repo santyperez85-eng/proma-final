@@ -1,7 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { proyectos, getProyectoAnterior, getSiguienteProyecto } from '../../data/proyectos';
-import type { Imagen } from '../../data/proyectos';
+import Lightbox from '../../components/Lightbox.astro';
+import { proyectos, getProyectoAnterior, getSiguienteProyecto, getTodasLasImagenes } from '../../data/proyectos';
 
 export function getStaticPaths() {
   return proyectos.map((p) => ({
@@ -13,23 +13,11 @@ export function getStaticPaths() {
 const { proyecto } = Astro.props;
 const anterior = getProyectoAnterior(proyecto.slug);
 const siguiente = getSiguienteProyecto(proyecto.slug);
+const todasImagenes = getTodasLasImagenes(proyecto);
 
-// Separate featured from the rest
-const [featured, ...resto] = proyecto.imagenes;
-
-// Build gallery chunks: single → pair → single → pair...
-type Chunk = { type: 'single'; img: Imagen } | { type: 'pair'; imgs: Imagen[] };
-const chunks: Chunk[] = [];
-let j = 0;
-while (j < resto.length) {
-  chunks.push({ type: 'single', img: resto[j] });
-  j++;
-  if (j < resto.length) {
-    const pair = resto.slice(j, Math.min(j + 2, resto.length));
-    chunks.push({ type: 'pair', imgs: pair });
-    j += pair.length;
-  }
-}
+// Build a global image index for lightbox tracking
+let globalIdx = 0;
+function nextIdx() { return globalIdx++; }
 ---
 
 <Base title={`${proyecto.titulo} — pro.ma Studio`}>
@@ -43,7 +31,7 @@ while (j < resto.length) {
     </div>
   </div>
 
-  <!-- ── HERO HEADER ── -->
+  <!-- ── HERO ── -->
   <section class="proyecto-hero" data-mode="dark">
     <div class="glow-terra" aria-hidden="true"></div>
 
@@ -54,76 +42,69 @@ while (j < resto.length) {
       </div>
 
       <h1 class="proyecto-titulo reveal">{proyecto.titulo}</h1>
-      <p class="proyecto-tagline type-body reveal">{proyecto.tagline}</p>
+      <p class="proyecto-tagline reveal">{proyecto.tagline}</p>
 
-      <div class="proyecto-info reveal">
-        <div class="info-block">
-          <h2 class="type-label info-label">Desafío</h2>
-          <p class="type-body info-text">{proyecto.desafio}</p>
+      <div class="proyecto-brief reveal">
+        <div class="brief-block">
+          <h2 class="type-label brief-label">Desafío</h2>
+          <p class="brief-text">{proyecto.desafio}</p>
         </div>
-
-        <div class="info-block">
-          <h2 class="type-label info-label">Decisiones</h2>
-          <ul class="decisiones-list">
-            {proyecto.decisiones.map((d) => (
-              <li class="type-body decisiones-item">{d}</li>
-            ))}
-          </ul>
-        </div>
-
-        <div class="info-block info-resultado">
-          <h2 class="type-label info-label">Resultado</h2>
-          <p class="type-body info-text info-text-resultado">{proyecto.resultado}</p>
+        <div class="brief-block">
+          <h2 class="type-label brief-label">Resultado</h2>
+          <p class="brief-text brief-resultado">{proyecto.resultado}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ── GALLERY ── -->
-  <section class="proyecto-gallery" data-mode="dark">
-    <!-- Featured image: full width, prominent -->
-    <div class="gallery-featured reveal">
+  <!-- ── PORTADA (full width) ── -->
+  <section class="proyecto-portada" data-mode="dark">
+    <div class="portada-frame">
       <img
-        src={featured.src}
-        alt={featured.alt}
-        class="gallery-img"
+        src={proyecto.portada.src}
+        alt={proyecto.portada.alt}
+        class="portada-img"
         loading="eager"
+        data-lightbox
+        data-full={proyecto.portada.src}
       />
     </div>
-
-    <!-- Rest of images in alternating chunks -->
-    {chunks.map((chunk) =>
-      chunk.type === 'single' ? (
-        <div class="gallery-single reveal">
-          <div class="container">
-            <img
-              src={chunk.img.src}
-              alt={chunk.img.alt}
-              class="gallery-img"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      ) : (
-        <div class="gallery-pair reveal">
-          <div class="container">
-            <div class="gallery-pair-grid">
-              {chunk.imgs.map((img) => (
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  class="gallery-img"
-                  loading="lazy"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      )
-    )}
   </section>
 
-  <!-- ── PREV / NEXT NAVIGATION ── -->
+  <!-- ── GALLERY SECTIONS ── -->
+  {proyecto.secciones.map((seccion, sIdx) => (
+    <section class="galeria-seccion" data-mode="dark">
+      <div class="container">
+        <!-- Section context -->
+        <div class="seccion-context reveal">
+          <div class="seccion-context-line" aria-hidden="true"></div>
+          <div class="seccion-context-content">
+            <span class="type-mono-sm seccion-idx">{String(sIdx + 1).padStart(2, '0')}</span>
+            <h3 class="seccion-titulo">{seccion.titulo}</h3>
+            <p class="seccion-texto">{seccion.texto}</p>
+          </div>
+        </div>
+
+        <!-- Images grid -->
+        <div class="seccion-grid">
+          {seccion.imagenes.map((img) => (
+            <div class={`grid-item ${img.orientacion === 'v' ? 'grid-item-v' : 'grid-item-h'}`}>
+              <img
+                src={img.src}
+                alt={img.alt}
+                class="grid-img"
+                loading="lazy"
+                data-lightbox
+                data-full={img.src}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <!-- ── PREV / NEXT ── -->
   <nav class="proyecto-nav" data-mode="dark" aria-label="Navegación entre proyectos">
     <div class="proyecto-nav-inner">
       <div class="nav-slot nav-prev">
@@ -143,7 +124,7 @@ while (j < resto.length) {
 
       <div class="nav-slot nav-next">
         {siguiente ? (
-          <a href={`/trabajo/${siguiente.slug}`} class="nav-proyecto-link nav-proyecto-link-next" data-cursor-hover>
+          <a href={`/trabajo/${siguiente.slug}`} class="nav-proyecto-link nav-link-next" data-cursor-hover>
             <span class="type-mono-sm nav-dir">Siguiente →</span>
             <span class="type-mono-sm nav-proyecto-ref">{siguiente.ref}</span>
             <span class="nav-proyecto-titulo">{siguiente.titulo}</span>
@@ -155,19 +136,20 @@ while (j < resto.length) {
       </div>
     </div>
   </nav>
+
+  <Lightbox />
 </Base>
 
 <style>
   /* ── Back nav ── */
   .proyecto-back {
-    background-color: var(--proma-navy-900);
+    background-color: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(242, 237, 228, 0.05);
     padding: var(--space-4) 0;
     position: sticky;
-    top: 64px; /* below main nav */
+    top: 64px;
     z-index: 50;
-    backdrop-filter: blur(12px);
-    background-color: rgba(10, 10, 15, 0.85);
   }
 
   .back-link {
@@ -175,9 +157,8 @@ while (j < resto.length) {
     align-items: center;
     gap: var(--space-3);
     color: var(--proma-cream-100);
-    opacity: 0.4;
+    opacity: 0.5;
     transition: opacity 0.3s ease, color 0.3s ease;
-    text-decoration: none;
   }
 
   .back-link:hover {
@@ -187,7 +168,7 @@ while (j < resto.length) {
 
   .back-arrow {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 14px;
     transition: transform 0.3s ease;
   }
 
@@ -205,7 +186,7 @@ while (j < resto.length) {
   .proyecto-hero {
     background-color: var(--proma-navy-900);
     color: var(--proma-cream-100);
-    padding: clamp(64px, 8vh, 120px) 0 clamp(48px, 6vh, 96px);
+    padding: clamp(48px, 6vh, 96px) 0 clamp(40px, 5vh, 80px);
     position: relative;
     overflow: hidden;
   }
@@ -252,124 +233,164 @@ while (j < resto.length) {
     font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1;
+    color: var(--proma-cream-100);
     margin-bottom: var(--space-4);
   }
 
   .proyecto-tagline {
-    font-size: 15px;
-    opacity: 0.4;
-    max-width: 480px;
-    margin-bottom: clamp(40px, 5vh, 80px);
-    line-height: 1.6;
+    font-family: var(--font-primary);
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--proma-cream-100);
+    opacity: 0.5;
+    max-width: 520px;
+    margin-bottom: clamp(40px, 5vh, 72px);
+    line-height: 1.5;
   }
 
-  .proyecto-info {
+  /* ── Brief (desafío + resultado) ── */
+  .proyecto-brief {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: clamp(24px, 4vw, 64px);
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 5vw, 64px);
     padding-top: var(--space-8);
-    border-top: 1px solid rgba(242, 237, 228, 0.08);
+    border-top: 1px solid rgba(242, 237, 228, 0.1);
   }
 
-  .info-block {
+  .brief-block {
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
   }
 
-  .info-label {
+  .brief-label {
     color: var(--proma-terra-500);
-    font-size: 9px;
+    font-size: 10px;
     letter-spacing: 0.12em;
     padding-bottom: var(--space-2);
-    border-bottom: 1px solid rgba(242, 237, 228, 0.08);
+    border-bottom: 1px solid rgba(242, 237, 228, 0.1);
   }
 
-  .info-text {
-    font-size: 14px;
+  .brief-text {
+    font-family: var(--font-primary);
+    font-size: 15px;
     line-height: 1.75;
-    opacity: 0.55;
+    color: var(--proma-cream-100);
+    opacity: 0.65;
   }
 
-  .info-text-resultado {
-    opacity: 0.8;
+  .brief-resultado {
+    opacity: 0.85;
     font-weight: 500;
-    font-size: 14px;
-    line-height: 1.7;
   }
 
-  .decisiones-list {
+  /* ── Portada ── */
+  .proyecto-portada {
+    background-color: var(--proma-navy-900);
+    padding: 0 0 clamp(8px, 1vw, 16px);
+  }
+
+  .portada-frame {
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+
+  .portada-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    cursor: zoom-in;
+  }
+
+  /* ── Gallery sections ── */
+  .galeria-seccion {
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    padding: clamp(48px, 5vh, 80px) 0;
+  }
+
+  /* Section context block */
+  .seccion-context {
+    display: flex;
+    gap: var(--space-6);
+    margin-bottom: clamp(32px, 4vh, 56px);
+    align-items: flex-start;
+  }
+
+  .seccion-context-line {
+    width: 3px;
+    min-height: 60px;
+    background: var(--proma-terra-500);
+    flex-shrink: 0;
+    margin-top: 4px;
+    opacity: 0.6;
+  }
+
+  .seccion-context-content {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    max-width: 560px;
   }
 
-  .decisiones-item {
-    font-size: 13px;
-    line-height: 1.65;
-    opacity: 0.55;
-    padding-left: var(--space-4);
-    position: relative;
+  .seccion-idx {
+    color: var(--proma-terra-500);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    opacity: 0.6;
   }
 
-  .decisiones-item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 9px;
-    width: 6px;
-    height: 1px;
-    background: var(--proma-terra-500);
+  .seccion-titulo {
+    font-family: var(--font-primary);
+    font-size: clamp(20px, 2.5vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--proma-cream-100);
   }
 
-  /* ── Gallery ── */
-  .proyecto-gallery {
-    background-color: var(--proma-navy-900);
-    padding-bottom: var(--space-24);
+  .seccion-texto {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--proma-cream-100);
+    opacity: 0.5;
   }
 
-  .gallery-featured {
-    width: 100%;
-    margin-bottom: clamp(16px, 2vw, 32px);
-  }
-
-  .gallery-featured .gallery-img {
-    width: 100%;
-    max-height: 90vh;
-    object-fit: contain;
-    display: block;
-  }
-
-  .gallery-single {
-    margin-bottom: clamp(12px, 1.5vw, 24px);
-  }
-
-  .gallery-single .gallery-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  .gallery-pair {
-    margin-bottom: clamp(12px, 1.5vw, 24px);
-  }
-
-  .gallery-pair-grid {
+  /* Images grid */
+  .seccion-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: clamp(8px, 1vw, 16px);
+    gap: clamp(6px, 0.8vw, 12px);
   }
 
-  .gallery-pair-grid .gallery-img {
+  .grid-item {
+    overflow: hidden;
+    background-color: var(--proma-navy-800);
+  }
+
+  .grid-item-h {
+    aspect-ratio: 16 / 9;
+  }
+
+  .grid-item-v {
+    aspect-ratio: 3 / 4;
+  }
+
+  .grid-img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
+    cursor: zoom-in;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* ── Project navigation ── */
+  .grid-item:hover .grid-img {
+    transform: scale(1.03);
+  }
+
+  /* ── Prev/Next nav ── */
   .proyecto-nav {
     background-color: var(--proma-navy-800);
     border-top: 1px solid rgba(242, 237, 228, 0.06);
@@ -401,9 +422,8 @@ while (j < resto.length) {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    text-decoration: none;
     color: var(--proma-cream-100);
-    transition: all 0.3s ease;
+    transition: color 0.3s ease;
     max-width: 320px;
   }
 
@@ -442,7 +462,6 @@ while (j < resto.length) {
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    transition: color 0.3s ease;
   }
 
   .nav-proyecto-tipo {
@@ -458,14 +477,9 @@ while (j < resto.length) {
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
-    .proyecto-info {
+    .proyecto-brief {
       grid-template-columns: 1fr;
       gap: var(--space-8);
-    }
-
-    .info-resultado {
-      padding-top: var(--space-6);
-      border-top: 1px solid rgba(242, 237, 228, 0.06);
     }
   }
 
@@ -474,8 +488,24 @@ while (j < resto.length) {
       top: 60px;
     }
 
-    .gallery-pair-grid {
+    .seccion-grid {
       grid-template-columns: 1fr;
+    }
+
+    .grid-item-h,
+    .grid-item-v {
+      aspect-ratio: 16 / 9;
+    }
+
+    .seccion-context {
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .seccion-context-line {
+      width: 40px;
+      min-height: 3px;
+      height: 3px;
     }
 
     .proyecto-nav-inner {

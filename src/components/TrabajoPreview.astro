@@ -18,7 +18,7 @@ const casos = proyectos;
 
     <div class="trabajo-grid">
       {casos.map((caso, i) => {
-        const portada = caso.imagenes.find(img => img.destacada) || caso.imagenes[0];
+        const portada = caso.portada;
         return (
           <a href={`/trabajo/${caso.slug}`} class="trabajo-card reveal" data-cursor-hover>
             <div class="trabajo-card-img">

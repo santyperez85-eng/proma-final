@@ -25,41 +25,35 @@ import { proyectos } from '../data/proyectos';
   <!-- ── LISTING ── -->
   <section class="trabajo-listing" data-mode="dark">
     <div class="container">
-      {proyectos.map((p, i) => {
-        const portada = p.imagenes.find(img => img.destacada) || p.imagenes[0];
-        return (
-          <a
-            href={`/trabajo/${p.slug}`}
-            class={`proyecto-row reveal ${i < proyectos.length - 1 ? 'proyecto-row-bordered' : ''}`}
-            data-cursor-hover
-          >
-            <div class="proyecto-row-img">
-              <img
-                src={portada.src}
-                alt={portada.alt}
-                class="proyecto-cover"
-                loading={i === 0 ? 'eager' : 'lazy'}
-              />
-              <div class="proyecto-row-overlay" aria-hidden="true">
-                <span class="type-mono-sm overlay-ref">{p.ref}</span>
-              </div>
-            </div>
+      {proyectos.map((p, i) => (
+        <a
+          href={`/trabajo/${p.slug}`}
+          class={`proyecto-row reveal ${i < proyectos.length - 1 ? 'proyecto-row-bordered' : ''}`}
+          data-cursor-hover
+        >
+          <div class="proyecto-row-img">
+            <img
+              src={p.portada.src}
+              alt={p.portada.alt}
+              class="proyecto-cover"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+          </div>
 
-            <div class="proyecto-row-info">
-              <div class="proyecto-row-meta">
-                <span class="type-mono-sm row-ref">{p.ref}</span>
-                <span class="row-tipo type-label">{p.tipo}</span>
-              </div>
-              <h2 class="proyecto-row-titulo">{p.titulo}</h2>
-              <p class="proyecto-row-tagline type-body">{p.tagline}</p>
-              <span class="proyecto-row-cta">
-                Ver proyecto
-                <span class="row-arrow" aria-hidden="true">———→</span>
-              </span>
+          <div class="proyecto-row-info">
+            <div class="proyecto-row-meta">
+              <span class="type-mono-sm row-ref">{p.ref}</span>
+              <span class="row-tipo type-label">{p.tipo}</span>
             </div>
-          </a>
-        );
-      })}
+            <h2 class="proyecto-row-titulo">{p.titulo}</h2>
+            <p class="proyecto-row-tagline">{p.tagline}</p>
+            <span class="proyecto-row-cta">
+              <span>Ver proyecto</span>
+              <span class="row-arrow" aria-hidden="true">→</span>
+            </span>
+          </div>
+        </a>
+      ))}
     </div>
   </section>
 
@@ -111,6 +105,7 @@ import { proyectos } from '../data/proyectos';
     font-weight: 700;
     letter-spacing: -0.04em;
     line-height: 1;
+    color: var(--proma-cream-100);
   }
 
   .trabajo-hero-italic {
@@ -124,7 +119,8 @@ import { proyectos } from '../data/proyectos';
   .text-accent { color: var(--proma-terra-500); }
 
   .trabajo-hero-sub {
-    opacity: 0.4;
+    color: var(--proma-cream-100);
+    opacity: 0.45;
     max-width: 440px;
     font-size: 15px;
     line-height: 1.7;
@@ -139,17 +135,17 @@ import { proyectos } from '../data/proyectos';
 
   .proyecto-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(32px, 5vw, 80px);
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(32px, 5vw, 72px);
     align-items: center;
-    padding: clamp(48px, 6vh, 80px) 0;
+    padding: clamp(48px, 6vh, 72px) 0;
     text-decoration: none;
     color: var(--proma-cream-100);
     position: relative;
   }
 
   .proyecto-row-bordered {
-    border-bottom: 1px solid rgba(242, 237, 228, 0.06);
+    border-bottom: 1px solid rgba(242, 237, 228, 0.08);
   }
 
   /* Alternate image/text position */
@@ -169,7 +165,7 @@ import { proyectos } from '../data/proyectos';
 
   .proyecto-cover {
     width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     object-fit: cover;
     display: block;
     transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
@@ -179,34 +175,7 @@ import { proyectos } from '../data/proyectos';
     transform: scale(1.03);
   }
 
-  .proyecto-row-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 10, 15, 0);
-    transition: background 0.4s ease;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    padding: var(--space-4);
-  }
-
-  .overlay-ref {
-    color: var(--proma-terra-500);
-    font-size: 9px;
-    letter-spacing: 0.1em;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .proyecto-row:hover .proyecto-row-overlay {
-    background: rgba(10, 10, 15, 0.15);
-  }
-
-  .proyecto-row:hover .overlay-ref {
-    opacity: 0.6;
-  }
-
-  /* ── Info ── */
+  /* ── Info (VISIBLE) ── */
   .proyecto-row-info {
     display: flex;
     flex-direction: column;
@@ -221,7 +190,7 @@ import { proyectos } from '../data/proyectos';
 
   .row-ref {
     color: var(--proma-terra-500);
-    font-size: 10px;
+    font-size: 11px;
     letter-spacing: 0.1em;
   }
 
@@ -229,16 +198,17 @@ import { proyectos } from '../data/proyectos';
     color: var(--proma-terra-500);
     font-size: 9px;
     letter-spacing: 0.12em;
-    padding: 2px var(--space-2);
-    border: 1px solid rgba(212, 82, 26, 0.35);
+    padding: 3px var(--space-2);
+    border: 1px solid rgba(212, 82, 26, 0.4);
   }
 
   .proyecto-row-titulo {
     font-family: var(--font-primary);
-    font-size: clamp(28px, 3.5vw, 52px);
+    font-size: clamp(28px, 3.5vw, 48px);
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.05;
+    color: var(--proma-cream-100);
     transition: color 0.3s ease;
   }
 
@@ -247,9 +217,11 @@ import { proyectos } from '../data/proyectos';
   }
 
   .proyecto-row-tagline {
-    font-size: 14px;
-    line-height: 1.7;
-    opacity: 0.45;
+    font-family: var(--font-primary);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--proma-cream-100);
+    opacity: 0.55;
     max-width: 380px;
   }
 
@@ -258,19 +230,19 @@ import { proyectos } from '../data/proyectos';
     align-items: center;
     gap: var(--space-3);
     font-family: var(--font-primary);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--proma-cream-100);
-    opacity: 0.35;
+    opacity: 0.45;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     margin-top: var(--space-2);
   }
 
   .row-arrow {
+    font-family: var(--font-mono);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    letter-spacing: 0;
   }
 
   .proyecto-row:hover .proyecto-row-cta {
@@ -279,7 +251,7 @@ import { proyectos } from '../data/proyectos';
   }
 
   .proyecto-row:hover .row-arrow {
-    transform: translateX(8px);
+    transform: translateX(6px);
   }
 
   /* ── CTA section ── */
@@ -303,6 +275,7 @@ import { proyectos } from '../data/proyectos';
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.1;
+    color: var(--proma-cream-100);
   }
 
   .trabajo-cta-italic {
