@@ -135,6 +135,11 @@
   .hero-line {
     display: block;
     overflow: hidden;
+    animation: heroLineClip 0s 1.8s forwards;
+  }
+
+  @keyframes heroLineClip {
+    to { overflow: visible; }
   }
 
   .hero-line-indent {
