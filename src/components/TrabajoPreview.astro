@@ -1,10 +1,6 @@
 ---
-const casos = [
-  { titulo: 'Sistema de packaging regulatorio', tipo: 'PACKAGING' },
-  { titulo: 'Identidad visual integral', tipo: 'BRANDING' },
-  { titulo: 'Plataforma digital de producto', tipo: 'WEB' },
-  { titulo: 'Manual de sistema gráfico', tipo: 'BRANDING' },
-];
+import { proyectos } from '../data/proyectos';
+const casos = proyectos;
 ---
 
 <section class="trabajo-preview section" data-mode="dark">
@@ -21,20 +17,24 @@ const casos = [
     </header>
 
     <div class="trabajo-grid">
-      {casos.map((caso, i) => (
-        <article class="trabajo-card reveal" data-cursor-hover>
-          <div class="trabajo-card-img">
-            <span class="trabajo-fig type-mono-sm">FIG. {String(i + 1).padStart(2, '0')}</span>
-            <div class="trabajo-card-overlay">
-              <span class="type-mono-sm">{caso.tipo}</span>
+      {casos.map((caso, i) => {
+        const portada = caso.imagenes.find(img => img.destacada) || caso.imagenes[0];
+        return (
+          <a href={`/trabajo/${caso.slug}`} class="trabajo-card reveal" data-cursor-hover>
+            <div class="trabajo-card-img">
+              <img src={portada.src} alt={portada.alt} class="trabajo-card-cover" loading="lazy" />
+              <span class="trabajo-fig type-mono-sm">{caso.ref}</span>
+              <div class="trabajo-card-overlay">
+                <span class="type-mono-sm">{caso.tipo}</span>
+              </div>
             </div>
-          </div>
-          <div class="trabajo-card-info">
-            <h3 class="trabajo-card-title">{caso.titulo}</h3>
-            <span class="trabajo-card-arrow" aria-hidden="true">→</span>
-          </div>
-        </article>
-      ))}
+            <div class="trabajo-card-info">
+              <h3 class="trabajo-card-title">{caso.titulo}</h3>
+              <span class="trabajo-card-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        );
+      })}
     </div>
 
     <div class="trabajo-cta-row reveal">
@@ -103,6 +103,8 @@ const casos = [
     flex-direction: column;
     gap: var(--space-4);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    text-decoration: none;
+    color: var(--proma-cream-100);
   }
 
   .trabajo-card:hover {
@@ -116,9 +118,19 @@ const casos = [
     position: relative;
     overflow: hidden;
     transition: border-color 0.4s ease;
-    /* Glassmorphism */
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(2px);
+  }
+
+  .trabajo-card-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .trabajo-card:hover .trabajo-card-cover {
+    transform: scale(1.04);
   }
 
   .trabajo-card:hover .trabajo-card-img {
