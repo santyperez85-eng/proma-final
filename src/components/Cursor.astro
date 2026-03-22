@@ -7,7 +7,6 @@
 </div>
 
 <style is:global>
-  /* Hide default cursor on desktop */
   @media (hover: hover) and (pointer: fine) {
     * {
       cursor: none !important;
@@ -23,6 +22,8 @@
     left: 0;
     z-index: 9999;
     pointer-events: none;
+    /* Blend mode on CONTAINER — blends everything inside against the page */
+    mix-blend-mode: difference;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -35,60 +36,51 @@
     position: absolute;
     width: 6px;
     height: 6px;
-    background: var(--proma-cream-100);
+    background: #fff;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: transform 0.15s ease, opacity 0.15s ease;
-    mix-blend-mode: difference;
   }
 
   .cursor-ring {
     position: absolute;
     width: 32px;
     height: 32px;
-    border: 1px solid var(--proma-cream-100);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1),
                 height 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-                border-color 0.3s ease,
-                background-color 0.3s ease,
-                opacity 0.3s ease;
-    mix-blend-mode: difference;
+                background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease;
   }
 
-  /* ── Hover: interactive elements ── */
-  .cursor.is-hovering .cursor-ring {
-    width: 56px;
-    height: 56px;
-    border-color: var(--proma-terra-500);
-    background-color: rgba(212, 82, 26, 0.1);
-  }
-
-  .cursor.is-hovering .cursor-dot {
-    transform: translate(-50%, -50%) scale(0);
-  }
-
-  /* ── Content hover: invert/umbral effect ── */
+  /* ── Content hover: UMBRAL — white fill inverts what's underneath ── */
   .cursor.is-content .cursor-ring {
     width: 80px;
     height: 80px;
     background-color: #fff;
     border-color: transparent;
-    mix-blend-mode: difference;
   }
 
   .cursor.is-content .cursor-dot {
     opacity: 0;
   }
 
-  /* When both hovering and content, interactive wins */
-  .cursor.is-hovering.is-content .cursor-ring {
+  /* ── Interactive hover: disable inversion, show solid orange state ── */
+  .cursor.is-hovering {
+    mix-blend-mode: normal; /* ← key: turns OFF inversion on interactive elements */
+  }
+
+  .cursor.is-hovering .cursor-ring {
     width: 56px;
     height: 56px;
     border-color: var(--proma-terra-500);
-    background-color: rgba(212, 82, 26, 0.1);
-    mix-blend-mode: difference;
+    background-color: rgba(212, 82, 26, 0.12);
+  }
+
+  .cursor.is-hovering .cursor-dot {
+    transform: translate(-50%, -50%) scale(0);
   }
 </style>
 
@@ -109,7 +101,6 @@
     dot.style.top = `${mouseY}px`;
   });
 
-  // Ring follows with lerp
   function animateRing() {
     ringX += (mouseX - ringX) * 0.15;
     ringY += (mouseY - ringY) * 0.15;
@@ -119,7 +110,7 @@
   }
   animateRing();
 
-  // Interactive hover detection
+  // ── Interactive elements (buttons, links) ──
   const interactives = 'a, button, input, textarea, [data-cursor-hover]';
 
   document.addEventListener('mouseover', (e) => {
@@ -134,8 +125,9 @@
     }
   });
 
-  // Content hover — umbral invert effect on headings, text blocks, titles
-  const contentSelectors = 'h1, h2, h3, h4, h5, h6, .proyecto-titulo, .trabajo-hero-title, .seccion-titulo, .proyecto-row-titulo, .hero-title, .problema-lead, .problema-conclusion, .estudio-title, .trabajo-title, .contacto-title, .footer-statement, .servicio-nombre, .pilar-nombre, .caso-titulo';
+  // ── Content elements: headings and titles (umbral invert) ──
+  // Only fire when NOT inside an interactive element
+  const contentSelectors = 'h1, h2, h3, h4, h5, h6, p, .problema-lead, .problema-conclusion, .footer-statement';
 
   document.addEventListener('mouseover', (e) => {
     const target = e.target as Element;
@@ -151,7 +143,7 @@
     }
   });
 
-  // Hide cursor when leaving window
+  // ── Visibility ──
   document.addEventListener('mouseleave', () => {
     cursor.style.opacity = '0';
   });
