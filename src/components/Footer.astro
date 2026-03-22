@@ -19,11 +19,11 @@
 
       <div class="footer-col">
         <ul class="footer-links">
-          <li><a href="#servicios">Diagnóstico & Consultoría</a></li>
-          <li><a href="#servicios">Packaging</a></li>
-          <li><a href="#servicios">Branding</a></li>
-          <li><a href="#servicios">Web & Aplicaciones</a></li>
-          <li><a href="#servicios">Mantenimiento & Retainer</a></li>
+          <li><a href="/#servicios">Diagnóstico & Consultoría</a></li>
+          <li><a href="/#servicios">Packaging</a></li>
+          <li><a href="/#servicios">Branding</a></li>
+          <li><a href="/#servicios">Web & Aplicaciones</a></li>
+          <li><a href="/#servicios">Mantenimiento & Retainer</a></li>
         </ul>
       </div>
 
@@ -53,15 +53,36 @@
     color: var(--proma-cream-100);
     border-top: 1px solid var(--proma-navy-700);
     padding: clamp(80px, 10vh, 120px) 0 var(--space-10);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    left: 30%;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(212, 82, 26, 0.05) 0%,
+      rgba(212, 82, 26, 0.02) 35%,
+      transparent 65%
+    );
+    pointer-events: none;
   }
 
   .footer-statement {
-    margin-bottom: clamp(48px, 6vh, 80px);
+    margin-bottom: clamp(64px, 10vh, 140px);
+    padding: clamp(40px, 6vh, 80px) 0;
+    position: relative;
+    z-index: 1;
   }
 
   .footer-statement-text {
     font-family: var(--font-primary);
-    font-size: clamp(28px, 3.5vw, 44px);
+    font-size: clamp(32px, 4.5vw, 56px);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.15;

@@ -125,9 +125,9 @@
     }
   });
 
-  // ── Content elements: headings and titles (umbral invert) ──
+  // ── Content elements: ALL text (umbral invert) ──
   // Only fire when NOT inside an interactive element
-  const contentSelectors = 'h1, h2, h3, h4, h5, h6, p, .problema-lead, .problema-conclusion, .footer-statement';
+  const contentSelectors = 'h1, h2, h3, h4, h5, h6, p, span, li, blockquote, em, strong, .problema-lead, .problema-conclusion, .footer-statement, .type-body, .type-label, .type-mono-sm, .type-mono-md, .type-mono-lg, .seccion-titulo, .seccion-texto, .pilar-nombre, .pilar-desc, .brief-text, .proyecto-tagline, .conclusion-line, .footer-statement-text';
 
   document.addEventListener('mouseover', (e) => {
     const target = e.target as Element;

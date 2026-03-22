@@ -14,12 +14,12 @@
       <div class="problema-accent-bar reveal-line"></div>
       <div class="problema-texts" id="problema-scroll-reveal">
         <p class="type-body problema-text scroll-reveal-text">
-          Retrabajos que se repiten. Cambios sin registro.<br />
+          Retrabajos que se repiten. Cambios sin registro.
           Aprobaciones sin criterio. Entregas que vuelven.
         </p>
 
         <p class="type-body problema-text scroll-reveal-text">
-          No es un problema de talento.<br />
+          No es un problema de talento.
           <strong>Es un problema de sistema.</strong>
         </p>
 
@@ -112,13 +112,18 @@
 
   .problema-text {
     color: var(--proma-cream-100);
-    opacity: 0.15;
     font-size: 15px;
     line-height: 1.8;
-    transition: opacity 0.1s ease-out;
   }
 
-  .problema-text.is-revealed {
+  /* Word-by-word reveal: each word starts muted */
+  .problema-text :global(.reveal-word) {
+    color: var(--proma-cream-100);
+    opacity: 0.15;
+    transition: opacity 0.05s ease-out;
+  }
+
+  .problema-text :global(.reveal-word.is-lit) {
     opacity: 1;
   }
 
@@ -127,9 +132,18 @@
     font-weight: 600;
   }
 
+  .problema-text strong :global(.reveal-word.is-lit) {
+    opacity: 1;
+  }
+
   .problema-text em {
     color: var(--proma-terra-500);
     font-style: normal;
+  }
+
+  .problema-text em :global(.reveal-word.is-lit) {
+    color: var(--proma-terra-500);
+    opacity: 1;
   }
 
   .problema-conclusion {
@@ -182,36 +196,45 @@
 
 <script>
   function initProblemaScrollReveal() {
-    const texts = document.querySelectorAll('.scroll-reveal-text');
-    if (!texts.length) return;
+    const paragraphs = document.querySelectorAll('.scroll-reveal-text');
+    if (!paragraphs.length) return;
+
+    // Wrap each text node's words in spans, preserving existing HTML elements
+    paragraphs.forEach((p) => {
+      wrapWordsInElement(p as HTMLElement);
+    });
+
+    const allWords = document.querySelectorAll('.reveal-word');
+    const totalWords = allWords.length;
 
     function updateReveal() {
       const viewportHeight = window.innerHeight;
+      const container = document.getElementById('problema-scroll-reveal');
+      if (!container) return;
 
-      texts.forEach((el) => {
-        const rect = el.getBoundingClientRect();
-        // Start revealing when element enters bottom 85% of viewport
-        // Fully revealed when element reaches 45% of viewport
-        const startPoint = viewportHeight * 0.85;
-        const endPoint = viewportHeight * 0.45;
+      const rect = container.getBoundingClientRect();
+      // The reveal zone: from when container enters bottom 90% to when it's at 25%
+      const startPoint = viewportHeight * 0.95;
+      const endPoint = viewportHeight * 0.2;
+      const range = startPoint - endPoint;
 
-        if (rect.top <= startPoint && rect.top >= endPoint) {
-          // Map position to 0–1 progress
-          const progress = 1 - (rect.top - endPoint) / (startPoint - endPoint);
-          const opacity = 0.15 + progress * 0.85;
-          (el as HTMLElement).style.opacity = String(opacity);
-          el.classList.toggle('is-revealed', progress >= 0.95);
-        } else if (rect.top < endPoint) {
-          (el as HTMLElement).style.opacity = '1';
-          el.classList.add('is-revealed');
+      // Calculate overall progress based on container position
+      // Use center-ish of container for smoother tracking
+      const containerProgress = 1 - (rect.top - endPoint) / range;
+      const clampedProgress = Math.max(0, Math.min(1, containerProgress));
+
+      // Map progress to word index — binary: word is either lit or not
+      const litCount = Math.floor(clampedProgress * totalWords);
+
+      allWords.forEach((word, i) => {
+        if (i < litCount) {
+          word.classList.add('is-lit');
         } else {
-          (el as HTMLElement).style.opacity = '0.15';
-          el.classList.remove('is-revealed');
+          word.classList.remove('is-lit');
         }
       });
     }
 
-    // Use requestAnimationFrame for smooth scroll performance
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
@@ -223,8 +246,35 @@
       }
     }, { passive: true });
 
-    // Initial check
     updateReveal();
+  }
+
+  // Recursively wrap text nodes in word spans, preserving child elements
+  function wrapWordsInElement(el: HTMLElement) {
+    const children = Array.from(el.childNodes);
+    children.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node.textContent || '';
+        if (text.trim() === '') return;
+        const fragment = document.createDocumentFragment();
+        // Split preserving whitespace
+        const parts = text.split(/(\s+)/);
+        parts.forEach((part) => {
+          if (part.match(/^\s+$/)) {
+            fragment.appendChild(document.createTextNode(part));
+          } else if (part.length > 0) {
+            const span = document.createElement('span');
+            span.className = 'reveal-word';
+            span.textContent = part;
+            fragment.appendChild(span);
+          }
+        });
+        el.replaceChild(fragment, node);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        // Recurse into child elements (strong, em, etc.)
+        wrapWordsInElement(node as HTMLElement);
+      }
+    });
   }
 
   initProblemaScrollReveal();

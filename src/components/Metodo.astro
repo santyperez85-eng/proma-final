@@ -3,18 +3,38 @@ const pilares = [
   {
     nombre: 'Calidad',
     descripcion: 'Criterios de aceptación antes de empezar.',
+    detalle: [
+      { label: 'Principio', text: 'Nada sale sin criterios de aceptación definidos previamente. Si no sabemos qué es "correcto", no podemos diseñar.' },
+      { label: 'En práctica', text: 'Antes de cada entrega definimos qué significa "aprobado". Métricas de legibilidad, consistencia cromática, respeto de grilla y alineación a la estrategia de marca.' },
+      { label: 'Resultado', text: 'Menos rondas de revisión. Menos subjetividad. Más velocidad real.' },
+    ],
   },
   {
     nombre: 'Documentación',
     descripcion: 'Todo registrado. Si no está documentado, no existe.',
+    detalle: [
+      { label: 'Principio', text: 'Cada decisión de diseño queda registrada: por qué se eligió, qué se descartó y bajo qué criterio. Si no está documentado, no existe.' },
+      { label: 'En práctica', text: 'Manuales de sistema, registros de cambios, bitácoras de proyecto. Cada versión tiene trazabilidad completa.' },
+      { label: 'Resultado', text: 'Cualquier persona del equipo puede retomar un proyecto sin perder contexto. La memoria está en el sistema, no en las personas.' },
+    ],
   },
   {
     nombre: 'Proceso',
     descripcion: 'Flujos claros, responsables y plazos reales.',
+    detalle: [
+      { label: 'Principio', text: 'Diseño sin proceso es improvisación disfrazada de creatividad. Cada proyecto tiene flujos definidos, responsables asignados y plazos reales.' },
+      { label: 'En práctica', text: 'Kickoff estructurado, checkpoints de revisión, entregables con fecha y responsable. Nada queda "para después".' },
+      { label: 'Resultado', text: 'Proyectos que avanzan sin depender de la urgencia. Cumplimiento real de timelines.' },
+    ],
   },
   {
     nombre: 'Inteligencia',
     descripcion: 'IA como motor de precisión, no como decoración.',
+    detalle: [
+      { label: 'Principio', text: 'La inteligencia artificial amplifica el criterio humano. No reemplaza al diseñador — potencia su capacidad de análisis y ejecución.' },
+      { label: 'En práctica', text: 'IA para auditoría de consistencia, generación de variantes controladas, optimización de assets y análisis de sistemas gráficos existentes.' },
+      { label: 'Resultado', text: 'Mayor precisión en menos tiempo. El criterio humano gobierna, la inteligencia artificial ejecuta.' },
+    ],
   },
 ];
 ---
@@ -31,13 +51,27 @@ const pilares = [
 
     <div class="metodo-grid">
       {pilares.map((p, i) => (
-        <div class="pilar-item reveal" data-cursor-hover>
+        <div class="pilar-item reveal" data-pilar-toggle>
           <div class="pilar-top">
             <span class="type-mono-sm pilar-index">{String(i + 1).padStart(2, '0')}</span>
             <div class="pilar-bar"></div>
           </div>
           <h3 class="pilar-nombre">{p.nombre}</h3>
           <p class="type-body pilar-desc">{p.descripcion}</p>
+          <div class="pilar-expand-icon" aria-hidden="true">
+            <span class="expand-line expand-h"></span>
+            <span class="expand-line expand-v"></span>
+          </div>
+          <div class="pilar-detail">
+            <div class="pilar-detail-inner">
+              {p.detalle.map((d) => (
+                <div class="detail-block">
+                  <span class="type-mono-sm detail-label">{d.label}</span>
+                  <p class="type-body detail-text">{d.text}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       ))}
     </div>
@@ -98,11 +132,17 @@ const pilares = [
     border: 1px solid var(--proma-cream-200);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+    cursor: pointer;
+    overflow: hidden;
   }
 
   .pilar-item:hover {
     border-color: var(--proma-terra-500);
     transform: translateY(-4px);
+  }
+
+  .pilar-item.is-expanded {
+    border-color: var(--proma-terra-500);
   }
 
   .pilar-top {
@@ -121,7 +161,8 @@ const pilares = [
   }
 
   .pilar-item.is-visible .pilar-bar,
-  .pilar-item:hover .pilar-bar {
+  .pilar-item:hover .pilar-bar,
+  .pilar-item.is-expanded .pilar-bar {
     transform: scaleX(1);
   }
 
@@ -139,7 +180,8 @@ const pilares = [
     transition: color 0.3s ease;
   }
 
-  .pilar-item:hover .pilar-nombre {
+  .pilar-item:hover .pilar-nombre,
+  .pilar-item.is-expanded .pilar-nombre {
     color: var(--proma-terra-500);
   }
 
@@ -147,6 +189,80 @@ const pilares = [
     opacity: 0.5;
     font-size: 14px;
     line-height: 1.7;
+  }
+
+  /* ── Expand icon ── */
+  .pilar-expand-icon {
+    position: absolute;
+    top: var(--space-6);
+    right: var(--space-6);
+    width: 16px;
+    height: 16px;
+  }
+
+  .expand-line {
+    position: absolute;
+    background-color: var(--proma-terra-500);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  }
+
+  .expand-h {
+    width: 16px;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .expand-v {
+    width: 1px;
+    height: 16px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+  }
+
+  .pilar-item.is-expanded .expand-v {
+    transform: translateX(-50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  /* ── Expandable detail ── */
+  .pilar-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pilar-item.is-expanded .pilar-detail {
+    max-height: 500px;
+  }
+
+  .pilar-detail-inner {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--proma-cream-200);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .detail-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .detail-label {
+    color: var(--proma-terra-500);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .detail-text {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.6;
   }
 
   @media (max-width: 768px) {
@@ -167,3 +283,21 @@ const pilares = [
     }
   }
 </style>
+
+<script>
+  const pilarItems = document.querySelectorAll('[data-pilar-toggle]');
+
+  pilarItems.forEach((item) => {
+    item.addEventListener('click', () => {
+      const wasExpanded = item.classList.contains('is-expanded');
+
+      // Close all others
+      pilarItems.forEach((other) => other.classList.remove('is-expanded'));
+
+      // Toggle clicked one
+      if (!wasExpanded) {
+        item.classList.add('is-expanded');
+      }
+    });
+  });
+</script>
