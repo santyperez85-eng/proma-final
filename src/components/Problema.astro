@@ -138,16 +138,16 @@
 
   .problema-lead-text :global(.reveal-word) {
     color: var(--proma-cream-100);
-    opacity: 0.12;
+    opacity: 0.08;
   }
 
   .problema-lead-text :global(.reveal-word.is-lit) {
-    opacity: 0.35;
+    opacity: 0.5;
   }
 
   .problema-text :global(.reveal-word) {
     color: var(--proma-cream-100);
-    opacity: 0.15;
+    opacity: 0.1;
   }
 
   .problema-text :global(.reveal-word.is-lit) {
@@ -190,16 +190,16 @@
 
   .conclusion-muted :global(.reveal-word) {
     color: var(--proma-cream-100);
-    opacity: 0.08;
+    opacity: 0.06;
   }
 
   .conclusion-muted :global(.reveal-word.is-lit) {
-    opacity: 0.2;
+    opacity: 0.25;
   }
 
   .conclusion-strong :global(.reveal-word) {
     color: var(--proma-cream-100);
-    opacity: 0.08;
+    opacity: 0.06;
   }
 
   .conclusion-strong :global(.reveal-word.is-lit) {
@@ -272,16 +272,15 @@
       const rect = section.getBoundingClientRect();
       const sectionHeight = rect.height;
 
-      // Delay: start revealing when the section top reaches 70% of viewport (not immediately)
-      // End: when section bottom reaches 40% of viewport
-      const startTrigger = viewportHeight * 0.7;
-      const endTrigger = viewportHeight * 0.35;
+      // Delay: start revealing when the section top reaches 65% of viewport (not immediately)
+      // Finish: all words lit by the time section has scrolled ~60% of its height
+      const startTrigger = viewportHeight * 0.65;
 
-      // How far the section has scrolled through the reveal zone
-      // scrolled = how far past the start trigger the section top has gone
+      // How far the section has scrolled past the start trigger
       const scrolled = startTrigger - rect.top;
-      // Total distance the section travels through the viewport
-      const totalTravel = sectionHeight + startTrigger - endTrigger;
+      // Finish all reveals within 55% of the section height — so it ends well
+      // before the conclusion reaches the top of the screen
+      const totalTravel = sectionHeight * 0.55;
 
       const progress = scrolled / totalTravel;
       const clampedProgress = Math.max(0, Math.min(1, progress));
