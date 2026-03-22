@@ -126,16 +126,24 @@
     font-family: var(--font-primary);
     font-weight: 700;
     font-size: clamp(52px, 11.5vw, 155px);
-    line-height: 0.92;
+    line-height: 1.1;
     letter-spacing: -0.05em;
     color: var(--proma-cream-100);
     text-shadow: 0 0 80px rgba(242, 237, 228, 0.06), 0 0 160px rgba(212, 82, 26, 0.04);
+    /* Negative margin to keep the visual tightness despite larger line-height */
+    margin-top: -0.08em;
   }
 
   .hero-line {
     display: block;
     overflow: hidden;
     animation: heroLineClip 0s 1.8s forwards;
+    /* Collapse the extra line-height space between lines */
+    margin-bottom: -0.15em;
+  }
+
+  .hero-line:last-child {
+    margin-bottom: 0;
   }
 
   @keyframes heroLineClip {
