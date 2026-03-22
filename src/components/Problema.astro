@@ -1,18 +1,18 @@
 ---
 ---
 
-<section class="problema section" data-mode="dark">
+<section class="problema section" data-mode="dark" id="problema-section">
   <div class="problema-glow"></div>
   <div class="container problema-container">
     <div class="problema-lead">
-      <p class="reveal" style="font-family: var(--font-primary); font-size: clamp(28px, 4vw, 52px); font-weight: 700; line-height: 1.1; letter-spacing: -0.03em; opacity: 0.35;">
+      <p class="problema-lead-text scroll-reveal-text">
         El diseño sin proceso tiene un costo medible.
       </p>
     </div>
 
     <div class="problema-body">
       <div class="problema-accent-bar reveal-line"></div>
-      <div class="problema-texts" id="problema-scroll-reveal">
+      <div class="problema-texts">
         <p class="type-body problema-text scroll-reveal-text">
           Retrabajos que se repiten. Cambios sin registro.
           Aprobaciones sin criterio. Entregas que vuelven.
@@ -37,9 +37,9 @@
       </div>
     </div>
 
-    <div class="problema-conclusion reveal">
-      <p class="conclusion-line conclusion-muted">Sin proceso, el diseño falla.</p>
-      <p class="conclusion-line conclusion-strong">Con proceso, <em class="conclusion-italic">escala</em><span class="text-accent">.</span></p>
+    <div class="problema-conclusion">
+      <p class="conclusion-line conclusion-muted scroll-reveal-text">Sin proceso, el diseño falla.</p>
+      <p class="conclusion-line conclusion-strong scroll-reveal-text">Con proceso, <em class="conclusion-italic">escala</em><span class="text-accent">.</span></p>
     </div>
   </div>
 </section>
@@ -91,6 +91,16 @@
     gap: clamp(48px, 8vh, 96px);
   }
 
+  /* ── Lead title ── */
+  .problema-lead-text {
+    font-family: var(--font-primary);
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+  }
+
+  /* ── Body ── */
   .problema-body {
     display: flex;
     gap: var(--space-8);
@@ -116,11 +126,28 @@
     line-height: 1.8;
   }
 
-  /* Word-by-word reveal: each word starts muted */
+  /* ── Word-by-word reveal: global spans ── */
+  :global(.reveal-word) {
+    opacity: 0.15;
+    transition: opacity 0.05s ease-out;
+  }
+
+  :global(.reveal-word.is-lit) {
+    opacity: 1;
+  }
+
+  .problema-lead-text :global(.reveal-word) {
+    color: var(--proma-cream-100);
+    opacity: 0.12;
+  }
+
+  .problema-lead-text :global(.reveal-word.is-lit) {
+    opacity: 0.35;
+  }
+
   .problema-text :global(.reveal-word) {
     color: var(--proma-cream-100);
     opacity: 0.15;
-    transition: opacity 0.05s ease-out;
   }
 
   .problema-text :global(.reveal-word.is-lit) {
@@ -132,13 +159,13 @@
     font-weight: 600;
   }
 
-  .problema-text strong :global(.reveal-word.is-lit) {
-    opacity: 1;
-  }
-
   .problema-text em {
     color: var(--proma-terra-500);
     font-style: normal;
+  }
+
+  .problema-text em :global(.reveal-word) {
+    color: var(--proma-terra-500);
   }
 
   .problema-text em :global(.reveal-word.is-lit) {
@@ -146,6 +173,7 @@
     opacity: 1;
   }
 
+  /* ── Conclusion ── */
   .problema-conclusion {
     display: flex;
     flex-direction: column;
@@ -160,12 +188,22 @@
     letter-spacing: -0.04em;
   }
 
-  .conclusion-muted {
+  .conclusion-muted :global(.reveal-word) {
+    color: var(--proma-cream-100);
+    opacity: 0.08;
+  }
+
+  .conclusion-muted :global(.reveal-word.is-lit) {
     opacity: 0.2;
   }
 
-  .conclusion-strong {
+  .conclusion-strong :global(.reveal-word) {
     color: var(--proma-cream-100);
+    opacity: 0.08;
+  }
+
+  .conclusion-strong :global(.reveal-word.is-lit) {
+    opacity: 1;
     text-shadow: 0 0 40px rgba(212, 82, 26, 0.15), 0 0 80px rgba(212, 82, 26, 0.05);
   }
 
@@ -173,12 +211,29 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-weight: 400;
+  }
+
+  .conclusion-italic :global(.reveal-word) {
     color: var(--proma-terra-500);
+  }
+
+  .conclusion-italic :global(.reveal-word.is-lit) {
+    color: var(--proma-terra-500);
+    opacity: 1;
     text-shadow: 0 0 30px rgba(212, 82, 26, 0.3), 0 0 70px rgba(212, 82, 26, 0.1);
   }
 
   .text-accent {
     color: var(--proma-terra-500);
+  }
+
+  .text-accent :global(.reveal-word) {
+    color: var(--proma-terra-500);
+  }
+
+  .text-accent :global(.reveal-word.is-lit) {
+    color: var(--proma-terra-500);
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
@@ -196,34 +251,42 @@
 
 <script>
   function initProblemaScrollReveal() {
-    const paragraphs = document.querySelectorAll('.scroll-reveal-text');
-    if (!paragraphs.length) return;
+    // Select ALL scroll-reveal-text elements in the section (lead + body + conclusion)
+    const allRevealElements = document.querySelectorAll('#problema-section .scroll-reveal-text');
+    if (!allRevealElements.length) return;
 
-    // Wrap each text node's words in spans, preserving existing HTML elements
-    paragraphs.forEach((p) => {
-      wrapWordsInElement(p as HTMLElement);
+    // Wrap words in all of them
+    allRevealElements.forEach((el) => {
+      wrapWordsInElement(el as HTMLElement);
     });
 
-    const allWords = document.querySelectorAll('.reveal-word');
+    // Collect all words in order across the entire section
+    const allWords = document.querySelectorAll('#problema-section .reveal-word');
     const totalWords = allWords.length;
 
     function updateReveal() {
       const viewportHeight = window.innerHeight;
-      const container = document.getElementById('problema-scroll-reveal');
-      if (!container) return;
+      const section = document.getElementById('problema-section');
+      if (!section) return;
 
-      const rect = container.getBoundingClientRect();
-      // The reveal zone: from when container enters bottom 90% to when it's at 25%
-      const startPoint = viewportHeight * 0.95;
-      const endPoint = viewportHeight * 0.2;
-      const range = startPoint - endPoint;
+      const rect = section.getBoundingClientRect();
+      const sectionHeight = rect.height;
 
-      // Calculate overall progress based on container position
-      // Use center-ish of container for smoother tracking
-      const containerProgress = 1 - (rect.top - endPoint) / range;
-      const clampedProgress = Math.max(0, Math.min(1, containerProgress));
+      // Delay: start revealing when the section top reaches 70% of viewport (not immediately)
+      // End: when section bottom reaches 40% of viewport
+      const startTrigger = viewportHeight * 0.7;
+      const endTrigger = viewportHeight * 0.35;
 
-      // Map progress to word index — binary: word is either lit or not
+      // How far the section has scrolled through the reveal zone
+      // scrolled = how far past the start trigger the section top has gone
+      const scrolled = startTrigger - rect.top;
+      // Total distance the section travels through the viewport
+      const totalTravel = sectionHeight + startTrigger - endTrigger;
+
+      const progress = scrolled / totalTravel;
+      const clampedProgress = Math.max(0, Math.min(1, progress));
+
+      // Map progress to word index — binary reveal
       const litCount = Math.floor(clampedProgress * totalWords);
 
       allWords.forEach((word, i) => {
@@ -257,7 +320,6 @@
         const text = node.textContent || '';
         if (text.trim() === '') return;
         const fragment = document.createDocumentFragment();
-        // Split preserving whitespace
         const parts = text.split(/(\s+)/);
         parts.forEach((part) => {
           if (part.match(/^\s+$/)) {
@@ -271,7 +333,6 @@
         });
         el.replaceChild(fragment, node);
       } else if (node.nodeType === Node.ELEMENT_NODE) {
-        // Recurse into child elements (strong, em, etc.)
         wrapWordsInElement(node as HTMLElement);
       }
     });
