@@ -1,8 +1,9 @@
 /* ============================================================
-   pro.ma Color System v1.1 — Umbral
+   pro.ma Color System v2.0 — Umbral
    Wordmark: proma (sin punto)
    La m en Playfair Display Italic es el umbral tipográfico.
    El punto vive en el sistema de unidades (pro.pack, etc.)
+   Fuente de verdad: src/styles/tokens.css
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Playfair+Display:ital@1&display=swap');
@@ -13,14 +14,15 @@
 
 /* ── Primitivos ── */
 :root {
-  --proma-navy-900:  #1C2340;
-  --proma-navy-700:  #2E3A5C;
-  --proma-terra-500: #D4521A;
-  --proma-terra-700: #B5420F;
-  --proma-cream-50:  #FAF8F4;
-  --proma-cream-100: #F2EDE4;
-  --proma-cream-200: #EAE6DE;
-  --proma-text-dark: #2C2420;
+  --proma-navy-900:  #0A0A0F;   /* near-black — fondo principal modo oscuro */
+  --proma-navy-800:  #111118;   /* surface elevada oscura */
+  --proma-navy-700:  #1A1A24;   /* bordes y superficies oscuras */
+  --proma-terra-500: #D4521A;   /* acento terracota principal */
+  --proma-terra-700: #B5420F;   /* acento hover/pressed */
+  --proma-cream-50:  #FAF8F4;   /* fondo principal modo claro */
+  --proma-cream-100: #F2EDE4;   /* texto principal modo oscuro */
+  --proma-cream-200: #EAE6DE;   /* bordes y superficies claras */
+  --proma-text-dark: #2C2420;   /* texto principal modo claro */
 }
 
 /* ── Modo Oscuro ──

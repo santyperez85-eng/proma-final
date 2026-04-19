@@ -123,18 +123,24 @@ src/
 │   └── Base.astro              # Layout principal con nav, cursor, scroll reveal
 ├── pages/
 │   ├── index.astro             # Home — 7 secciones
-│   └── trabajo.astro           # Portfolio — 4 casos + hero + CTA
+│   ├── servicios.astro         # Servicios — página dedicada con accordion expandido
+│   ├── trabajo.astro           # Portfolio — grid de proyectos + hero + CTA
+│   └── trabajo/
+│       └── [slug].astro        # Caso individual — galería + prev/next nav + lightbox
 ├── components/
 │   ├── Hero.astro              # Sección 1 — Hero full viewport
 │   ├── Problema.astro          # Sección 2 — El problema (scroll-linked reveal)
-│   ├── Servicios.astro         # Sección 3 — Accordion interactivo
+│   ├── Servicios.astro         # Sección 3 — Accordion interactivo (home, modo claro)
 │   ├── Metodo.astro            # Sección 4 — PROMA-4 framework
 │   ├── Estudio.astro           # Sección 5 — Quiénes somos
 │   ├── TrabajoPreview.astro    # Sección 6 — Grid de 4 casos
 │   ├── Contacto.astro          # Sección 7 — Formulario
 │   ├── Footer.astro            # Footer con statement
 │   ├── Cursor.astro            # Cursor custom dot+ring
+│   ├── Lightbox.astro          # Lightbox para galería de proyectos
 │   └── ScrollReveal.astro      # Sistema de reveal + registration marks
+├── data/
+│   └── proyectos.ts            # Datos de proyectos (slug, ref, título, galería, secciones)
 ├── styles/
 │   ├── tokens.css              # Design tokens (colores, tipo, espaciado)
 │   └── global.css              # Reset, container, section spacing
@@ -147,12 +153,14 @@ src/
 
 ### Páginas
 ```
-/          Home — 7 secciones
-/trabajo   Portfolio — 4 casos iniciales
+/                   Home — 7 secciones
+/servicios          Servicios — accordion expandido, modo oscuro completo
+/trabajo            Portfolio — grid de proyectos con hero
+/trabajo/[slug]     Caso individual — galería por secciones, lightbox, prev/next
 ```
 
 El formulario de contacto vive en el home (sección 7).
-No hay página /servicios separada — los servicios viven en el home.
+La página `/servicios` es una versión expandida del accordion del home — modo oscuro completo, con detalle de "Para quién es", "Qué problema resuelve", "Qué incluye", "Según el proyecto" y "Cómo empieza" por cada servicio.
 
 ### Secciones del home
 | # | Sección | Componente | Pregunta que responde | Modo |
@@ -171,11 +179,12 @@ No hay página /servicios separada — los servicios viven en el home.
 
 | Modo | Cuándo usar |
 |------|-------------|
-| **Oscuro** | Hero, problema, estudio, trabajo preview, contacto, footer |
-| **Claro** | Servicios, método |
+| **Oscuro** | Hero, problema, estudio, trabajo preview, contacto, footer, /servicios, /trabajo/[slug] |
+| **Claro** | Servicios (home accordion), método |
 
 La alternancia no es decorativa — sigue la lógica del sistema:
 oscuro para impacto y autoridad, claro para contenido técnico de lectura extendida.
+Nota: la página `/servicios` dedicada usa modo oscuro completo (distinto al accordion en modo claro del home).
 
 ---
 
@@ -525,6 +534,26 @@ proma [logo]    01 Servicios · 02 Método · 03 Estudio · 04 Trabajo    [Agend
 - Contenido: desafío + decisiones (lista con accent bar items) + resultado
 - CTA final: "¿Tu próximo proyecto necesita proceso?"
 
+### Lightbox.astro
+- Overlay de pantalla completa para ampliar imágenes en `/trabajo/[slug]`
+- Las imágenes con `data-lightbox` y `data-full` disparan el overlay
+- Navegación prev/next entre imágenes de la misma sección con teclado (← →) y Escape para cerrar
+- Fondo: `rgba(10, 10, 15, 0.96)` con `backdrop-filter: blur(8px)`
+
+### Página /servicios (servicios.astro)
+- Modo oscuro completo — no sigue la regla claro del accordion del home
+- Hero compacto (no full-viewport): título + bar acento vertical + subtítulo
+- Accordion expandido: cada servicio muestra "Para quién es" + "Qué problema resuelve" + "Qué incluye" + "Según el proyecto" + "Cómo empieza" + "Inversión" (cuando aplica)
+- Los 5 servicios: Diagnóstico & Consultoría (ref 01), Packaging (02), Branding (03), Web & Aplicaciones (04), Mantenimiento & Retainer (05)
+- Cierre con CTA "Agendá un diagnóstico ———→" que apunta a `/#contacto`
+
+### Página /trabajo/[slug].astro
+- Datos desde `src/data/proyectos.ts` — array tipado con `Proyecto[]`
+- Estructura: back nav sticky → hero (meta + título + tagline + desafío/resultado) → portada full-width → secciones de galería → prev/next nav
+- Galería: grid 2 cols con imágenes `h` (16:9) y `v` (3:4 con `grid-row: span 2`)
+- Hover en imágenes: `scale(1.03)` con el cubic-bezier del sistema
+- Prev/next nav usa `--proma-navy-800` como fondo (ligeramente más claro que navy-900)
+
 ### ScrollReveal.astro
 Contiene:
 1. Estilos globales `.reveal`, `.reveal-muted`, `.reveal-line`, `.reveal-stagger`
@@ -708,14 +737,38 @@ proma    Diagnóstico & Consultoría    Human-Led.         hola@pro.ma
 © 2026 pro.ma Studio · Buenos Aires · LATAM                    v1.0
 ```
 
-### Página /trabajo — 4 casos
-1. **FIG. 01** — Sistema de packaging regulatorio (PACKAGING)
-2. **FIG. 02** — Identidad visual integral (BRANDING)
-3. **FIG. 03** — Plataforma digital de producto (WEB)
-4. **FIG. 04** — Manual de sistema gráfico (BRANDING)
+### Página /servicios — hero
+```
+REF · SERVICIOS · v1.0
 
-Cada caso: desafío + decisiones (lista) + resultado.
-Sin fechas, sin nombres de clientes inventados.
+No creamos dependencia.
+Construimos sistemas que funcionan
+sin que tengamos que estar presentes.
+
+Antes de cualquier proyecto, hay un diagnóstico.
+No para venderte más — para entender qué necesitás.
+A veces el problema es de diseño. A veces es de proceso.
+A veces es de documentación. Siempre es medible.
+```
+
+### Página /servicios — cierre
+```
+Cada proyecto arranca con un diagnóstico.
+
+No para venderte más — para entender exactamente qué necesitás
+y definir el alcance con precisión real.
+
+Sin compromiso. Con criterio.
+
+[Agendá un diagnóstico ———→]
+```
+
+### Página /trabajo — proyectos reales (data/proyectos.ts)
+1. **FIG. 01** `amalita` — Fundación Amalita (BRANDING) — Sistema de identidad para institución cultural
+2. *(siguientes proyectos a agregar)*
+
+Estructura de cada proyecto: `slug`, `ref`, `titulo`, `tipo`, `tagline`, `desafio`, `resultado`, `portada`, `secciones[]` (cada sección con `titulo`, `texto`, `imagenes[]`).
+Sin fechas. Sin métricas inventadas. Sin nombres de clientes no autorizados.
 
 ---
 
