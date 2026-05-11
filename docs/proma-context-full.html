@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>proma Studio — Contexto Completo del Proyecto · v1.0</title>
+<style>
+  :root {
+    --navy: #0A0A0F;
+    --navy-mid: #1A1A24;
+    --terra: #D4521A;
+    --terra-dark: #B5420F;
+    --cream: #F2EDE4;
+    --cream-soft: #FAF8F4;
+    --text-dark: #2C2420;
+    --border: #EAE6DE;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--cream-soft);
+    color: var(--text-dark);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Cover ── */
+  .cover {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(212,82,26,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .cover-badge {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--terra);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0.9;
+  }
+  .cover-title {
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .cover-title em {
+    font-style: italic;
+    color: var(--terra);
+  }
+  .cover-subtitle {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+    opacity: 0.4;
+    margin-bottom: 40px;
+  }
+  .cover-claim {
+    font-size: 16px;
+    color: var(--cream);
+    opacity: 0.7;
+    max-width: 500px;
+    line-height: 1.5;
+  }
+  .cover-meta {
+    margin-top: 60px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(242,237,228,0.08);
+    display: flex;
+    gap: 48px;
+  }
+  .cover-meta-item { }
+  .cover-meta-label {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    opacity: 0.8;
+    margin-bottom: 4px;
+  }
+  .cover-meta-value {
+    font-size: 13px;
+    color: var(--cream);
+    opacity: 0.6;
+  }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--navy-mid);
+    color: var(--cream);
+    padding: 48px 60px;
+  }
+  .toc-title {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 24px;
+  }
+  .toc-list {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 48px;
+  }
+  .toc-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .toc-num {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--terra);
+    opacity: 0.7;
+    flex-shrink: 0;
+  }
+  .toc-list a {
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.6;
+    font-size: 13px;
+    transition: opacity 0.2s;
+  }
+  .toc-list a:hover { opacity: 1; color: var(--terra); }
+
+  /* ── Layout ── */
+  .main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  /* ── Chapter ── */
+  .chapter {
+    margin-bottom: 72px;
+    padding-bottom: 72px;
+    border-bottom: 1px solid var(--border);
+  }
+  .chapter:last-child { border-bottom: none; }
+
+  .chapter-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .chapter-num {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--terra);
+    padding-top: 8px;
+    flex-shrink: 0;
+  }
+  .chapter-title {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: var(--text-dark);
+    line-height: 1.1;
+  }
+
+  /* ── Section ── */
+  .section {
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Prose ── */
+  p {
+    margin-bottom: 12px;
+    color: var(--text-dark);
+    opacity: 0.85;
+  }
+  strong { color: var(--text-dark); opacity: 1; font-weight: 600; }
+  em { color: var(--terra); font-style: italic; }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: 13px;
+  }
+  th {
+    background: var(--navy);
+    color: var(--cream);
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: normal;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) td { background: rgba(212,82,26,0.02); }
+  td code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: var(--border);
+    padding: 2px 6px;
+    border-radius: 2px;
+  }
+  td.accent { color: var(--terra); font-weight: 600; }
+
+  /* ── Code blocks ── */
+  pre {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 20px 24px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+  pre .comment { opacity: 0.35; }
+  pre .terra { color: var(--terra); }
+  pre .cream { color: var(--cream); }
+  code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: var(--border);
+    padding: 2px 6px;
+    border-radius: 2px;
+    color: var(--terra);
+  }
+
+  /* ── Cards grid ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .card {
+    border: 1px solid var(--border);
+    padding: 20px;
+    border-radius: 3px;
+  }
+  .card-num {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--terra);
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-dark);
+  }
+  .card-body {
+    font-size: 13px;
+    color: var(--text-dark);
+    opacity: 0.65;
+    line-height: 1.5;
+  }
+
+  /* ── Color swatches ── */
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .swatch { }
+  .swatch-color {
+    height: 48px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.08);
+    margin-bottom: 8px;
+  }
+  .swatch-name {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.04em;
+    color: var(--text-dark);
+    opacity: 0.6;
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-dark);
+  }
+
+  /* ── Tags ── */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .tag {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
+    color: var(--text-dark);
+    opacity: 0.7;
+  }
+  .tag.terra {
+    border-color: var(--terra);
+    color: var(--terra);
+    opacity: 1;
+  }
+
+  /* ── Alert boxes ── */
+  .alert {
+    padding: 16px 20px;
+    border-left: 3px solid var(--terra);
+    background: rgba(212,82,26,0.04);
+    margin-bottom: 20px;
+    font-size: 13px;
+  }
+  .alert strong { color: var(--terra); }
+  .alert.dark {
+    background: var(--navy);
+    color: var(--cream);
+    opacity: 0.85;
+  }
+  .alert.dark strong { color: var(--terra); }
+
+  /* ── File tree ── */
+  .filetree {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 20px 24px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 24px;
+  }
+  .filetree .dir { color: var(--terra); }
+  .filetree .file { opacity: 0.7; }
+  .filetree .comment-inline {
+    opacity: 0.3;
+    font-size: 11px;
+  }
+
+  /* ── Copy block ── */
+  .copyblock {
+    background: var(--navy-mid);
+    border: 1px solid rgba(242,237,228,0.06);
+    border-radius: 3px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+  }
+  .copyblock-label {
+    font-family: 'Courier New', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 14px;
+    opacity: 0.8;
+  }
+  .copyblock-text {
+    color: var(--cream);
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: 0.85;
+    white-space: pre-wrap;
+  }
+  .copyblock-text em { color: var(--terra); font-style: italic; }
+
+  /* ── Component row ── */
+  .comp-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .comp-row:last-child { border-bottom: none; }
+  .comp-name {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--terra);
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .comp-desc { font-size: 13px; opacity: 0.7; }
+  .comp-mode {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    border: 1px solid var(--border);
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-left: auto;
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
+
+  /* ── Inline rule ── */
+  .rule-list {
+    list-style: none;
+    padding: 0;
+  }
+  .rule-list li {
+    padding: 8px 0 8px 20px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    font-size: 13px;
+    opacity: 0.8;
+  }
+  .rule-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--terra);
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+  }
+  .rule-list li:last-child { border-bottom: none; }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, var(--terra), transparent);
+    margin: 48px 0;
+    opacity: 0.3;
+  }
+
+  /* ── Footer ── */
+  .doc-footer {
+    background: var(--navy);
+    color: var(--cream);
+    padding: 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0.9;
+  }
+  .doc-footer-left {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .doc-footer-left em { color: var(--terra); font-style: italic; }
+  .doc-footer-right {
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    opacity: 0.3;
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 720px) {
+    .cover { padding: 40px 24px; }
+    .cover-title { font-size: 40px; }
+    .toc { padding: 32px 24px; }
+    .toc-list { grid-template-columns: 1fr; }
+    .main { padding: 40px 24px; }
+    .cards { grid-template-columns: 1fr; }
+    .swatches { grid-template-columns: repeat(3, 1fr); }
+    .cover-meta { flex-direction: column; gap: 16px; }
+    .doc-footer { flex-direction: column; gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════
+     COVER
+══════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-badge">REF · CONTEXTO DE PROYECTO · PARA MIGRACIÓN DE CUENTA</div>
+  <div class="cover-title">pro<em>m</em>a</div>
+  <div class="cover-subtitle">STUDIO · BUENOS AIRES · LATAM · v1.0</div>
+  <p class="cover-claim">Contexto completo del proyecto para onboarding de una nueva instancia de Claude o cualquier AI. Incluye identidad, stack técnico, componentes, copy, datos y estado actual del sitio.</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Repositorio</div>
+      <div class="cover-meta-value">github.com/santyperez85-eng/proma-final</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Contacto</div>
+      <div class="cover-meta-value">hola@pro.ma</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Stack</div>
+      <div class="cover-meta-value">Astro 5 · CSS vanilla · Supabase</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="cover-meta-label">Generado</div>
+      <div class="cover-meta-value">2026-05-11</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     TABLE OF CONTENTS
+══════════════════════════════════════════════════════ -->
+<div class="toc">
+  <div class="toc-title">REF · ÍNDICE DE CONTENIDOS</div>
+  <ol class="toc-list">
+    <li><span class="toc-num">01 →</span><a href="#identidad">Identidad del estudio</a></li>
+    <li><span class="toc-num">02 →</span><a href="#stack">Stack técnico y repositorio</a></li>
+    <li><span class="toc-num">03 →</span><a href="#colores">Sistema de color</a></li>
+    <li><span class="toc-num">04 →</span><a href="#tipografia">Tipografía</a></li>
+    <li><span class="toc-num">05 →</span><a href="#wordmark">Wordmark y nomenclatura</a></li>
+    <li><span class="toc-num">06 →</span><a href="#estructura">Estructura de archivos</a></li>
+    <li><span class="toc-num">07 →</span><a href="#paginas">Páginas y rutas</a></li>
+    <li><span class="toc-num">08 →</span><a href="#componentes">Componentes</a></li>
+    <li><span class="toc-num">09 →</span><a href="#modos">Regla de modos claro/oscuro</a></li>
+    <li><span class="toc-num">10 →</span><a href="#animaciones">Sistema de animaciones</a></li>
+    <li><span class="toc-num">11 →</span><a href="#servicios">Arquitectura de servicios</a></li>
+    <li><span class="toc-num">12 →</span><a href="#proyectos">Portfolio — proyectos reales</a></li>
+    <li><span class="toc-num">13 →</span><a href="#copy">Copy completo del sitio</a></li>
+    <li><span class="toc-num">14 →</span><a href="#reglas">Reglas para Claude</a></li>
+    <li><span class="toc-num">15 →</span><a href="#evitar">Qué evitar</a></li>
+    <li><span class="toc-num">16 →</span><a href="#estado">Estado actual del proyecto</a></li>
+  </ol>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     MAIN CONTENT
+══════════════════════════════════════════════════════ -->
+<div class="main">
+
+<!-- ── 01 IDENTIDAD ── -->
+<div class="chapter" id="identidad">
+  <div class="chapter-header">
+    <div class="chapter-num">01 →</div>
+    <h2 class="chapter-title">Identidad del estudio</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Datos básicos</div>
+    <table>
+      <tr><th>Campo</th><th>Valor</th></tr>
+      <tr><td>Nombre legal</td><td><strong>pro.ma Studio</strong></td></tr>
+      <tr><td>Nombre visual (wordmark)</td><td><strong>proma</strong> — sin punto, siempre</td></tr>
+      <tr><td>Posicionamiento</td><td>Estudio de diseño con proceso. Para organizaciones que no pueden permitirse el desorden.</td></tr>
+      <tr><td>Claim principal</td><td><strong>Human-Led. System-Driven. Intelligence-Enhanced.</strong></td></tr>
+      <tr><td>Concepto visual</td><td><strong>UMBRAL</strong> — el punto de transición entre el desorden operativo y el sistema gobernado</td></tr>
+      <tr><td>Mercado</td><td>Argentina y LATAM</td></tr>
+      <tr><td>Email</td><td>hola@pro.ma</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Etimología</div>
+    <table>
+      <tr><th>Parte</th><th>Significado</th></tr>
+      <tr><td><code>pro</code></td><td>proceso</td></tr>
+      <tr><td><code>ma</code></td><td>manifiesto</td></tr>
+      <tr><td>El punto</td><td>No vive en el wordmark — vive en el sistema de nomenclatura de unidades</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Credencial central</div>
+    <div class="alert">
+      <strong>40 años de experiencia combinada</strong> (20 años cada socio) en industrias reguladas.<br><br>
+      ⚠️ <strong>NUNCA decir "farmacéutica"</strong> — siempre decir "industrias reguladas" o "entornos regulados".<br>
+      La experiencia en packaging regulado avala el posicionamiento en todos los ámbitos del diseño.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Posicionamiento diferencial</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-num">QUÉ SOMOS</div>
+        <div class="card-title">Un estudio con método</div>
+        <div class="card-body">No somos una agencia creativa ni un freelancer. Somos un estudio que construye sistemas de diseño que funcionan sin que estemos presentes.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">QUÉ NO SOMOS</div>
+        <div class="card-title">Un proveedor de servicios genérico</div>
+        <div class="card-body">No hacemos "diseño". Hacemos sistemas. La diferencia no es semántica — es operativa.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">ENTRADA</div>
+        <div class="card-title">Siempre un diagnóstico</div>
+        <div class="card-body">Antes de cualquier proyecto, hay un diagnóstico. No para vender más — para entender qué necesita el cliente.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">TONO</div>
+        <div class="card-title">Técnico y preciso</div>
+        <div class="card-body">No startup. No corporativo genérico. El copy se comporta como el diseño: sin ornamentación innecesaria.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 02 STACK ── -->
+<div class="chapter" id="stack">
+  <div class="chapter-header">
+    <div class="chapter-num">02 →</div>
+    <h2 class="chapter-title">Stack técnico y repositorio</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tecnologías</div>
+    <table>
+      <tr><th>Capa</th><th>Tecnología</th><th>Notas</th></tr>
+      <tr><td>Framework</td><td><strong>Astro 5</strong></td><td>Componentes <code>.astro</code>, generación estática</td></tr>
+      <tr><td>Estilos</td><td><strong>CSS vanilla</strong></td><td>Sin Tailwind, sin frameworks CSS. Todo en <code>tokens.css</code> + <code>global.css</code></td></tr>
+      <tr><td>Backend formulario</td><td><strong>Supabase</strong></td><td>Formulario de contacto conectado a Supabase con validación y estados</td></tr>
+      <tr><td>Tipografías web</td><td><strong>Google Fonts</strong></td><td>Plus Jakarta Sans, IBM Plex Mono, Playfair Display</td></tr>
+      <tr><td>Tipografía wordmark</td><td><strong>Grantha Sangam MN</strong></td><td>Fuente del sistema macOS/iOS. Fallback: Georgia</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Repositorio y configuración</div>
+    <table>
+      <tr><th>Item</th><th>Valor</th></tr>
+      <tr><td>Repo</td><td><code>https://github.com/santyperez85-eng/proma-final.git</code></td></tr>
+      <tr><td>Branch principal</td><td><code>main</code></td></tr>
+      <tr><td>Estado</td><td>Producción activa</td></tr>
+      <tr><td>Package name</td><td><code>proma-studio</code></td></tr>
+      <tr><td>Version</td><td><code>1.0.0</code></td></tr>
+    </table>
+    <pre>npm run dev      <span class="comment"># desarrollo local</span>
+npm run build    <span class="comment"># build de producción</span>
+npm run preview  <span class="comment"># preview del build</span></pre>
+  </div>
+</div>
+
+<!-- ── 03 COLORES ── -->
+<div class="chapter" id="colores">
+  <div class="chapter-header">
+    <div class="chapter-num">03 →</div>
+    <h2 class="chapter-title">Sistema de color — Umbral v2.0</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Paleta primitiva</div>
+    <div class="swatches">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#0A0A0F;"></div>
+        <div class="swatch-name">navy-900</div>
+        <div class="swatch-hex">#0A0A0F</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#111118;"></div>
+        <div class="swatch-name">navy-800</div>
+        <div class="swatch-hex">#111118</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#1A1A24;"></div>
+        <div class="swatch-name">navy-700</div>
+        <div class="swatch-hex">#1A1A24</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#D4521A;"></div>
+        <div class="swatch-name">terra-500</div>
+        <div class="swatch-hex">#D4521A</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#B5420F;"></div>
+        <div class="swatch-name">terra-700</div>
+        <div class="swatch-hex">#B5420F</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#FAF8F4; border:1px solid #EAE6DE;"></div>
+        <div class="swatch-name">cream-50</div>
+        <div class="swatch-hex">#FAF8F4</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F2EDE4; border:1px solid #EAE6DE;"></div>
+        <div class="swatch-name">cream-100</div>
+        <div class="swatch-hex">#F2EDE4</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#EAE6DE; border:1px solid #D0CBC3;"></div>
+        <div class="swatch-name">cream-200</div>
+        <div class="swatch-hex">#EAE6DE</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#2C2420;"></div>
+        <div class="swatch-name">text-dark</div>
+        <div class="swatch-hex">#2C2420</div>
+      </div>
+    </div>
+
+    <div class="alert">
+      ⚠️ <strong>navy NO es azul.</strong> Es near-black deliberado para máxima profundidad con los glows radiales. Si ves <code>#1C2340</code> en algún archivo, es un valor stale — está corregido a <code>#0A0A0F</code>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tokens semánticos — modo oscuro</div>
+    <pre><span class="comment">/* Activar con data-mode="dark" en el elemento section */</span>
+<span class="terra">--color-bg</span>:           #0A0A0F   <span class="comment">/* navy-900 */</span>
+<span class="terra">--color-surface</span>:      #1A1A24   <span class="comment">/* navy-700 */</span>
+<span class="terra">--color-accent</span>:       #D4521A   <span class="comment">/* terra-500 */</span>
+<span class="terra">--color-accent-hover</span>: #B5420F   <span class="comment">/* terra-700 */</span>
+<span class="terra">--color-text-primary</span>: #F2EDE4   <span class="comment">/* cream-100 */</span>
+<span class="terra">--color-text-accent</span>:  #D4521A   <span class="comment">/* terra-500 */</span>
+<span class="terra">--color-border</span>:       #1A1A24   <span class="comment">/* navy-700 */</span></pre>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tokens semánticos — modo claro</div>
+    <pre><span class="comment">/* Activar con data-mode="light" en el elemento section */</span>
+<span class="terra">--color-bg</span>:           #FAF8F4   <span class="comment">/* cream-50 */</span>
+<span class="terra">--color-surface</span>:      #EAE6DE   <span class="comment">/* cream-200 */</span>
+<span class="terra">--color-accent</span>:       #D4521A   <span class="comment">/* terra-500 */</span>
+<span class="terra">--color-accent-hover</span>: #B5420F   <span class="comment">/* terra-700 */</span>
+<span class="terra">--color-text-primary</span>: #2C2420   <span class="comment">/* text-dark */</span>
+<span class="terra">--color-text-accent</span>:  #D4521A   <span class="comment">/* terra-500 */</span>
+<span class="terra">--color-border</span>:       #EAE6DE   <span class="comment">/* cream-200 */</span></pre>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Valores rgba especiales (no tokenizados)</div>
+    <table>
+      <tr><th>Uso</th><th>Valor</th></tr>
+      <tr><td>Glow ambiental terracota (suave)</td><td><code>rgba(212, 82, 26, 0.04–0.08)</code></td></tr>
+      <tr><td>Glow púrpura (profundidad)</td><td><code>rgba(120, 80, 200, 0.03)</code></td></tr>
+      <tr><td>Text-shadow — itálicas Playfair</td><td><code>0 0 30px rgba(212,82,26,0.25), 0 0 60px rgba(212,82,26,0.08)</code></td></tr>
+      <tr><td>Text-shadow — hero title</td><td><code>0 0 80px rgba(242,237,228,0.06), 0 0 160px rgba(212,82,26,0.04)</code></td></tr>
+      <tr><td>Bordes sutiles modo oscuro</td><td><code>rgba(242, 237, 228, 0.06–0.10)</code></td></tr>
+      <tr><td>Glassmorphism — cards trabajo</td><td><code>bg: rgba(255,255,255,0.03) · border: rgba(242,237,228,0.04)</code></td></tr>
+      <tr><td>Nav scrolled</td><td><code>rgba(10, 10, 15, 0.9)</code> + <code>backdrop-filter: blur(12px)</code></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ── 04 TIPOGRAFÍA ── -->
+<div class="chapter" id="tipografia">
+  <div class="chapter-header">
+    <div class="chapter-num">04 →</div>
+    <h2 class="chapter-title">Tipografía</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Familias tipográficas</div>
+    <table>
+      <tr><th>Familia</th><th>Variable CSS</th><th>Rol</th></tr>
+      <tr><td><strong>Grantha Sangam MN</strong></td><td><code>--font-wordmark</code></td><td>Wordmark — letras p, r, o, a. Sistema macOS/iOS. Fallback: Georgia</td></tr>
+      <tr><td><strong>Playfair Display Italic</strong></td><td><code>--font-wordmark-accent</code></td><td>Wordmark letra <em>m</em> + acentos tipográficos en títulos clave</td></tr>
+      <tr><td><strong>Plus Jakarta Sans</strong></td><td><code>--font-primary</code></td><td>TODO el sistema: títulos, cuerpo, UI, navegación. Google Fonts</td></tr>
+      <tr><td><strong>IBM Plex Mono</strong></td><td><code>--font-mono</code></td><td>Trazabilidad técnica: refs, FIG labels, versiones, marcadores numéricos. Google Fonts</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Uso de Playfair Display Italic</div>
+    <div class="alert">
+      Playfair Display Italic NO es solo para el wordmark. Se usa como <strong>acento tipográfico</strong> dentro de frases clave del sitio.<br><br>
+      Siempre con: <strong>color: #D4521A</strong> + <strong>text-shadow: 0 0 30px rgba(212,82,26,0.25), 0 0 60px rgba(212,82,26,0.08)</strong>
+    </div>
+    <table>
+      <tr><th>Sección</th><th>Frase</th></tr>
+      <tr><td>Hero</td><td>"El proceso <em>es</em> el diseño."</td></tr>
+      <tr><td>Problema conclusión</td><td>"Con proceso, <em>escala</em>."</td></tr>
+      <tr><td>Estudio</td><td>"en el <em>límite</em> del diseño."</td></tr>
+      <tr><td>TrabajoPreview</td><td>"Algunos <em>trabajos</em>"</td></tr>
+      <tr><td>Contacto</td><td>"le cuesta el <em>desorden</em>"</td></tr>
+      <tr><td>Footer</td><td>"permitirse el <em>desorden</em>"</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Escala tipográfica — Plus Jakarta Sans</div>
+    <table>
+      <tr><th>Clase</th><th>Size</th><th>Weight</th><th>Tracking</th><th>Line-height</th></tr>
+      <tr><td><code>.type-t1</code></td><td>36px</td><td>700</td><td>-0.04em</td><td>1.15</td></tr>
+      <tr><td><code>.type-t2</code></td><td>28px</td><td>600</td><td>-0.02em</td><td>1.2</td></tr>
+      <tr><td><code>.type-t3</code></td><td>22px</td><td>600</td><td>0</td><td>1.3</td></tr>
+      <tr><td><code>.type-t4</code></td><td>18px</td><td>500</td><td>0</td><td>1.4</td></tr>
+      <tr><td><code>.type-body</code></td><td>14px</td><td>400</td><td>0</td><td>1.6</td></tr>
+      <tr><td><code>.type-small</code></td><td>12px</td><td>400</td><td>0</td><td>1.5</td></tr>
+      <tr><td><code>.type-label</code></td><td>11px</td><td>500</td><td>+0.08em</td><td>1 (uppercase)</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Escala tipográfica — IBM Plex Mono</div>
+    <table>
+      <tr><th>Clase</th><th>Size</th><th>Tracking</th></tr>
+      <tr><td><code>.type-mono-lg</code></td><td>15px</td><td>+0.06em</td></tr>
+      <tr><td><code>.type-mono-md</code></td><td>12px</td><td>+0.04em</td></tr>
+      <tr><td><code>.type-mono-sm</code></td><td>11px</td><td>+0.02em</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Tamaños dinámicos con clamp() — sitio web</div>
+    <table>
+      <tr><th>Elemento</th><th>clamp()</th><th>Weight</th></tr>
+      <tr><td>Hero title</td><td><code>clamp(52px, 11.5vw, 155px)</code></td><td>700</td></tr>
+      <tr><td>Títulos de sección</td><td><code>clamp(40px, 6vw, 80–84px)</code></td><td>700</td></tr>
+      <tr><td>PROMA-4 display</td><td><code>clamp(48px, 7vw, 100px)</code></td><td>400 (mono)</td></tr>
+      <tr><td>Problema lead</td><td><code>clamp(28px, 4vw, 52px)</code></td><td>700</td></tr>
+      <tr><td>Problema conclusión</td><td><code>clamp(32px, 5vw, 64px)</code></td><td>700</td></tr>
+      <tr><td>Servicios nombre</td><td><code>clamp(22px, 3vw, 36px)</code></td><td>600</td></tr>
+      <tr><td>Contacto title</td><td><code>clamp(28px, 3.5vw, 44px)</code></td><td>700</td></tr>
+      <tr><td>Trabajo page hero</td><td><code>clamp(40px, 6vw, 80px)</code></td><td>700</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ── 05 WORDMARK ── -->
+<div class="chapter" id="wordmark">
+  <div class="chapter-header">
+    <div class="chapter-num">05 →</div>
+    <h2 class="chapter-title">Wordmark y nomenclatura de unidades</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Construcción del wordmark</div>
+    <pre>p  r  o  <span class="terra">m</span>  a
+─────────────────────────────────
+Grantha   Playfair   Grantha
+Sangam    Display    Sangam
+MN Reg    <span class="terra">Italic</span>     MN Reg
+
+La <span class="terra">m</span> en Playfair es el umbral tipográfico —
+lo humano dentro del sistema.</pre>
+    <table>
+      <tr><th>Regla</th><th>Detalle</th></tr>
+      <tr><td>Color</td><td><strong>Siempre monocromático</strong>. El acento #D4521A NO aparece en el wordmark.</td></tr>
+      <tr><td>Punto</td><td><strong>Sin punto</strong> entre "pro" y "ma" — en ninguna aplicación del logo.</td></tr>
+      <tr><td>Versión reducida</td><td>A 32px o menos: solo <strong>pm</strong> — p Grantha + m Playfair Italic</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Color del wordmark por modo</div>
+    <table>
+      <tr><th>Modo</th><th>Texto</th><th>Fondo</th><th>Archivo SVG</th></tr>
+      <tr><td>Oscuro</td><td><code>#F2EDE4</code></td><td><code>#0A0A0F</code></td><td><code>/brand/proma-wordmark-light.svg</code></td></tr>
+      <tr><td>Claro</td><td><code>#2C2420</code></td><td><code>#FAF8F4</code></td><td><code>/brand/proma-wordmark-dark.svg</code></td></tr>
+    </table>
+    <p>Nav y Footer → siempre <code>proma-wordmark-light.svg</code> (siempre sobre oscuro)</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Sistema de nomenclatura de unidades</div>
+    <div class="alert">
+      El punto vive en las extensiones del estudio, <strong>no en el wordmark madre</strong>. Las unidades NO tienen logo propio.
+    </div>
+    <table>
+      <tr><th>Unidad</th><th>Servicio</th></tr>
+      <tr><td><code>pro<span style="color:var(--terra)">.</span>pack</code></td><td>Packaging gráfico, estructural, regulatorio</td></tr>
+      <tr><td><code>pro<span style="color:var(--terra)">.</span>brand</code></td><td>Branding e identidad visual</td></tr>
+      <tr><td><code>pro<span style="color:var(--terra)">.</span>web</code></td><td>Web y aplicaciones</td></tr>
+      <tr><td><code>pro<span style="color:var(--terra)">.</span>ops</code></td><td>DesignOps y mantenimiento</td></tr>
+    </table>
+    <pre><span class="comment">/* Tipografía de las unidades */</span>
+<span class="terra">pro</span>       → Grantha Sangam MN Regular
+<span class="terra">.</span>         → color #D4521A ← aquí vive el acento terracota
+<span class="terra">pack</span>      → IBM Plex Mono</pre>
+  </div>
+</div>
+
+<!-- ── 06 ESTRUCTURA ── -->
+<div class="chapter" id="estructura">
+  <div class="chapter-header">
+    <div class="chapter-num">06 →</div>
+    <h2 class="chapter-title">Estructura de archivos</h2>
+  </div>
+
+  <div class="filetree">
+<span class="dir">src/</span>
+├── <span class="dir">layouts/</span>
+│   └── <span class="file">Base.astro</span>              <span class="comment-inline">← Layout principal: nav, cursor, scroll reveal, slots</span>
+├── <span class="dir">pages/</span>
+│   ├── <span class="file">index.astro</span>             <span class="comment-inline">← Home — 7 secciones</span>
+│   ├── <span class="file">servicios.astro</span>         <span class="comment-inline">← Servicios — página dedicada, modo oscuro completo</span>
+│   ├── <span class="file">trabajo.astro</span>           <span class="comment-inline">← Portfolio — grid de proyectos + hero + CTA</span>
+│   └── <span class="dir">trabajo/</span>
+│       └── <span class="file">[slug].astro</span>        <span class="comment-inline">← Caso individual — galería + prev/next + lightbox</span>
+├── <span class="dir">components/</span>
+│   ├── <span class="file">Hero.astro</span>              <span class="comment-inline">← Sección 1 — Hero full viewport (100vh)</span>
+│   ├── <span class="file">Problema.astro</span>          <span class="comment-inline">← Sección 2 — scroll-linked reveal bidireccional</span>
+│   ├── <span class="file">Servicios.astro</span>         <span class="comment-inline">← Sección 3 — Accordion (home, modo CLARO)</span>
+│   ├── <span class="file">Metodo.astro</span>            <span class="comment-inline">← Sección 4 — PROMA-4 framework</span>
+│   ├── <span class="file">Estudio.astro</span>           <span class="comment-inline">← Sección 5 — Quiénes somos</span>
+│   ├── <span class="file">TrabajoPreview.astro</span>    <span class="comment-inline">← Sección 6 — Grid 2×2 glassmorphism</span>
+│   ├── <span class="file">Contacto.astro</span>          <span class="comment-inline">← Sección 7 — Formulario Supabase</span>
+│   ├── <span class="file">Footer.astro</span>            <span class="comment-inline">← Footer con statement grande</span>
+│   ├── <span class="file">Cursor.astro</span>            <span class="comment-inline">← Cursor custom dot+ring solo desktop</span>
+│   ├── <span class="file">Lightbox.astro</span>          <span class="comment-inline">← Overlay full-screen para galería de proyectos</span>
+│   └── <span class="file">ScrollReveal.astro</span>      <span class="comment-inline">← IntersectionObserver global + reg marks</span>
+├── <span class="dir">data/</span>
+│   └── <span class="file">proyectos.ts</span>            <span class="comment-inline">← Array Proyecto[] tipado con 4 casos reales</span>
+└── <span class="dir">styles/</span>
+    ├── <span class="file">tokens.css</span>              <span class="comment-inline">← FUENTE DE VERDAD de colores, tipo, espaciado</span>
+    └── <span class="file">global.css</span>              <span class="comment-inline">← Reset, container, section spacing</span>
+
+<span class="dir">public/</span>
+└── <span class="dir">brand/</span>
+    ├── <span class="file">proma-favicon.svg</span>
+    ├── <span class="file">proma-wordmark-dark.svg</span>  <span class="comment-inline">← sobre fondos claros</span>
+    └── <span class="file">proma-wordmark-light.svg</span> <span class="comment-inline">← sobre fondos oscuros</span>
+
+<span class="dir">docs/</span>
+├── <span class="file">proma-brand-system.md</span>   <span class="comment-inline">← Identidad visual completa (standalone)</span>
+├── <span class="file">proma-marketing-brief.md</span> <span class="comment-inline">← Brief de marketing para lanzamiento</span>
+└── <span class="file">proma-context-full.html</span> <span class="comment-inline">← Este archivo</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Archivos de tokens</div>
+    <table>
+      <tr><th>Archivo</th><th>Uso</th></tr>
+      <tr><td><code>src/styles/tokens.css</code></td><td>Fuente de verdad CSS — se importa en Base.astro</td></tr>
+      <tr><td><code>tokens.css</code> (raíz)</td><td>Copia para herramientas externas — sincronizada con la de src</td></tr>
+      <tr><td><code>tokens.json</code></td><td>Tokens en formato JSON para Figma, Style Dictionary, etc.</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ── 07 PÁGINAS ── -->
+<div class="chapter" id="paginas">
+  <div class="chapter-header">
+    <div class="chapter-num">07 →</div>
+    <h2 class="chapter-title">Páginas y rutas</h2>
+  </div>
+
+  <table>
+    <tr><th>Ruta</th><th>Archivo</th><th>Descripción</th><th>Modo</th></tr>
+    <tr>
+      <td><code>/</code></td>
+      <td><code>index.astro</code></td>
+      <td>Home — 7 secciones: Hero → Problema → Servicios → Método → Estudio → Trabajo Preview → Contacto → Footer</td>
+      <td>Mixto (ver tabla de modos)</td>
+    </tr>
+    <tr>
+      <td><code>/servicios</code></td>
+      <td><code>servicios.astro</code></td>
+      <td>Página dedicada de servicios — accordion expandido con detalle completo por servicio. Hero compacto (no full-viewport).</td>
+      <td class="accent">OSCURO completo</td>
+    </tr>
+    <tr>
+      <td><code>/trabajo</code></td>
+      <td><code>trabajo.astro</code></td>
+      <td>Portfolio — hero propio + grid de proyectos + CTA final</td>
+      <td class="accent">OSCURO</td>
+    </tr>
+    <tr>
+      <td><code>/trabajo/[slug]</code></td>
+      <td><code>trabajo/[slug].astro</code></td>
+      <td>Caso individual — back nav + hero (meta+título+tagline+desafío/resultado) + portada full-width + secciones de galería + prev/next nav. Datos desde <code>proyectos.ts</code>.</td>
+      <td class="accent">OSCURO</td>
+    </tr>
+  </table>
+
+  <div class="section" style="margin-top:24px;">
+    <div class="section-title">Secciones del home</div>
+    <table>
+      <tr><th>#</th><th>Sección</th><th>Componente</th><th>Pregunta que responde</th><th>Modo</th></tr>
+      <tr><td>1</td><td>Nav + Hero</td><td><code>Base.astro + Hero.astro</code></td><td>¿Qué es proma y para quién?</td><td class="accent">OSCURO</td></tr>
+      <tr><td>2</td><td>El Problema</td><td><code>Problema.astro</code></td><td>¿Por qué existe proma?</td><td class="accent">OSCURO</td></tr>
+      <tr><td>3</td><td>Servicios</td><td><code>Servicios.astro</code></td><td>¿Qué hace proma?</td><td>CLARO</td></tr>
+      <tr><td>4</td><td>Método PROMA-4</td><td><code>Metodo.astro</code></td><td>¿Cómo trabaja proma?</td><td>CLARO</td></tr>
+      <tr><td>5</td><td>Estudio</td><td><code>Estudio.astro</code></td><td>¿Quiénes son?</td><td class="accent">OSCURO</td></tr>
+      <tr><td>6</td><td>Trabajo Preview</td><td><code>TrabajoPreview.astro</code></td><td>¿Cómo se ve el criterio aplicado?</td><td class="accent">OSCURO</td></tr>
+      <tr><td>7</td><td>Contacto</td><td><code>Contacto.astro</code></td><td>¿Cómo arrancamos?</td><td class="accent">OSCURO</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ── 08 COMPONENTES ── -->
+<div class="chapter" id="componentes">
+  <div class="chapter-header">
+    <div class="chapter-num">08 →</div>
+    <h2 class="chapter-title">Componentes — detalles de implementación</h2>
+  </div>
+
+  <div class="comp-row">
+    <div class="comp-name">Hero.astro</div>
+    <div class="comp-desc">Full viewport (100vh). Doble glow ambiental: terracota top-right 80vw + púrpura bottom-left 70vw. Registration marks 4 esquinas. Título con line-height: 0.92, segunda línea indentada con clamp(40px,8vw,120px). Bottom bar: descripción izq + CTAs der, separados por border-top. CTA primario <code>.btn-cta</code>. CTA secundario <code>.link-arrow-long</code> con <code>———→</code>. SCROLL indicator centrado abajo con línea animada glowDrift.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Problema.astro</div>
+    <div class="comp-desc">Lead text opacity: 0.35. Accent bar vertical 3px terracota. Body con scroll-linked reveal (opacity 0.15→1 según posición en viewport, bidireccional). Conclusión muted/strong: mismo tamaño, diferente opacidad. Glow terracota bottom-left + púrpura top-right.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Servicios.astro</div>
+    <div class="comp-desc">Accordion click-to-expand, uno a la vez. Cada servicio: ref "01 →" (60px) + nombre + expand icon +/×. Detail panel: max-height: 0 → 300px. Detail inner padding-left alineado al título. Tags de capacidades: border cream-200, 10px mono. Hover: nombre terracota + translateX(8px).</div>
+    <div class="comp-mode">CLARO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Metodo.astro</div>
+    <div class="comp-desc">Título PROMA-4 en IBM Plex Mono gigante con dash terracota. Grid 4 columnas (2 tablet, 1 mobile). Pilar cards con border cream-200. Accent bar animada scaleX(0→1) en hover/visible. Hover: border terracota + translateY(-4px) + nombre terracota.</div>
+    <div class="comp-mode">CLARO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Estudio.astro</div>
+    <div class="comp-desc">Two columns: texto izquierda + texto + claim derecha. Claim "Human-Led. System-Driven. Intelligence-Enhanced." en terracota. Glow terracota top-right + púrpura bottom-left. Claim con border-top + margin-top: auto.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">TrabajoPreview.astro</div>
+    <div class="comp-desc">Title row: título izq + descripción der alineada abajo. Grid 2×2 cards glassmorphism: rgba(255,255,255,0.03) + backdrop-filter:blur(2px) + border sutil. FIG labels mono opacity 0.15→0.4 hover. Cards: hover translateY(-4px) + border terracota + overlay badge. Arrow → reveal en hover.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Contacto.astro</div>
+    <div class="comp-desc">Grid 2 columnas: título sticky izq + form derecha. Registration marks top. Form inputs border-bottom rgba cream 0.1 → terracota on focus. Grid 2×2 (1 col mobile) + textarea full. Conectado a Supabase con validación y estado de envío. Glow terracota centrado.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Footer.astro</div>
+    <div class="comp-desc">Statement grande (muted). Divider: 1px, reveal-line animation. Grid 4 columnas: logo + links + claim + email. Version tag v1.0 en terracota opacity 0.4. Legal opacity 0.2.</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Cursor.astro</div>
+    <div class="comp-desc">Solo desktop (hover:hover + pointer:fine). Dot 6px cream-100. Ring 40px→64px en hover, border terracota, background rgba terra 0.08. mix-blend-mode: difference. Dot sigue mouse directo. Ring sigue con lerp 0.15. Hover activado en a, button, input, textarea, [data-cursor-hover].</div>
+    <div class="comp-mode">GLOBAL</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">Lightbox.astro</div>
+    <div class="comp-desc">Overlay full-screen para imágenes en /trabajo/[slug]. Imágenes con data-lightbox + data-full disparan overlay. Nav prev/next entre imágenes de la misma sección. Teclado ← → + Escape. Fondo rgba(10,10,15,0.96) + backdrop-filter:blur(8px).</div>
+    <div class="comp-mode">OSCURO</div>
+  </div>
+  <div class="comp-row">
+    <div class="comp-name">ScrollReveal.astro</div>
+    <div class="comp-desc">Estilos globales: .reveal (opacity+translateY), .reveal-muted, .reveal-line (scaleX), .reveal-stagger (delays 0→0.4s). Registration marks globales .reg-mark (.reg-tl, .reg-tr, .reg-bl, .reg-br) 20px, opacity 0.1. Script IntersectionObserver threshold:0.15, rootMargin:'-40px'. Clase .is-visible agregada por el observer.</div>
+    <div class="comp-mode">GLOBAL</div>
+  </div>
+</div>
+
+<!-- ── 09 MODOS ── -->
+<div class="chapter" id="modos">
+  <div class="chapter-header">
+    <div class="chapter-num">09 →</div>
+    <h2 class="chapter-title">Regla de modos claro/oscuro</h2>
+  </div>
+
+  <div class="alert">
+    La alternancia de modos <strong>no es decorativa</strong> — sigue la lógica del sistema: oscuro para impacto y autoridad, claro para contenido técnico de lectura extendida.
+  </div>
+
+  <table>
+    <tr><th>Modo</th><th>Cuándo</th><th>Secciones / páginas</th></tr>
+    <tr>
+      <td class="accent">OSCURO</td>
+      <td>Impacto · Autoridad · Presentación</td>
+      <td>Hero, Problema, Estudio, Trabajo Preview, Contacto, Footer<br><code>/servicios</code>, <code>/trabajo</code>, <code>/trabajo/[slug]</code></td>
+    </tr>
+    <tr>
+      <td>CLARO</td>
+      <td>Lectura · Proceso · Documentación</td>
+      <td>Servicios accordion (home únicamente), Método PROMA-4</td>
+    </tr>
+  </table>
+
+  <div class="alert">
+    ⚠️ <strong>IMPORTANTE:</strong> La página <code>/servicios</code> dedicada usa modo OSCURO completo — es diferente al accordion de Servicios.astro del home que usa modo CLARO.
+  </div>
+
+  <pre><span class="comment">/* Activación de modos en componentes .astro */</span>
+&lt;section data-mode="dark"&gt;   <span class="comment">← fondos oscuros</span>
+&lt;section data-mode="light"&gt;  <span class="comment">← fondos claros</span>
+
+<span class="comment">/* Regla de texto */</span>
+Fondo oscuro → texto siempre #F2EDE4 (cream-100)
+Fondo claro  → texto siempre #2C2420 (text-dark)
+Acento #D4521A funciona sobre AMBOS modos</pre>
+</div>
+
+<!-- ── 10 ANIMACIONES ── -->
+<div class="chapter" id="animaciones">
+  <div class="chapter-header">
+    <div class="chapter-num">10 →</div>
+    <h2 class="chapter-title">Sistema de animaciones</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Easing universal</div>
+    <pre><span class="terra">cubic-bezier(0.16, 1, 0.3, 1)</span>   <span class="comment">← elástico pero controlado, TODO el sitio</span></pre>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Clases de scroll reveal (ScrollReveal.astro)</div>
+    <table>
+      <tr><th>Clase</th><th>Efecto</th><th>Duración</th></tr>
+      <tr><td><code>.reveal</code></td><td>opacity: 0→1 + translateY(32px→0)</td><td>0.7s</td></tr>
+      <tr><td><code>.reveal-muted</code></td><td>opacity: 0→0.6 + translateY(32px→0)</td><td>0.7s</td></tr>
+      <tr><td><code>.reveal-line</code></td><td>scaleX(0→1) — para accent bars horizontales</td><td>0.7s</td></tr>
+      <tr><td><code>.reveal-stagger</code></td><td>Delays en hijos: 0s, 0.08s, 0.16s, 0.24s, 0.32s, 0.4s</td><td>—</td></tr>
+    </table>
+    <p>Observer: <code>threshold: 0.15</code>, <code>rootMargin: '0px 0px -40px 0px'</code>. Agrega clase <code>.is-visible</code>.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Scroll-linked reveal (Problema.astro)</div>
+    <p>Animación bidireccional vinculada a posición de scroll — NO basada en IntersectionObserver. Cada párrafo tiene opacity que mapea de 0.15 a 1 según posición en viewport. Start: 85% viewport, End: 45% viewport. Usa requestAnimationFrame.</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Hero animations (CSS puro, sin observer)</div>
+    <table>
+      <tr><th>Clase</th><th>Descripción</th><th>Delay</th></tr>
+      <tr><td><code>.hero-reveal</code></td><td>opacity:0 + translateY(50px) → revealed, 1s</td><td>Stagger por elemento</td></tr>
+      <tr><td><code>.hero-word</code></td><td>opacity:0 + translateY(110%) → revealed, 1.2s</td><td>0.4s / 0.65s</td></tr>
+      <tr><td>Ref line</td><td>—</td><td>0.2s</td></tr>
+      <tr><td>Scroll hint</td><td>—</td><td>1.5s</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Hover transitions</div>
+    <table>
+      <tr><th>Elemento</th><th>Transición</th></tr>
+      <tr><td>Links</td><td><code>color 0.3s ease</code></td></tr>
+      <tr><td>Cards trabajo</td><td><code>transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)</code> → translateY(-4px)</td></tr>
+      <tr><td>Servicios nombre</td><td><code>color + translateX(8px) 0.4s</code></td></tr>
+      <tr><td>Pilar cards Método</td><td><code>border-color + translateY(-4px) 0.4s</code></td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Keyframes específicos</div>
+    <pre><span class="comment">/* Hero — glow ambiental */</span>
+@keyframes glowDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -30px) scale(1.05); }
+}
+<span class="comment">/* Terracota: 16s ease-in-out infinite alternate */</span>
+<span class="comment">/* Púrpura: 20s ease-in-out infinite alternate-reverse */</span>
+
+<span class="comment">/* Hero — scroll indicator */</span>
+@keyframes scrollDraw {
+  0%   { transform: scaleY(0); opacity: 0; }
+  30%  { transform: scaleY(1); opacity: 0.6; }
+  60%  { transform: scaleY(1); opacity: 0; }
+  100% { transform: scaleY(0); opacity: 0; }
+}
+<span class="comment">/* 2s ease-in-out infinite */</span></pre>
+  </div>
+</div>
+
+<!-- ── 11 SERVICIOS ── -->
+<div class="chapter" id="servicios">
+  <div class="chapter-header">
+    <div class="chapter-num">11 →</div>
+    <h2 class="chapter-title">Arquitectura de servicios</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Estructura de entrada y salida</div>
+    <div class="cards">
+      <div class="card">
+        <div class="card-num">01 → CÓMO ENTRAMOS</div>
+        <div class="card-title">Diagnóstico &amp; Consultoría</div>
+        <div class="card-body">La entrada. Antes de cualquier proyecto, hay un diagnóstico. No para venderte más — para entender qué necesitás. Capacidades: Auditoría visual · Análisis de procesos · Roadmap de sistema</div>
+      </div>
+      <div class="card">
+        <div class="card-num">02 → QUÉ HACEMOS</div>
+        <div class="card-title">Packaging (pro.pack)</div>
+        <div class="card-body">Gráfico · Estructural · Literaturas · Compliance regulatorio. Diseño estructural dentro de este servicio, no como servicio separado.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">03 → QUÉ HACEMOS</div>
+        <div class="card-title">Branding (pro.brand)</div>
+        <div class="card-body">Identidad · Sistema visual · Manual · Señalética · Stands. Señalética y diseño de stands viven dentro de Branding, no como servicios separados.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">04 → QUÉ HACEMOS</div>
+        <div class="card-title">Web &amp; Aplicaciones (pro.web)</div>
+        <div class="card-body">Sitios · Plataformas · Apps. UX/UI como método de trabajo dentro de este servicio, no servicio separado. Motion graphics = capacidad de producción integrada.</div>
+      </div>
+      <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-num">05 → CÓMO NOS QUEDAMOS</div>
+        <div class="card-title">Mantenimiento &amp; Retainer (pro.ops)</div>
+        <div class="card-body">QA · Versiones · Control de cambios · Evolución del sistema. El sistema vivo. Para organizaciones que saben que el diseño no termina en el entregable.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 12 PROYECTOS ── -->
+<div class="chapter" id="proyectos">
+  <div class="chapter-header">
+    <div class="chapter-num">12 →</div>
+    <h2 class="chapter-title">Portfolio — proyectos reales</h2>
+  </div>
+
+  <div class="alert">
+    Los datos viven en <code>src/data/proyectos.ts</code> como array <code>Proyecto[]</code> tipado. Sin fechas. Sin métricas inventadas. Sin nombres de clientes no autorizados.
+  </div>
+
+  <table>
+    <tr><th>Ref</th><th>Slug</th><th>Título</th><th>Tipo</th><th>Secciones de galería</th></tr>
+    <tr>
+      <td><code>FIG. 01</code></td>
+      <td><code>amalita</code></td>
+      <td>Fundación Amalita</td>
+      <td class="terra">BRANDING</td>
+      <td>Sistema marcario · Comunicación gráfica · Editorial · Medios y publicidad · Entorno digital · Espacio físico</td>
+    </tr>
+    <tr>
+      <td><code>FIG. 02</code></td>
+      <td><code>portal-chas</code></td>
+      <td>Portal Chas</td>
+      <td class="terra">BRANDING</td>
+      <td>Marca · Orientación y señalética · Comunicación · Editorial y digital</td>
+    </tr>
+    <tr>
+      <td><code>FIG. 03</code></td>
+      <td><code>vidas-al-volante</code></td>
+      <td>Vidas al Volante</td>
+      <td class="terra">CAMPAÑA</td>
+      <td>Identidad de campaña · Material impreso · Presencia digital</td>
+    </tr>
+    <tr>
+      <td><code>FIG. 04</code></td>
+      <td><code>kala</code></td>
+      <td>Kala</td>
+      <td class="terra">PACKAGING</td>
+      <td>Packaging</td>
+    </tr>
+  </table>
+
+  <div class="section">
+    <div class="section-title">Interface de datos (proyectos.ts)</div>
+    <pre>interface Proyecto {
+  slug:      string;      <span class="comment">// URL: /trabajo/[slug]</span>
+  ref:       string;      <span class="comment">// "FIG. 01"</span>
+  titulo:    string;
+  tipo:      string;      <span class="comment">// "BRANDING" | "PACKAGING" | "CAMPAÑA"</span>
+  tagline:   string;      <span class="comment">// subtítulo</span>
+  desafio:   string;      <span class="comment">// texto del desafío</span>
+  resultado: string;      <span class="comment">// texto del resultado</span>
+  portada:   Imagen;      <span class="comment">// { src, alt, orientacion: 'h'|'v' }</span>
+  secciones: SeccionGaleria[];
+}
+
+interface SeccionGaleria {
+  titulo:   string;
+  texto:    string;
+  imagenes: Imagen[];
+}
+
+<span class="comment">// Helpers exportados:</span>
+getTodasLasImagenes(proyecto)  <span class="comment">// flat array para lightbox</span>
+getProyecto(slug)
+getProyectoAnterior(slug)
+getSiguienteProyecto(slug)</pre>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Galería en /trabajo/[slug]</div>
+    <ul class="rule-list">
+      <li>Grid 2 cols con imágenes orientación <code>h</code> (16:9) y <code>v</code> (3:4 con grid-row: span 2)</li>
+      <li>Hover en imágenes: scale(1.03) con cubic-bezier del sistema</li>
+      <li>Back nav sticky → hero (meta+título+tagline+desafío/resultado) → portada full-width → secciones → prev/next</li>
+      <li>Prev/next nav usa <code>--proma-navy-800</code> como fondo (ligeramente más claro que navy-900)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ── 13 COPY ── -->
+<div class="chapter" id="copy">
+  <div class="chapter-header">
+    <div class="chapter-num">13 →</div>
+    <h2 class="chapter-title">Copy completo del sitio</h2>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">NAV</div>
+    <div class="copyblock-text">proma    01 Servicios · 02 Método · 03 Estudio · 04 Trabajo    [Agendá un diagnóstico]</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">HERO — Sección 1</div>
+    <div class="copyblock-text">REF · ESTUDIO DE DISEÑO · BUENOS AIRES · LATAM
+
+El proceso
+<em>es</em> el diseño.
+
+Diseño con método para organizaciones
+que no pueden permitirse el desorden.
+
+[Agendá un diagnóstico]    Conocé el método ———→</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">EL PROBLEMA — Sección 2</div>
+    <div class="copyblock-text">El diseño sin proceso tiene un costo medible.
+
+│ Retrabajos que se repiten. Cambios sin registro.
+│ Aprobaciones sin criterio. Entregas que vuelven.
+│
+│ No es un problema de talento.
+│ Es un problema de sistema.
+│
+│ Lo sabemos porque venimos del entorno donde ese problema
+│ tiene consecuencias reales: industrias reguladas,
+│ donde cada error detiene una línea de producción,
+│ frena un lanzamiento o falla una auditoría.
+│
+│ Cuarenta años combinados trabajando en ese límite
+│ nos enseñaron una sola cosa:
+
+Sin proceso, el diseño falla.
+Con proceso, <em>escala</em>.</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">SERVICIOS — Sección 3 (accordion home)</div>
+    <div class="copyblock-text">REF · SERVICIOS
+Cómo trabajamos
+
+01 → Diagnóstico & Consultoría                    +
+     LA ENTRADA
+     Antes de diseñar, entendemos. No asumimos. Medimos.
+     [Auditoría visual] [Análisis de procesos] [Roadmap]
+
+02 → Packaging
+     Gráfico. Estructural. Regulatorio.
+
+03 → Branding
+     Identidad que funciona como sistema.
+
+04 → Web & Aplicaciones
+     Código con la misma lógica que el diseño.
+
+05 → Mantenimiento & Retainer
+     El sistema vivo.</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">MÉTODO PROMA-4 — Sección 4</div>
+    <div class="copyblock-text">REF · FRAMEWORK
+PROMA-4     El framework que gobierna cada proyecto.
+
+01 ——— Calidad
+       Criterios de aceptación definidos antes de empezar.
+       No hay subjetividad en el cierre de una etapa.
+
+02 ——— Documentación
+       Todo registrado. Decisiones, versiones, cambios.
+       El proyecto es auditable en cualquier punto.
+
+03 ——— Proceso
+       Flujos de trabajo que eliminan fricción.
+       El equipo sabe qué sigue sin coordinación manual.
+
+04 ——— Inteligencia
+       IA como herramienta de sistema, no de sustitución.
+       Human-Led. System-Driven. Intelligence-Enhanced.</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">ESTUDIO — Sección 5</div>
+    <div class="copyblock-text">REF · QUIÉNES SOMOS
+
+Cuarenta años
+en el <em>límite</em>
+del diseño.
+
+No llegamos al diseño desde la creatividad.
+Llegamos desde la consecuencia.
+
+Cuarenta años combinados en entornos donde el diseño
+no es decoración — es parte del sistema regulatorio,
+del proceso de aprobación, de la cadena de producción.
+
+Eso entrena un tipo de criterio diferente.
+Uno que sabe que el problema rara vez es el logo.
+
+proma es la aplicación de ese conocimiento
+a todo el diseño que importa.
+No solo al regulado.
+
+Human-Led. System-Driven. Intelligence-Enhanced.</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">TRABAJO PREVIEW — Sección 6</div>
+    <div class="copyblock-text">REF · PORTFOLIO
+Algunos <em>trabajos</em>              Diseño con criterio documentado.
+
+[FIG. 01 — Fundación Amalita]    [FIG. 02 — Portal Chas]
+[FIG. 03 — Vidas al Volante]     [FIG. 04 — Kala]
+
+Ver trabajo ———→</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">CONTACTO — Sección 7</div>
+    <div class="copyblock-text">REF · DIAGNÓSTICO INICIAL
+
+¿Cuánto le cuesta el <em>desorden</em>
+a tu organización?
+
+El primer paso es un diagnóstico.
+No para venderte más — para entender
+qué necesitás y definir el alcance
+con precisión real.
+
+Sin compromiso. Con criterio.
+
+[Nombre] [Empresa]
+[Industria] [Email]
+[Contame el desafío]
+[Agendá un diagnóstico →]</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">FOOTER</div>
+    <div class="copyblock-text">Diseño con proceso para organizaciones
+que no pueden permitirse el <em>desorden</em>.
+
+────────────────────────────────────────
+
+proma    Diagnóstico & Consultoría    Human-Led.         hola@pro.ma
+         Packaging                    System-Driven.
+         Branding                     Intelligence-Enhanced.
+         Web & Aplicaciones
+         Mantenimiento & Retainer
+
+© 2026 pro.ma Studio · Buenos Aires · LATAM                    v1.0</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">/SERVICIOS — Hero compacto</div>
+    <div class="copyblock-text">REF · SERVICIOS · v1.0
+
+No creamos dependencia.
+Construimos sistemas que funcionan
+sin que tengamos que estar presentes.
+
+Antes de cualquier proyecto, hay un diagnóstico.
+No para venderte más — para entender qué necesitás.
+A veces el problema es de diseño. A veces es de proceso.
+A veces es de documentación. Siempre es medible.</div>
+  </div>
+
+  <div class="copyblock">
+    <div class="copyblock-label">/SERVICIOS — Cierre + CTA</div>
+    <div class="copyblock-text">Cada proyecto arranca con un diagnóstico.
+
+No para venderte más — para entender exactamente qué necesitás
+y definir el alcance con precisión real.
+
+Sin compromiso. Con criterio.
+
+[Agendá un diagnóstico ———→]</div>
+  </div>
+</div>
+
+<!-- ── 14 REGLAS ── -->
+<div class="chapter" id="reglas">
+  <div class="chapter-header">
+    <div class="chapter-num">14 →</div>
+    <h2 class="chapter-title">Reglas para Claude (o cualquier AI)</h2>
+  </div>
+
+  <ul class="rule-list">
+    <li>Usá siempre <code>tokens.css</code> — nunca hex directos, siempre variables semánticas (<code>var(--color-accent)</code>, etc.)</li>
+    <li>Determiná el modo claro/oscuro según la tabla de modos antes de escribir cualquier componente</li>
+    <li>Grantha Sangam MN + Playfair Display → exclusivo del wordmark y acentos tipográficos en títulos</li>
+    <li>Playfair Display Italic → siempre con <code>color: var(--proma-terra-500)</code> + text-shadow glow terracota</li>
+    <li>IBM Plex Mono → exclusivo para trazabilidad técnica (REF tags, FIG labels, versiones, marcadores numéricos)</li>
+    <li>Plus Jakarta Sans → todo lo demás</li>
+    <li>Acento <code>#D4521A</code> → CTAs, accent bars, punto de unidades, refs técnicas, itálicas, text glow</li>
+    <li>Acento NO va en el wordmark principal — wordmark siempre monocromático</li>
+    <li>Unidades (pro.pack, etc.) NO tienen logo propio</li>
+    <li>No inventar métricas ni clientes</li>
+    <li>No decir "farmacéutica" — decir "industrias reguladas"</li>
+    <li>Stack: Astro + CSS vanilla con tokens.css. Sin Tailwind, sin frameworks CSS</li>
+    <li>Easing: <code>cubic-bezier(0.16, 1, 0.3, 1)</code> para TODAS las transiciones</li>
+    <li>Toda sección oscura debe tener al menos un glow ambiental (radial-gradient terracota)</li>
+    <li>Registration marks en secciones clave: Hero (4 esquinas), Contacto (top 2)</li>
+    <li>Scroll reveal <code>.reveal</code> en todos los bloques de contenido</li>
+    <li>Texto body en secciones oscuras: <code>opacity: 0.5</code></li>
+    <li>Text glow (<code>text-shadow</code>) en TODAS las itálicas Playfair terracota</li>
+    <li>Fondos oscuros NUNCA planos — siempre con radial-gradient de profundidad</li>
+    <li>Hover states con transformaciones (translateX/Y) ADEMÁS de cambio de color</li>
+    <li>CTA con flecha larga: <code>———→</code> (guión largo, no flecha simple)</li>
+    <li>Cards de trabajo y elementos de diseño: sin border-radius (esquinas rectas)</li>
+    <li>Separar <code>/servicios</code> dedicada (OSCURO) del accordion <code>Servicios.astro</code> del home (CLARO)</li>
+  </ul>
+</div>
+
+<!-- ── 15 EVITAR ── -->
+<div class="chapter" id="evitar">
+  <div class="chapter-header">
+    <div class="chapter-num">15 →</div>
+    <h2 class="chapter-title">Qué evitar explícitamente</h2>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-num">DISEÑO</div>
+      <div class="card-title">Elementos prohibidos</div>
+      <div class="card-body">
+        Ilustraciones o iconografía decorativa<br>
+        Videos de fondo en el hero<br>
+        Grid crosshair patterns (demasiado SaaS)<br>
+        Bordes redondeados en cards<br>
+        Fondos oscuros 100% planos sin glow<br>
+        Hover states solo con cambio de color
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-num">COPY / TONO</div>
+      <div class="card-title">Palabras y frases prohibidas</div>
+      <div class="card-body">
+        "Farmacéutica" → usar "industrias reguladas"<br>
+        "Magia", "inspiración", "feeling", "pasión"<br>
+        "Innovación", "disruptivo", "360°"<br>
+        Métricas inventadas<br>
+        "¿Por qué elegirnos?" con bullets genéricos<br>
+        Cupos operativos internos
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-num">COMPONENTES</div>
+      <div class="card-title">Patrones a evitar</div>
+      <div class="card-body">
+        Chat widgets o pop-ups<br>
+        Testimonios con fotos de perfil<br>
+        Contadores animados de métricas<br>
+        Sección "¿por qué elegirnos?" con ícono+desc<br>
+        Tono startup<br>
+        Tailwind o frameworks CSS
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-num">CSS / CÓDIGO</div>
+      <div class="card-title">Anti-patterns técnicos</div>
+      <div class="card-body">
+        Hex directos en lugar de variables<br>
+        Colores azulados (#1C2340 es stale)<br>
+        Easing sin cubic-bezier del sistema<br>
+        Secciones sin scroll reveal<br>
+        Fondos planos sin radial-gradient<br>
+        border-radius en cards de portfolio
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 16 ESTADO ACTUAL ── -->
+<div class="chapter" id="estado">
+  <div class="chapter-header">
+    <div class="chapter-num">16 →</div>
+    <h2 class="chapter-title">Estado actual del proyecto</h2>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Páginas completadas</div>
+    <table>
+      <tr><th>Página</th><th>Estado</th><th>Notas</th></tr>
+      <tr><td><code>/</code> Home</td><td class="terra">✓ Producción</td><td>7 secciones completas. Formulario conectado a Supabase.</td></tr>
+      <tr><td><code>/servicios</code></td><td class="terra">✓ Producción</td><td>Accordion expandido, modo oscuro completo, 5 servicios con detalle.</td></tr>
+      <tr><td><code>/trabajo</code></td><td class="terra">✓ Producción</td><td>Hero + grid 4 proyectos + CTA.</td></tr>
+      <tr><td><code>/trabajo/amalita</code></td><td class="terra">✓ Producción</td><td>6 secciones de galería, lightbox, prev/next.</td></tr>
+      <tr><td><code>/trabajo/portal-chas</code></td><td class="terra">✓ Producción</td><td>4 secciones de galería.</td></tr>
+      <tr><td><code>/trabajo/vidas-al-volante</code></td><td class="terra">✓ Producción</td><td>3 secciones de galería.</td></tr>
+      <tr><td><code>/trabajo/kala</code></td><td class="terra">✓ Producción</td><td>1 sección de galería (packaging).</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Historial de commits recientes</div>
+    <table>
+      <tr><th>Commit</th><th>Descripción</th></tr>
+      <tr><td><code>9cd3675</code></td><td>docs: add marketing brief + update brand system docs to v2.0</td></tr>
+      <tr><td><code>57d8993</code></td><td>feat: /servicios page + updated accordion copy + nav/footer links</td></tr>
+      <tr><td><code>5a1c3be</code></td><td>fix: desafio field width aligned to form grid columns</td></tr>
+      <tr><td><code>e1c7b90</code></td><td>fix: form status and button aligned inline, subtler sent state</td></tr>
+      <tr><td><code>dc78a85</code></td><td>feat: connect contact form to Supabase with validation and status states</td></tr>
+      <tr><td><code>85d13a2</code></td><td>fix: hero title descenders visible — increased line-height</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Documentos en /docs</div>
+    <table>
+      <tr><th>Archivo</th><th>Contenido</th></tr>
+      <tr><td><code>proma-brand-system.md</code></td><td>Sistema de marca completo — colores, tipografía, wordmark, animaciones, componentes</td></tr>
+      <tr><td><code>proma-marketing-brief.md</code></td><td>Brief de lanzamiento — audiencia, mensajes, copy por sección, banco de frases, restricciones</td></tr>
+      <tr><td><code>proma-context-full.html</code></td><td>Este archivo — contexto completo para migración</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Archivos raíz importantes</div>
+    <table>
+      <tr><th>Archivo</th><th>Rol</th></tr>
+      <tr><td><code>CLAUDE.md</code></td><td>Instrucciones de proyecto para Claude Code — fuente de verdad primaria</td></tr>
+      <tr><td><code>COPY_SERVICIOS_v1.0.md</code></td><td>Copy completo de la página /servicios</td></tr>
+      <tr><td><code>tokens.css</code> (raíz)</td><td>Copia de tokens para herramientas externas</td></tr>
+      <tr><td><code>tokens.json</code></td><td>Tokens en JSON para Figma/Style Dictionary</td></tr>
+      <tr><td><code>astro.config.mjs</code></td><td>Config mínima de Astro (sin plugins adicionales)</td></tr>
+    </table>
+  </div>
+
+  <div class="alert" style="margin-top:24px;">
+    <strong>Próximos pasos pendientes (sin asignar):</strong><br>
+    — Plan de marketing de lanzamiento (en elaboración en otra instancia de AI)<br>
+    — Copy de redes sociales (LinkedIn / Instagram)<br>
+    — Posibles proyectos adicionales para el portfolio<br>
+    — SEO básico: meta descriptions, og:image, sitemap
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- ══════════════════════════════════════════════════════
+     FOOTER DEL DOCUMENTO
+══════════════════════════════════════════════════════ -->
+<div class="doc-footer">
+  <div class="doc-footer-left">pro<em>m</em>a Studio</div>
+  <div class="doc-footer-right">
+    proma-context-full.html<br>
+    v1.0 · 2026-05-11<br>
+    github.com/santyperez85-eng/proma-final
+  </div>
+</div>
+
+</body>
+</html>
