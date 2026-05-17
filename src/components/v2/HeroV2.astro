@@ -1,7 +1,6 @@
 ---
 import DotMatrixLayer from './DotMatrixLayer.astro';
 import DocumentHeader from './DocumentHeader.astro';
-import BadgeV2 from './BadgeV2.astro';
 import RegistrationMarksV2 from './RegistrationMarksV2.astro';
 import LongArrowCTA from './LongArrowCTA.astro';
 ---
@@ -38,10 +37,10 @@ import LongArrowCTA from './LongArrowCTA.astro';
       </h1>
     </div>
 
-    <!-- 3 — Bottom info bar -->
+    <!-- 3 — Bottom bar -->
     <div class="hv2-bottom container">
 
-      <!-- Left: description -->
+      <!-- Left: statement de soporte -->
       <div class="hv2-desc-col hv2-entrance hv2-entrance--desc">
         <p class="hv2-desc">
           Diseño con método para organizaciones<br />
@@ -49,26 +48,22 @@ import LongArrowCTA from './LongArrowCTA.astro';
         </p>
       </div>
 
-      <!-- Center: badge cluster — campos de estado del sistema -->
-      <div class="hv2-badge-col">
-        <BadgeV2 text="DOCUMENTED"  variant="active" delay="1.20s" />
-        <BadgeV2 text="TRACEABLE"   variant="muted"  delay="1.30s" />
-        <BadgeV2 text="CONTROLLED"  variant="muted"  delay="1.40s" />
+      <!-- Center: scroll + system states sutiles -->
+      <div class="hv2-center-col hv2-entrance hv2-entrance--center">
+        <div class="hv2-scroll-indicator">
+          <span class="hv2-scroll-label">SCROLL</span>
+          <span class="hv2-scroll-line" aria-hidden="true"></span>
+        </div>
+        <p class="hv2-states">DOCUMENTED · TRACEABLE · CONTROLLED</p>
       </div>
 
-      <!-- Right: CTAs -->
+      <!-- Right: CTA principal + link secundario -->
       <div class="hv2-actions-col hv2-entrance hv2-entrance--actions">
         <a href="#contacto" class="btn-cta hv2-cta">Agendá un diagnóstico</a>
         <LongArrowCTA href="#metodo" label="Conocé el método" delay="1.60s" />
       </div>
 
     </div>
-  </div>
-
-  <!-- Scroll hint -->
-  <div class="hv2-scroll-hint hv2-entrance hv2-entrance--scroll">
-    <span class="hv2-scroll-text type-mono-sm">SCROLL</span>
-    <span class="hv2-scroll-line" aria-hidden="true"></span>
   </div>
 
 </section>
@@ -85,7 +80,7 @@ import LongArrowCTA from './LongArrowCTA.astro';
     display: flex;
   }
 
-  /* ── Ambient glows — same depth as v1 ── */
+  /* ── Ambient glows ── */
   .hv2-glow-terra {
     position: absolute;
     top: -10%;
@@ -136,16 +131,11 @@ import LongArrowCTA from './LongArrowCTA.astro';
     padding: 96px 0 48px;
   }
 
-  /* ── Document header row ── */
   .hv2-doc-row {
     width: 100%;
   }
 
-  /* ── Title block ── */
-  .hv2-title-block {
-    /* centered in the space between doc header and bottom bar */
-  }
-
+  /* ── Title ── */
   .hv2-title {
     font-family: var(--font-primary);
     font-weight: 700;
@@ -164,12 +154,11 @@ import LongArrowCTA from './LongArrowCTA.astro';
     margin-bottom: -0.12em;
   }
 
-  .hv2-line:last-child {
-    margin-bottom: 0;
-  }
+  .hv2-line:last-child { margin-bottom: 0; }
 
+  /* Indent pronunciado — intencional, no accidental */
   .hv2-line-indent {
-    padding-left: clamp(40px, 8vw, 120px);
+    padding-left: clamp(64px, 9vw, 128px);
   }
 
   .hv2-word {
@@ -183,10 +172,7 @@ import LongArrowCTA from './LongArrowCTA.astro';
   .hv2-line:nth-child(2) .hv2-word { animation-delay: 0.85s; }
 
   @keyframes wordUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   .hv2-italic {
@@ -200,9 +186,7 @@ import LongArrowCTA from './LongArrowCTA.astro';
       0 0 60px rgba(212, 82, 26, 0.10);
   }
 
-  .hv2-dot {
-    color: var(--proma-terra-500);
-  }
+  .hv2-dot { color: var(--proma-terra-500); }
 
   /* ── Bottom bar ── */
   .hv2-bottom {
@@ -214,10 +198,8 @@ import LongArrowCTA from './LongArrowCTA.astro';
     border-top: 1px solid rgba(242, 237, 228, 0.07);
   }
 
-  /* Description */
-  .hv2-desc-col {
-    min-width: 0;
-  }
+  /* Left: description */
+  .hv2-desc-col { min-width: 0; }
 
   .hv2-desc {
     font-family: var(--font-primary);
@@ -228,16 +210,60 @@ import LongArrowCTA from './LongArrowCTA.astro';
     max-width: 300px;
   }
 
-  /* Badge cluster */
-  .hv2-badge-col {
+  /* Center: scroll indicator + states */
+  .hv2-center-col {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-2);
+    align-items: center;
+    gap: var(--space-3);
     padding-bottom: 2px;
   }
 
-  /* Actions */
+  .hv2-scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .hv2-scroll-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    color: var(--proma-cream-100);
+    opacity: 0.18;
+    text-transform: uppercase;
+  }
+
+  .hv2-scroll-line {
+    display: block;
+    width: 1px;
+    height: 24px;
+    background: var(--proma-terra-500);
+    transform-origin: top;
+    opacity: 0.5;
+    animation: scrollDraw 2.4s ease-in-out 2.0s infinite;
+  }
+
+  @keyframes scrollDraw {
+    0%   { transform: scaleY(0); opacity: 0; }
+    25%  { transform: scaleY(1); opacity: 0.5; }
+    55%  { transform: scaleY(1); opacity: 0; }
+    100% { transform: scaleY(0); opacity: 0; }
+  }
+
+  /* System states — metadata inline, muy sutil */
+  .hv2-states {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.09em;
+    color: var(--proma-cream-100);
+    opacity: 0.18;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* Right: actions */
   .hv2-actions-col {
     display: flex;
     align-items: center;
@@ -251,84 +277,26 @@ import LongArrowCTA from './LongArrowCTA.astro';
     animation: hv2Reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.50s forwards;
   }
 
-  /* Generic entrance (description, actions wrapper) */
+  /* Generic entrance */
   .hv2-entrance {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
     animation: hv2Reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .hv2-entrance--desc    { animation-delay: 1.10s; }
+  .hv2-entrance--center  { animation-delay: 1.25s; }
   .hv2-entrance--actions { animation-delay: 1.55s; }
-  .hv2-entrance--scroll  { animation-delay: 1.90s; }
 
   @keyframes hv2Reveal {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* ── Scroll hint ── */
-  .hv2-scroll-hint {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%) translateY(16px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-
-  /* Override the entrance transform for scroll hint since it has its own translate */
-  .hv2-entrance--scroll {
-    transform: translateX(-50%) translateY(16px);
-  }
-
-  @keyframes hv2ScrollReveal {
-    to {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-  }
-
-  .hv2-entrance--scroll {
-    animation-name: hv2ScrollReveal;
-  }
-
-  .hv2-scroll-text {
-    color: var(--proma-cream-100);
-    opacity: 0.22;
-    font-size: 9px;
-    letter-spacing: 0.2em;
-  }
-
-  .hv2-scroll-line {
-    display: block;
-    width: 1px;
-    height: 32px;
-    background: var(--proma-terra-500);
-    transform-origin: top;
-    animation: scrollDraw 2s ease-in-out 2.2s infinite;
-  }
-
-  @keyframes scrollDraw {
-    0%   { transform: scaleY(0); opacity: 0; }
-    30%  { transform: scaleY(1); opacity: 0.6; }
-    60%  { transform: scaleY(1); opacity: 0; }
-    100% { transform: scaleY(0); opacity: 0; }
+    to { opacity: 1; transform: translateY(0); }
   }
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
-    .hv2-inner {
-      padding: 88px 0 48px;
-    }
+    .hv2-inner { padding: 88px 0 48px; }
 
-    .hv2-line-indent {
-      padding-left: 0;
-    }
+    .hv2-line-indent { padding-left: 0; }
 
     .hv2-bottom {
       grid-template-columns: 1fr;
@@ -336,9 +304,17 @@ import LongArrowCTA from './LongArrowCTA.astro';
       align-items: flex-start;
     }
 
-    .hv2-badge-col {
+    .hv2-center-col {
+      align-items: flex-start;
       flex-direction: row;
-      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+
+    .hv2-scroll-indicator { display: none; }
+
+    .hv2-states {
+      white-space: normal;
+      line-height: 1.6;
     }
 
     .hv2-actions-col {

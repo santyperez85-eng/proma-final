@@ -2,36 +2,34 @@
 ---
 
 <div class="doc-header">
-  <div class="doc-header-fields container">
-    <span class="doc-field doc-field--1">
-      <span class="doc-key">REF</span>
-      <span class="doc-sep">·</span>
-      <span class="doc-val">UMBRAL</span>
-    </span>
-    <span class="doc-divider" aria-hidden="true"></span>
-    <span class="doc-field doc-field--2">
-      <span class="doc-key">DATE</span>
-      <span class="doc-sep">·</span>
-      <span class="doc-val">2026</span>
-    </span>
-    <span class="doc-divider" aria-hidden="true"></span>
-    <span class="doc-field doc-field--3">
-      <span class="doc-key">VERSION</span>
-      <span class="doc-sep">·</span>
-      <span class="doc-val">v2.0</span>
-    </span>
-    <span class="doc-divider" aria-hidden="true"></span>
-    <span class="doc-field doc-field--4">
-      <span class="doc-key">STATUS</span>
-      <span class="doc-sep">·</span>
-      <span class="doc-val doc-val--active">SYSTEM READY</span>
-    </span>
+
+  <!-- Banda de campos — estructura de celdas técnicas -->
+  <div class="doc-band container">
+    <div class="doc-cell doc-cell--1">
+      <span class="doc-cell-key">REF</span>
+      <span class="doc-cell-val">UMBRAL</span>
+    </div>
+    <div class="doc-cell doc-cell--2">
+      <span class="doc-cell-key">DATE</span>
+      <span class="doc-cell-val">2026</span>
+    </div>
+    <div class="doc-cell doc-cell--3">
+      <span class="doc-cell-key">VERSION</span>
+      <span class="doc-cell-val">v2.0</span>
+    </div>
+    <div class="doc-cell doc-cell--4">
+      <span class="doc-cell-key">STATUS</span>
+      <span class="doc-cell-val doc-cell-val--active">SYSTEM READY</span>
+    </div>
+    <!-- Filler — empuja celdas a la izquierda -->
+    <div class="doc-cell-filler" aria-hidden="true"></div>
   </div>
 
-  <!-- Terracota line that extends left → right -->
+  <!-- Línea terracota que se extiende -->
   <div class="doc-rule-wrap container">
     <div class="doc-rule"></div>
   </div>
+
 </div>
 
 <style>
@@ -39,63 +37,71 @@
     width: 100%;
   }
 
-  .doc-header-fields {
+  /* Banda con borde superior y separadores de celda */
+  .doc-band {
     display: flex;
-    align-items: center;
-    gap: 0;
-    padding-bottom: var(--space-3);
-    flex-wrap: wrap;
+    align-items: stretch;
+    border-top: 1px solid rgba(242, 237, 228, 0.08);
+    border-bottom: none; /* la línea terracota hace de cierre */
   }
 
-  .doc-field {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+  .doc-cell {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 8px var(--space-5) 10px var(--space-3);
+    border-right: 1px solid rgba(242, 237, 228, 0.07);
+    opacity: 0;
+    transform: translateY(4px);
+    animation: cellIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    flex-shrink: 0;
+  }
+
+  .doc-cell--1 { animation-delay: 0.14s; }
+  .doc-cell--2 { animation-delay: 0.23s; }
+  .doc-cell--3 { animation-delay: 0.32s; }
+  .doc-cell--4 { animation-delay: 0.41s; border-right: 1px solid rgba(242, 237, 228, 0.07); }
+
+  /* Filler ocupa el resto del ancho y aporta el borde visual correcto */
+  .doc-cell-filler {
+    flex: 1;
+    border-right: none;
+    opacity: 0;
+    animation: cellIn 0.3s ease 0.5s forwards;
+  }
+
+  .doc-cell-key {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    color: rgba(242, 237, 228, 0.22);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .doc-cell-val {
     font-family: var(--font-mono);
     font-size: 10px;
-    letter-spacing: 0.10em;
-    padding: 0 var(--space-5) 0 0;
-    opacity: 0;
-    transform: translateY(5px);
-    animation: fieldIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .doc-field--1 { animation-delay: 0.15s; }
-  .doc-field--2 { animation-delay: 0.26s; }
-  .doc-field--3 { animation-delay: 0.37s; }
-  .doc-field--4 { animation-delay: 0.48s; }
-
-  .doc-key {
-    color: rgba(242, 237, 228, 0.28);
-    text-transform: uppercase;
-  }
-
-  .doc-sep {
-    color: rgba(242, 237, 228, 0.12);
-  }
-
-  .doc-val {
+    letter-spacing: 0.09em;
     color: rgba(242, 237, 228, 0.50);
     text-transform: uppercase;
+    line-height: 1;
   }
 
-  .doc-val--active {
+  .doc-cell-val--active {
     color: var(--proma-terra-500);
   }
 
-  /* Vertical pipe dividers between fields */
-  .doc-divider {
-    display: inline-block;
-    width: 1px;
-    height: 10px;
-    background: rgba(242, 237, 228, 0.10);
-    margin-right: var(--space-5);
-    flex-shrink: 0;
-    opacity: 0;
-    animation: fieldIn 0.4s ease 0.5s forwards;
+  /* Indicador de estado activo — punto terracota */
+  .doc-cell--4 .doc-cell-val--active::after {
+    content: ' ●';
+    font-size: 5px;
+    vertical-align: middle;
+    opacity: 0.8;
   }
 
-  /* The extending terracota rule */
+  /* Línea terracota que se extiende */
   .doc-rule-wrap {
     padding: 0;
   }
@@ -105,15 +111,15 @@
     background: linear-gradient(
       to right,
       var(--proma-terra-500) 0%,
-      rgba(212, 82, 26, 0.3) 60%,
+      rgba(212, 82, 26, 0.25) 55%,
       transparent 100%
     );
     transform-origin: left center;
     transform: scaleX(0);
-    animation: ruleExtend 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+    animation: ruleExtend 1s cubic-bezier(0.16, 1, 0.3, 1) 0.30s forwards;
   }
 
-  @keyframes fieldIn {
+  @keyframes cellIn {
     to {
       opacity: 1;
       transform: translateY(0);
@@ -124,10 +130,23 @@
     to { transform: scaleX(1); }
   }
 
+  /* Mobile: solo REF y DATE, banda compacta */
   @media (max-width: 768px) {
-    .doc-divider { display: none; }
-    .doc-field { padding-right: var(--space-4); }
-    .doc-field--3,
-    .doc-field--4 { display: none; }
+    .doc-band {
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+
+    .doc-cell--3,
+    .doc-cell--4,
+    .doc-cell-filler { display: none; }
+
+    .doc-cell {
+      padding: 6px var(--space-4) 8px var(--space-3);
+    }
+
+    .doc-rule-wrap {
+      padding: 0;
+    }
   }
 </style>
