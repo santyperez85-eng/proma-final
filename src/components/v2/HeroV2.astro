@@ -48,13 +48,26 @@ import LongArrowCTA from './LongArrowCTA.astro';
         </p>
       </div>
 
-      <!-- Center: scroll + system states sutiles -->
+      <!-- Center: ficha técnica — metadata documental, no claim -->
       <div class="hv2-center-col hv2-entrance hv2-entrance--center">
-        <div class="hv2-scroll-indicator">
+        <div class="hv2-scroll-indicator" aria-hidden="true">
           <span class="hv2-scroll-label">SCROLL</span>
-          <span class="hv2-scroll-line" aria-hidden="true"></span>
+          <span class="hv2-scroll-line"></span>
         </div>
-        <p class="hv2-states">DOCUMENTED · TRACEABLE · CONTROLLED</p>
+        <dl class="hv2-meta">
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">STATE</dt>
+            <dd class="hv2-meta-val">DOCUMENTED</dd>
+          </div>
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">MODE</dt>
+            <dd class="hv2-meta-val">TRACEABLE</dd>
+          </div>
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">OUTPUT</dt>
+            <dd class="hv2-meta-val">CONTROLLED</dd>
+          </div>
+        </dl>
       </div>
 
       <!-- Right: CTA principal + link secundario -->
@@ -128,7 +141,7 @@ import LongArrowCTA from './LongArrowCTA.astro';
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    padding: 96px 0 48px;
+    padding: 76px 0 48px;
   }
 
   .hv2-doc-row {
@@ -210,13 +223,42 @@ import LongArrowCTA from './LongArrowCTA.astro';
     max-width: 300px;
   }
 
-  /* Center: scroll indicator + states */
+  /* Center: scroll indicator + ficha técnica metadata */
   .hv2-center-col {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--space-3);
     padding-bottom: 2px;
+  }
+
+  .hv2-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-left: 1px solid rgba(212, 82, 26, 0.30);
+    padding-left: var(--space-3);
+  }
+
+  .hv2-meta-row {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .hv2-meta-key {
+    color: var(--proma-terra-500);
+    opacity: 0.72;
+  }
+
+  .hv2-meta-val {
+    color: var(--proma-cream-100);
+    opacity: 0.42;
   }
 
   .hv2-scroll-indicator {
@@ -252,17 +294,6 @@ import LongArrowCTA from './LongArrowCTA.astro';
     100% { transform: scaleY(0); opacity: 0; }
   }
 
-  /* System states — metadata inline, muy sutil */
-  .hv2-states {
-    font-family: var(--font-mono);
-    font-size: 8px;
-    letter-spacing: 0.09em;
-    color: var(--proma-cream-100);
-    opacity: 0.18;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
-
   /* Right: actions */
   .hv2-actions-col {
     display: flex;
@@ -294,7 +325,7 @@ import LongArrowCTA from './LongArrowCTA.astro';
 
   /* ── Mobile ── */
   @media (max-width: 768px) {
-    .hv2-inner { padding: 88px 0 48px; }
+    .hv2-inner { padding: 72px 0 48px; }
 
     .hv2-line-indent { padding-left: 0; }
 
@@ -312,9 +343,13 @@ import LongArrowCTA from './LongArrowCTA.astro';
 
     .hv2-scroll-indicator { display: none; }
 
-    .hv2-states {
-      white-space: normal;
-      line-height: 1.6;
+    .hv2-meta {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .hv2-meta-row {
+      grid-template-columns: 56px 1fr;
     }
 
     .hv2-actions-col {
