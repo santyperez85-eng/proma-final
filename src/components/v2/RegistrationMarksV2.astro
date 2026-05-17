@@ -1,0 +1,50 @@
+---
+---
+
+<div class="rm rm-tl" aria-hidden="true"></div>
+<div class="rm rm-tr" aria-hidden="true"></div>
+<div class="rm rm-bl" aria-hidden="true"></div>
+<div class="rm rm-br" aria-hidden="true"></div>
+
+<style>
+  .rm {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    animation: rmReveal 0.5s ease 0.9s forwards;
+  }
+
+  /* Vertical bar of the cross */
+  .rm::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    background: var(--proma-cream-100);
+  }
+
+  /* Horizontal bar of the cross */
+  .rm::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    background: var(--proma-cream-100);
+  }
+
+  .rm-tl { top: 24px;    left: 24px;  }
+  .rm-tr { top: 24px;    right: 24px; }
+  .rm-bl { bottom: 24px; left: 24px;  }
+  .rm-br { bottom: 24px; right: 24px; }
+
+  @keyframes rmReveal {
+    to { opacity: 0.10; }
+  }
+</style>

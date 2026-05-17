@@ -1,0 +1,31 @@
+---
+interface Props {
+  text: string;
+  variant?: 'active' | 'muted';
+  delay?: string;
+}
+const { text, variant = 'active', delay = '0s' } = Astro.props;
+---
+
+<!-- Wrapper handles entrance; badge element handles any future hover -->
+<span class="badge-entrance" style={`animation-delay: ${delay};`}>
+  <span class:list={[variant === 'muted' ? 'badge-v2-muted' : 'badge-v2']}>
+    {text}
+  </span>
+</span>
+
+<style>
+  .badge-entrance {
+    display: inline-flex;
+    opacity: 0;
+    transform: translateY(4px);
+    animation: badgeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes badgeIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

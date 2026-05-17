@@ -177,17 +177,17 @@
   --dot-size:          1px;
   --dot-gap:           24px;
   --dot-opacity:       0.06;
-  --dot-opacity-em:    0.12;   /* énfasis puntual */
+  --dot-opacity-em:    0.12;
   --dot-color:         var(--proma-cream-100);
 }
 
-/* ── v2 · Badge system (campos documentales, no certificaciones) ── */
+/* ── v2 · Badge system ── */
 :root {
   --badge-font-size:      10px;
   --badge-tracking:       0.10em;
   --badge-padding-x:      var(--space-2);
   --badge-padding-y:      3px;
-  --badge-radius:         var(--radius-sm);  /* 3px — apenas perceptible */
+  --badge-radius:         var(--radius-sm);
   --badge-border:         1px solid rgba(212, 82, 26, 0.30);
   --badge-bg:             rgba(212, 82, 26, 0.06);
   --badge-color:          var(--proma-terra-500);
@@ -196,38 +196,37 @@
   --badge-color-muted:    rgba(242, 237, 228, 0.45);
 }
 
-/* ── v2 · Animaciones — duraciones y easings ── */
+/* ── v2 · Animaciones ── */
 :root {
   --ease-main:          cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-mask:          cubic-bezier(0.76, 0, 0.24, 1);  /* mask reveals — más lineal */
+  --ease-mask:          cubic-bezier(0.76, 0, 0.24, 1);
   --duration-reveal:    0.7s;
   --duration-mask:      0.9s;
   --duration-line:      0.6s;
   --duration-badge:     0.4s;
-  --duration-dot:       1.2s;   /* dot matrix ordena */
+  --duration-dot:       1.2s;
   --stagger-base:       0.08s;
 }
 
-/* ── v2 · Fotografía — capas de overlay ── */
+/* ── v2 · Fotografía ── */
 :root {
-  --photo-overlay-dark:    rgba(10, 10, 15, 0.72);   /* sobre foto en hero */
-  --photo-overlay-texture: rgba(10, 10, 15, 0.55);   /* para capas textura lateral */
-  --photo-blend:           multiply;                  /* mix-blend-mode */
+  --photo-overlay-dark:    rgba(10, 10, 15, 0.72);
+  --photo-overlay-texture: rgba(10, 10, 15, 0.55);
+  --photo-blend:           multiply;
 }
 
-/* ── v2 · Ficha técnica de servicios ── */
+/* ── v2 · Ficha técnica ── */
 :root {
-  --field-label-size:    var(--type-mono-sm-size);  /* 11px — labels INPUT/OUTPUT */
+  --field-label-size:    var(--type-mono-sm-size);
   --field-label-track:   0.12em;
   --field-label-color:   rgba(212, 82, 26, 0.70);
-  --field-value-size:    var(--type-body-size);     /* 14px — contenido del campo */
+  --field-value-size:    var(--type-body-size);
   --field-border:        1px solid rgba(242, 237, 228, 0.08);
-  --field-gap:           var(--space-6);            /* separación entre campos */
+  --field-gap:           var(--space-6);
 }
 
 /* ── v2 · Clases utilitarias ── */
 
-/* Badge documental activo */
 .badge-v2 {
   display: inline-flex;
   align-items: center;
@@ -243,7 +242,6 @@
   white-space: nowrap;
 }
 
-/* Badge muted — estado inactivo o secundario */
 .badge-v2-muted {
   display: inline-flex;
   align-items: center;
@@ -259,7 +257,6 @@
   white-space: nowrap;
 }
 
-/* Dot matrix — SVG inline pattern como pseudo-elemento */
 .dot-matrix-bg {
   position: relative;
 }
@@ -277,7 +274,6 @@
   z-index: 0;
 }
 
-/* Label de campo documental */
 .field-label {
   font-family: var(--font-mono);
   font-size: var(--field-label-size);
@@ -286,7 +282,6 @@
   text-transform: uppercase;
 }
 
-/* Máscara vertical — reveal documental */
 .mask-reveal {
   clip-path: inset(0 0 100% 0);
   transition: clip-path var(--duration-mask) var(--ease-mask);
@@ -295,7 +290,6 @@
   clip-path: inset(0 0 0% 0);
 }
 
-/* Línea que se extiende */
 .line-reveal {
   transform: scaleX(0);
   transform-origin: left center;
@@ -305,7 +299,6 @@
   transform: scaleX(1);
 }
 
-/* CTA — guión largo */
 .link-arrow-long {
   display: inline-flex;
   align-items: center;

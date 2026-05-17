@@ -1,0 +1,133 @@
+---
+---
+
+<div class="doc-header">
+  <div class="doc-header-fields container">
+    <span class="doc-field doc-field--1">
+      <span class="doc-key">REF</span>
+      <span class="doc-sep">·</span>
+      <span class="doc-val">UMBRAL</span>
+    </span>
+    <span class="doc-divider" aria-hidden="true"></span>
+    <span class="doc-field doc-field--2">
+      <span class="doc-key">DATE</span>
+      <span class="doc-sep">·</span>
+      <span class="doc-val">2026</span>
+    </span>
+    <span class="doc-divider" aria-hidden="true"></span>
+    <span class="doc-field doc-field--3">
+      <span class="doc-key">VERSION</span>
+      <span class="doc-sep">·</span>
+      <span class="doc-val">v2.0</span>
+    </span>
+    <span class="doc-divider" aria-hidden="true"></span>
+    <span class="doc-field doc-field--4">
+      <span class="doc-key">STATUS</span>
+      <span class="doc-sep">·</span>
+      <span class="doc-val doc-val--active">SYSTEM READY</span>
+    </span>
+  </div>
+
+  <!-- Terracota line that extends left → right -->
+  <div class="doc-rule-wrap container">
+    <div class="doc-rule"></div>
+  </div>
+</div>
+
+<style>
+  .doc-header {
+    width: 100%;
+  }
+
+  .doc-header-fields {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding-bottom: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .doc-field {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.10em;
+    padding: 0 var(--space-5) 0 0;
+    opacity: 0;
+    transform: translateY(5px);
+    animation: fieldIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .doc-field--1 { animation-delay: 0.15s; }
+  .doc-field--2 { animation-delay: 0.26s; }
+  .doc-field--3 { animation-delay: 0.37s; }
+  .doc-field--4 { animation-delay: 0.48s; }
+
+  .doc-key {
+    color: rgba(242, 237, 228, 0.28);
+    text-transform: uppercase;
+  }
+
+  .doc-sep {
+    color: rgba(242, 237, 228, 0.12);
+  }
+
+  .doc-val {
+    color: rgba(242, 237, 228, 0.50);
+    text-transform: uppercase;
+  }
+
+  .doc-val--active {
+    color: var(--proma-terra-500);
+  }
+
+  /* Vertical pipe dividers between fields */
+  .doc-divider {
+    display: inline-block;
+    width: 1px;
+    height: 10px;
+    background: rgba(242, 237, 228, 0.10);
+    margin-right: var(--space-5);
+    flex-shrink: 0;
+    opacity: 0;
+    animation: fieldIn 0.4s ease 0.5s forwards;
+  }
+
+  /* The extending terracota rule */
+  .doc-rule-wrap {
+    padding: 0;
+  }
+
+  .doc-rule {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      var(--proma-terra-500) 0%,
+      rgba(212, 82, 26, 0.3) 60%,
+      transparent 100%
+    );
+    transform-origin: left center;
+    transform: scaleX(0);
+    animation: ruleExtend 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
+  }
+
+  @keyframes fieldIn {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes ruleExtend {
+    to { transform: scaleX(1); }
+  }
+
+  @media (max-width: 768px) {
+    .doc-divider { display: none; }
+    .doc-field { padding-right: var(--space-4); }
+    .doc-field--3,
+    .doc-field--4 { display: none; }
+  }
+</style>

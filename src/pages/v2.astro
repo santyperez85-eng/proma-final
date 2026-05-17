@@ -1,40 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
+import HeroV2 from '../components/v2/HeroV2.astro';
 ---
 
 <Base title="proma v2 — sandbox">
-  <div data-mode="dark" style="min-height: 100vh; background: var(--proma-navy-900);">
 
-    <!-- ── Sandbox header ── -->
-    <section style="padding: 120px 0 64px; border-bottom: 1px solid rgba(242,237,228,0.06);">
-      <div class="container">
-        <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-8); flex-wrap: wrap;">
-          <div>
-            <p class="type-mono-sm" style="color: var(--proma-terra-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-4); opacity: 0.7;">
-              REF · v2 SANDBOX
-            </p>
-            <h1 style="font-family: var(--font-primary); font-size: clamp(32px, 5vw, 60px); font-weight: 700; letter-spacing: -0.04em; color: var(--proma-cream-100); line-height: 1.1;">
-              feature/proma-web-v2
-            </h1>
-            <p class="type-body" style="margin-top: var(--space-4); opacity: 0.4; max-width: 480px;">
-              Exploración de home. No en producción.
-              Los componentes se construyen sección por sección aquí antes de integrarse.
-            </p>
-          </div>
-          <div style="display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-2);">
-            <span class="badge-v2">STATUS · DOCUMENTED</span>
-            <span class="badge-v2-muted">OUTPUT · IN PROGRESS</span>
-            <span class="badge-v2-muted">VERSION · v2.0</span>
-          </div>
-        </div>
-      </div>
-    </section>
+  <!-- ── Hero v2 — dirección visual ── -->
+  <HeroV2 />
 
-    <!-- ── Tokens v2 — referencia visual ── -->
+  <!-- ── Tokens v2 — referencia visual (debajo del hero) ── -->
+  <div data-mode="dark" style="background: var(--proma-navy-900);">
+
     <section style="padding: 80px 0; border-bottom: 1px solid rgba(242,237,228,0.06);">
       <div class="container">
         <p class="type-mono-sm" style="color: var(--proma-terra-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-10); opacity: 0.7;">
-          REF · TOKENS V2
+          REF · TOKENS V2 · REFERENCIA
         </p>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-8);">
@@ -72,25 +52,25 @@ import Base from '../layouts/Base.astro';
           <div>
             <p class="field-label" style="margin-bottom: var(--space-4);">LINE REVEAL</p>
             <div style="display: flex; flex-direction: column; gap: var(--space-5); padding: var(--space-6) 0;">
-              <div style="height: 1px; background: var(--proma-terra-500); transform: scaleX(1); transform-origin: left;"></div>
-              <div style="height: 1px; background: rgba(242,237,228,0.2); transform: scaleX(1); transform-origin: left;"></div>
-              <div style="height: 3px; background: var(--proma-terra-500); transform: scaleX(0.4); transform-origin: left;"></div>
+              <div style="height: 1px; background: var(--proma-terra-500); transform-origin: left;"></div>
+              <div style="height: 1px; background: rgba(242,237,228,0.2); transform-origin: left;"></div>
+              <div style="height: 3px; background: var(--proma-terra-500); width: 40%; transform-origin: left;"></div>
             </div>
             <p class="type-mono-sm" style="opacity: 0.4; margin-top: var(--space-2);">scaleX(0) → scaleX(1) · .line-reveal</p>
           </div>
 
-          <!-- Field labels -->
+          <!-- Ficha técnica -->
           <div>
             <p class="field-label" style="margin-bottom: var(--space-4);">FICHA TÉCNICA — CAMPOS</p>
-            <div style="display: flex; flex-direction: column; gap: 0; border: var(--field-border);">
+            <div style="display: flex; flex-direction: column; border: var(--field-border);">
               {[
-                { label: 'INPUT', value: 'Brief, materiales existentes, contexto regulatorio' },
+                { label: 'INPUT',   value: 'Brief, materiales existentes, contexto regulatorio' },
                 { label: 'CONTROL', value: 'Sistema de criterios PROMA-4' },
-                { label: 'OUTPUT', value: 'Sistema documentado y transferible' },
-                { label: 'STATE', value: 'Proceso activo · trazabilidad completa' },
+                { label: 'OUTPUT',  value: 'Sistema documentado y transferible' },
+                { label: 'STATE',   value: 'Proceso activo · trazabilidad completa' },
               ].map(field => (
-                <div style={`padding: var(--space-4) var(--space-5); border-bottom: var(--field-border); display: flex; gap: var(--space-8);`}>
-                  <span class="field-label" style="min-width: 56px; padding-top: 1px;">{field.label}</span>
+                <div style="padding: var(--space-4) var(--space-5); border-bottom: var(--field-border); display: flex; gap: var(--space-8);">
+                  <span class="field-label" style="min-width: 56px;">{field.label}</span>
                   <span class="type-body" style="opacity: 0.6;">{field.value}</span>
                 </div>
               ))}
@@ -101,35 +81,28 @@ import Base from '../layouts/Base.astro';
       </div>
     </section>
 
-    <!-- ── Secciones planificadas ── -->
+    <!-- Secciones planificadas -->
     <section style="padding: 80px 0;">
       <div class="container">
         <p class="type-mono-sm" style="color: var(--proma-terra-500); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: var(--space-10); opacity: 0.7;">
           REF · SECCIONES · ESTADO
         </p>
 
-        <div style="display: flex; flex-direction: column; gap: 0;">
+        <div style="display: flex; flex-direction: column;">
           {[
-            { num: '01', name: 'Hero v2', state: 'PENDIENTE', detail: 'Tipografía editorial preservada · foto industrial como capa secundaria · dot matrix ambiental' },
-            { num: '02', name: 'Problema v2', state: 'PENDIENTE', detail: 'Before/after con línea de intervención · scroll-linked · texto sin modificar' },
-            { num: '03', name: 'Servicios v2', state: 'PENDIENTE', detail: 'Ficha técnica INPUT/CONTROL/OUTPUT/STATE · filas editoriales · sin cards SaaS' },
-            { num: '04', name: 'Método v2', state: 'PENDIENTE', detail: 'PROMA-4 preservado · dot matrix en columnas · badges de estado por pilar' },
-            { num: '05', name: 'Estudio v2', state: 'PENDIENTE', detail: 'Sin cambios estructurales · ajustes de densidad y ritmo' },
-            { num: '06', name: 'Trabajo v2', state: 'PENDIENTE', detail: 'Grid con overlays de badges · FIG refs con estado documental' },
-            { num: '07', name: 'Contacto v2', state: 'PENDIENTE', detail: 'Sin cambios estructurales · dot matrix de fondo' },
-          ].map((s, i) => (
-            <div style={`
-              display: grid;
-              grid-template-columns: 32px 200px 1fr auto;
-              gap: var(--space-8);
-              align-items: baseline;
-              padding: var(--space-5) 0;
-              border-bottom: 1px solid rgba(242,237,228,0.06);
-            `}>
+            { num: '01', name: 'Hero v2',      state: 'ACTIVO',    detail: 'Tipografía editorial · doc header · dot matrix · badges · reg marks' },
+            { num: '02', name: 'Problema v2',  state: 'PENDIENTE', detail: 'Before/after con línea de intervención · scroll-linked · texto sin modificar' },
+            { num: '03', name: 'Servicios v2', state: 'PENDIENTE', detail: 'Ficha técnica INPUT/CONTROL/OUTPUT/STATE · filas editoriales' },
+            { num: '04', name: 'Método v2',    state: 'PENDIENTE', detail: 'PROMA-4 preservado · dot matrix en columnas · badges por pilar' },
+            { num: '05', name: 'Estudio v2',   state: 'PENDIENTE', detail: 'Ajustes de densidad y ritmo' },
+            { num: '06', name: 'Trabajo v2',   state: 'PENDIENTE', detail: 'Grid con overlays de badges · FIG refs con estado documental' },
+            { num: '07', name: 'Contacto v2',  state: 'PENDIENTE', detail: 'Sin cambios estructurales · dot matrix de fondo' },
+          ].map((s) => (
+            <div style="display: grid; grid-template-columns: 32px 200px 1fr auto; gap: var(--space-8); align-items: baseline; padding: var(--space-5) 0; border-bottom: 1px solid rgba(242,237,228,0.06);">
               <span class="type-mono-sm" style="opacity: 0.3;">{s.num}</span>
               <span class="type-body" style="color: var(--proma-cream-100); font-weight: 500;">{s.name}</span>
               <span class="type-body" style="opacity: 0.35;">{s.detail}</span>
-              <span class="badge-v2-muted">{s.state}</span>
+              <span class:list={[s.state === 'ACTIVO' ? 'badge-v2' : 'badge-v2-muted']}>{s.state}</span>
             </div>
           ))}
         </div>
@@ -139,7 +112,6 @@ import Base from '../layouts/Base.astro';
             proma v2 sandbox · feature/proma-web-v2 · no merge a main sin revisión
           </p>
         </div>
-
       </div>
     </section>
 
