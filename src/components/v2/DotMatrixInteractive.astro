@@ -1,0 +1,200 @@
+---
+---
+
+<canvas class="dmi-canvas" aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.querySelector('.dmi-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const GAP = 24;
+  const DOT_R = 0.75;
+
+  let W = 0, H = 0;
+  let rafId = 0;
+  let time = 0;
+  let scrollProg = 0;
+  const mouse = { x: -9999, y: -9999 };
+
+  interface Dot {
+    bx: number; by: number;
+    fx: number; fy: number;   // float frequencies
+    px: number; py: number;   // float phases
+    ax: number; ay: number;   // float amplitudes
+    op: number;               // base opacity
+    bp: number;               // breath phase
+    terra: boolean;
+    line: boolean;            // on highlight row
+  }
+
+  let dots: Dot[] = [];
+
+  function build() {
+    dots = [];
+    const cols = Math.ceil(W / GAP) + 2;
+    const rows = Math.ceil(H / GAP) + 2;
+    const ox = (W % GAP) / 2;
+    const oy = (H % GAP) / 2;
+    const hlRow = Math.round(rows * 0.55);
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        dots.push({
+          bx: ox + c * GAP,
+          by: oy + r * GAP,
+          fx: 0.28 + Math.random() * 0.38,
+          fy: 0.22 + Math.random() * 0.32,
+          px: Math.random() * Math.PI * 2,
+          py: Math.random() * Math.PI * 2,
+          ax: 0.5 + Math.random() * 1.5,
+          ay: 0.5 + Math.random() * 1.5,
+          op: 0.05 + Math.random() * 0.04,
+          bp: Math.random() * Math.PI * 2,
+          terra: Math.random() < 0.03,
+          line: r === hlRow,
+        });
+      }
+    }
+  }
+
+  function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    W = canvas.offsetWidth;
+    H = canvas.offsetHeight;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.scale(dpr, dpr);
+    build();
+  }
+
+  function getScrollProg() {
+    const hero = canvas.closest('.hero-v2') as HTMLElement | null;
+    if (!hero) return 0;
+    return Math.min(1, Math.max(0, window.scrollY / (hero.offsetHeight * 0.5)));
+  }
+
+  function draw(ts: number) {
+    time = ts * 0.001;
+    scrollProg = getScrollProg();
+    ctx.clearRect(0, 0, W, H);
+
+    for (const d of dots) {
+      let x = d.bx;
+      let y = d.by;
+
+      if (!prefersReduced) {
+        const floatX = Math.sin(time * d.fx + d.px) * d.ax;
+        const floatY = Math.cos(time * d.fy + d.py) * d.ay;
+        const ease = 1 - scrollProg;
+        x += floatX * ease;
+        y += floatY * ease;
+
+        // Mouse repulsion — subtle, radius 35px, max 1.5px push
+        const dx = x - mouse.x;
+        const dy = y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 35 && dist > 0) {
+          const f = (1 - dist / 35) * 1.5;
+          x += (dx / dist) * f;
+          y += (dy / dist) * f;
+        }
+      }
+
+      // Opacity
+      let op = d.op;
+      if (!prefersReduced) {
+        const breathe = Math.sin(time * 0.65 + d.bp) * 0.012;
+        op += breathe * (1 - scrollProg);
+      }
+
+      if (d.terra) {
+        op = op * 1.4 + scrollProg * 0.06;
+      } else if (d.line) {
+        // Highlight row fades in with scroll
+        op += scrollProg * 0.14;
+      }
+
+      op = Math.max(0, Math.min(1, op));
+
+      ctx.beginPath();
+      ctx.arc(x, y, DOT_R, 0, Math.PI * 2);
+      ctx.fillStyle = d.terra
+        ? `rgba(212,82,26,${op})`
+        : `rgba(242,237,228,${op})`;
+      ctx.fill();
+    }
+
+    if (!prefersReduced) {
+      rafId = requestAnimationFrame(draw);
+    }
+  }
+
+  // Init
+  resize();
+
+  const ro = new ResizeObserver(() => {
+    cancelAnimationFrame(rafId);
+    resize();
+    rafId = prefersReduced ? 0 : requestAnimationFrame(draw);
+    if (prefersReduced) draw(0);
+  });
+  ro.observe(canvas);
+
+  document.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  }, { passive: true });
+
+  if (prefersReduced) {
+    draw(0);
+  } else {
+    rafId = requestAnimationFrame(draw);
+  }
+</script>
+
+<style>
+  .dmi-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    animation: dmiReveal 3s ease-out 0.1s forwards;
+    -webkit-mask-image:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.4) 8%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 92%,
+        transparent 100%
+      );
+    mask-image:
+      linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0,0,0,0.4) 8%,
+        rgba(0,0,0,1) 25%,
+        rgba(0,0,0,1) 75%,
+        rgba(0,0,0,0.4) 92%,
+        transparent 100%
+      );
+  }
+
+  @keyframes dmiReveal {
+    to { opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dmi-canvas {
+      animation: none;
+      opacity: 1;
+    }
+  }
+</style>

@@ -3,6 +3,15 @@ import Base from '../layouts/Base.astro';
 import HeroV2 from '../components/v2/HeroV2.astro';
 ---
 
+<style is:global>
+  [data-mode="dark"] .type-body,
+  [data-mode="dark"] .type-mono-sm,
+  [data-mode="dark"] .type-mono-md,
+  [data-mode="dark"] .type-mono-lg {
+    color: var(--proma-cream-100);
+  }
+</style>
+
 <Base title="proma v2 — sandbox">
 
   <!-- ── Hero v2 — dirección visual ── -->
@@ -43,7 +52,7 @@ import HeroV2 from '../components/v2/HeroV2.astro';
               style="height: 160px; border: 1px solid rgba(242,237,228,0.08); background: var(--proma-navy-800);"
             >
               <div style="position: relative; z-index: 1; padding: var(--space-6); height: 100%; display: flex; align-items: flex-end;">
-                <p class="type-mono-sm" style="opacity: 0.4;">--dot-gap: 24px · --dot-opacity: 0.06</p>
+                <p class="type-mono-sm" style="opacity: 0.55;">--dot-gap: 24px · --dot-opacity: 0.06</p>
               </div>
             </div>
           </div>
@@ -56,7 +65,7 @@ import HeroV2 from '../components/v2/HeroV2.astro';
               <div style="height: 1px; background: rgba(242,237,228,0.2); transform-origin: left;"></div>
               <div style="height: 3px; background: var(--proma-terra-500); width: 40%; transform-origin: left;"></div>
             </div>
-            <p class="type-mono-sm" style="opacity: 0.4; margin-top: var(--space-2);">scaleX(0) → scaleX(1) · .line-reveal</p>
+            <p class="type-mono-sm" style="opacity: 0.55; margin-top: var(--space-2);">scaleX(0) → scaleX(1) · .line-reveal</p>
           </div>
 
           <!-- Ficha técnica -->
@@ -71,7 +80,7 @@ import HeroV2 from '../components/v2/HeroV2.astro';
               ].map(field => (
                 <div style="padding: var(--space-4) var(--space-5); border-bottom: var(--field-border); display: flex; gap: var(--space-8);">
                   <span class="field-label" style="min-width: 56px;">{field.label}</span>
-                  <span class="type-body" style="opacity: 0.6;">{field.value}</span>
+                  <span class="type-body" style="opacity: 0.72;">{field.value}</span>
                 </div>
               ))}
             </div>
@@ -101,14 +110,14 @@ import HeroV2 from '../components/v2/HeroV2.astro';
             <div style="display: grid; grid-template-columns: 32px 200px 1fr auto; gap: var(--space-8); align-items: baseline; padding: var(--space-5) 0; border-bottom: 1px solid rgba(242,237,228,0.06);">
               <span class="type-mono-sm" style="opacity: 0.3;">{s.num}</span>
               <span class="type-body" style="color: var(--proma-cream-100); font-weight: 500;">{s.name}</span>
-              <span class="type-body" style="opacity: 0.35;">{s.detail}</span>
+              <span class="type-body" style="opacity: 0.52;">{s.detail}</span>
               <span class:list={[s.state === 'ACTIVO' ? 'badge-v2' : 'badge-v2-muted']}>{s.state}</span>
             </div>
           ))}
         </div>
 
         <div style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid rgba(242,237,228,0.06);">
-          <p class="type-mono-sm" style="opacity: 0.25;">
+          <p class="type-mono-sm" style="opacity: 0.40;">
             proma v2 sandbox · feature/proma-web-v2 · no merge a main sin revisión
           </p>
         </div>
