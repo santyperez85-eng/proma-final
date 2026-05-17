@@ -167,6 +167,155 @@
   flex: 1; background: var(--proma-navy-900);
 }
 
+/* ══════════════════════════════════════════════════════
+   v2 — Tokens adicionales para home v2 (feature/proma-web-v2)
+   No modificar los tokens v1 de arriba.
+   ══════════════════════════════════════════════════════ */
+
+/* ── v2 · Dot matrix ── */
+:root {
+  --dot-size:          1px;
+  --dot-gap:           24px;
+  --dot-opacity:       0.06;
+  --dot-opacity-em:    0.12;
+  --dot-color:         var(--proma-cream-100);
+}
+
+/* ── v2 · Badge system ── */
+:root {
+  --badge-font-size:      10px;
+  --badge-tracking:       0.10em;
+  --badge-padding-x:      var(--space-2);
+  --badge-padding-y:      3px;
+  --badge-radius:         var(--radius-sm);
+  --badge-border:         1px solid rgba(212, 82, 26, 0.30);
+  --badge-bg:             rgba(212, 82, 26, 0.06);
+  --badge-color:          var(--proma-terra-500);
+  --badge-border-muted:   1px solid rgba(242, 237, 228, 0.15);
+  --badge-bg-muted:       rgba(242, 237, 228, 0.04);
+  --badge-color-muted:    rgba(242, 237, 228, 0.45);
+}
+
+/* ── v2 · Animaciones ── */
+:root {
+  --ease-main:          cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-mask:          cubic-bezier(0.76, 0, 0.24, 1);
+  --duration-reveal:    0.7s;
+  --duration-mask:      0.9s;
+  --duration-line:      0.6s;
+  --duration-badge:     0.4s;
+  --duration-dot:       1.2s;
+  --stagger-base:       0.08s;
+}
+
+/* ── v2 · Fotografía ── */
+:root {
+  --photo-overlay-dark:    rgba(10, 10, 15, 0.72);
+  --photo-overlay-texture: rgba(10, 10, 15, 0.55);
+  --photo-blend:           multiply;
+}
+
+/* ── v2 · Ficha técnica ── */
+:root {
+  --field-label-size:    var(--type-mono-sm-size);
+  --field-label-track:   0.12em;
+  --field-label-color:   rgba(212, 82, 26, 0.70);
+  --field-value-size:    var(--type-body-size);
+  --field-border:        1px solid rgba(242, 237, 228, 0.08);
+  --field-gap:           var(--space-6);
+}
+
+/* ── v2 · Clases utilitarias ── */
+
+.badge-v2 {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--badge-font-size);
+  letter-spacing: var(--badge-tracking);
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  border: var(--badge-border);
+  background: var(--badge-bg);
+  color: var(--badge-color);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.badge-v2-muted {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--badge-font-size);
+  letter-spacing: var(--badge-tracking);
+  padding: var(--badge-padding-y) var(--badge-padding-x);
+  border-radius: var(--badge-radius);
+  border: var(--badge-border-muted);
+  background: var(--badge-bg-muted);
+  color: var(--badge-color-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dot-matrix-bg {
+  position: relative;
+}
+.dot-matrix-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle,
+    rgba(242, 237, 228, var(--dot-opacity)) var(--dot-size),
+    transparent var(--dot-size)
+  );
+  background-size: var(--dot-gap) var(--dot-gap);
+  z-index: 0;
+}
+
+.field-label {
+  font-family: var(--font-mono);
+  font-size: var(--field-label-size);
+  letter-spacing: var(--field-label-track);
+  color: var(--field-label-color);
+  text-transform: uppercase;
+}
+
+.mask-reveal {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path var(--duration-mask) var(--ease-mask);
+}
+.mask-reveal.is-visible {
+  clip-path: inset(0 0 0% 0);
+}
+
+.line-reveal {
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--duration-line) var(--ease-main);
+}
+.line-reveal.is-visible {
+  transform: scaleX(1);
+}
+
+.link-arrow-long {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--type-mono-sm-size);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-primary);
+  opacity: 0.6;
+  transition: opacity 0.3s var(--ease-main), color 0.3s var(--ease-main);
+}
+.link-arrow-long:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+
 /* ── CTA button ── */
 .btn-cta {
   background-color: var(--color-accent);

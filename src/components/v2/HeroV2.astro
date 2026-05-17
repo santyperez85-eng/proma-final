@@ -1,0 +1,368 @@
+---
+import DotMatrixInteractive from './DotMatrixInteractive.astro';
+import DocumentHeader from './DocumentHeader.astro';
+import RegistrationMarksV2 from './RegistrationMarksV2.astro';
+import LongArrowCTA from './LongArrowCTA.astro';
+---
+
+<section class="hero-v2" data-mode="dark">
+
+  <!-- Background layers — z-index 0 -->
+  <DotMatrixInteractive />
+  <div class="hv2-glow-terra" aria-hidden="true"></div>
+  <div class="hv2-glow-purple" aria-hidden="true"></div>
+
+  <!-- Registration marks — packaging DNA -->
+  <RegistrationMarksV2 />
+
+  <!-- Main content -->
+  <div class="hv2-inner">
+
+    <!-- 1 — Document header band -->
+    <div class="hv2-doc-row">
+      <DocumentHeader />
+    </div>
+
+    <!-- 2 — Title block: dominant center -->
+    <div class="hv2-title-block container">
+      <h1 class="hv2-title">
+        <span class="hv2-line">
+          <span class="hv2-word">El proceso</span>
+        </span>
+        <span class="hv2-line hv2-line-indent">
+          <span class="hv2-word">
+            <em class="hv2-italic">es</em> el diseño<span class="hv2-dot">.</span>
+          </span>
+        </span>
+      </h1>
+    </div>
+
+    <!-- 3 — Bottom bar -->
+    <div class="hv2-bottom container">
+
+      <!-- Left: statement de soporte -->
+      <div class="hv2-desc-col hv2-entrance hv2-entrance--desc">
+        <p class="hv2-desc">
+          Diseño con método para organizaciones<br />
+          que no pueden permitirse el desorden.
+        </p>
+      </div>
+
+      <!-- Center: ficha técnica — metadata documental, no claim -->
+      <div class="hv2-center-col hv2-entrance hv2-entrance--center">
+        <div class="hv2-scroll-indicator" aria-hidden="true">
+          <span class="hv2-scroll-label">SCROLL</span>
+          <span class="hv2-scroll-line"></span>
+        </div>
+        <dl class="hv2-meta">
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">STATE</dt>
+            <dd class="hv2-meta-val">DOCUMENTED</dd>
+          </div>
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">MODE</dt>
+            <dd class="hv2-meta-val">TRACEABLE</dd>
+          </div>
+          <div class="hv2-meta-row">
+            <dt class="hv2-meta-key">OUTPUT</dt>
+            <dd class="hv2-meta-val">CONTROLLED</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!-- Right: CTA principal + link secundario -->
+      <div class="hv2-actions-col hv2-entrance hv2-entrance--actions">
+        <a href="#contacto" class="btn-cta hv2-cta">Agendá un diagnóstico</a>
+        <LongArrowCTA href="#metodo" label="Conocé el método" delay="1.60s" />
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+<style>
+  /* ── Shell ── */
+  .hero-v2 {
+    position: relative;
+    height: 100vh;
+    min-height: 600px;
+    background-color: var(--proma-navy-900);
+    color: var(--proma-cream-100);
+    overflow: hidden;
+    display: flex;
+  }
+
+  /* ── Ambient glows ── */
+  .hv2-glow-terra {
+    position: absolute;
+    top: -10%;
+    right: -20%;
+    width: 80vw;
+    height: 80vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(212, 82, 26, 0.07) 0%,
+      rgba(212, 82, 26, 0.02) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+    animation: glowDrift 16s ease-in-out infinite alternate;
+  }
+
+  .hv2-glow-purple {
+    position: absolute;
+    bottom: -30%;
+    left: -20%;
+    width: 70vw;
+    height: 70vw;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(120, 80, 200, 0.04) 0%,
+      rgba(60, 40, 100, 0.02) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+    animation: glowDrift 20s ease-in-out infinite alternate-reverse;
+  }
+
+  @keyframes glowDrift {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, -30px) scale(1.05); }
+  }
+
+  /* ── Inner layout ── */
+  .hv2-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    padding: 76px 0 48px;
+  }
+
+  .hv2-doc-row {
+    width: 100%;
+  }
+
+  /* ── Title ── */
+  .hv2-title {
+    font-family: var(--font-primary);
+    font-weight: 700;
+    font-size: clamp(52px, 11.5vw, 155px);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    color: var(--proma-cream-100);
+    text-shadow:
+      0 0 80px rgba(242, 237, 228, 0.06),
+      0 0 160px rgba(212, 82, 26, 0.04);
+  }
+
+  .hv2-line {
+    display: block;
+    overflow: hidden;
+    margin-bottom: -0.12em;
+  }
+
+  .hv2-line:last-child { margin-bottom: 0; }
+
+  /* Indent pronunciado — intencional, no accidental */
+  .hv2-line-indent {
+    padding-left: clamp(64px, 9vw, 128px);
+  }
+
+  .hv2-word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(105%);
+    animation: wordUp 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hv2-line:nth-child(1) .hv2-word { animation-delay: 0.65s; }
+  .hv2-line:nth-child(2) .hv2-word { animation-delay: 0.85s; }
+
+  @keyframes wordUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hv2-italic {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--proma-terra-500);
+    text-shadow:
+      0 0 30px rgba(212, 82, 26, 0.30),
+      0 0 60px rgba(212, 82, 26, 0.10);
+  }
+
+  .hv2-dot { color: var(--proma-terra-500); }
+
+  /* ── Bottom bar ── */
+  .hv2-bottom {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    align-items: end;
+    gap: var(--space-10);
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(242, 237, 228, 0.07);
+  }
+
+  /* Left: description */
+  .hv2-desc-col { min-width: 0; }
+
+  .hv2-desc {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--proma-cream-100);
+    opacity: 0.38;
+    max-width: 300px;
+  }
+
+  /* Center: scroll indicator + ficha técnica metadata */
+  .hv2-center-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding-bottom: 2px;
+  }
+
+  .hv2-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-left: 1px solid rgba(212, 82, 26, 0.30);
+    padding-left: var(--space-3);
+  }
+
+  .hv2-meta-row {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .hv2-meta-key {
+    color: var(--proma-terra-500);
+    opacity: 0.72;
+  }
+
+  .hv2-meta-val {
+    color: var(--proma-cream-100);
+    opacity: 0.42;
+  }
+
+  .hv2-scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .hv2-scroll-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    color: var(--proma-cream-100);
+    opacity: 0.18;
+    text-transform: uppercase;
+  }
+
+  .hv2-scroll-line {
+    display: block;
+    width: 1px;
+    height: 24px;
+    background: var(--proma-terra-500);
+    transform-origin: top;
+    opacity: 0.5;
+    animation: scrollDraw 2.4s ease-in-out 2.0s infinite;
+  }
+
+  @keyframes scrollDraw {
+    0%   { transform: scaleY(0); opacity: 0; }
+    25%  { transform: scaleY(1); opacity: 0.5; }
+    55%  { transform: scaleY(1); opacity: 0; }
+    100% { transform: scaleY(0); opacity: 0; }
+  }
+
+  /* Right: actions */
+  .hv2-actions-col {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+  }
+
+  .hv2-cta {
+    padding: var(--space-3) var(--space-6);
+    font-size: 11px;
+    opacity: 0;
+    animation: hv2Reveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.50s forwards;
+  }
+
+  /* Generic entrance */
+  .hv2-entrance {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: hv2Reveal 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .hv2-entrance--desc    { animation-delay: 1.10s; }
+  .hv2-entrance--center  { animation-delay: 1.25s; }
+  .hv2-entrance--actions { animation-delay: 1.55s; }
+
+  @keyframes hv2Reveal {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    .hv2-inner { padding: 72px 0 48px; }
+
+    .hv2-line-indent { padding-left: 0; }
+
+    .hv2-bottom {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      align-items: flex-start;
+    }
+
+    .hv2-center-col {
+      align-items: flex-start;
+      flex-direction: row;
+      gap: var(--space-6);
+    }
+
+    .hv2-scroll-indicator { display: none; }
+
+    .hv2-meta {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .hv2-meta-row {
+      grid-template-columns: 56px 1fr;
+    }
+
+    .hv2-actions-col {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .hv2-glow-terra {
+      width: 100vw;
+      height: 100vw;
+      top: 10%;
+      right: -30%;
+    }
+  }
+</style>
